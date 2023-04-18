@@ -1,0 +1,42 @@
+--Create a clothing store database
+
+CREATE TABLE my_store (id INTEGER PRIMARY KEY, type TEXT, quantity INTEGER, price REAL, color TEXT);
+
+INSERT INTO my_store VALUES(1, "Shirt", 3, 4.50, "Green");
+INSERT INTO my_store VALUES(2, "Shirt", 6, 4.50, "Yellow");
+INSERT INTO my_store VALUES(3, "Shirt", 2, 4.50, "Blue");
+INSERT INTO my_store VALUES(4, "Shirt", 5, 4.50, "Red");
+INSERT INTO my_store VALUES(5, "Shorts", 1, 8.75, "Beige");
+INSERT INTO my_store VALUES(6, "Shorts", 7, 8.75, "Black");
+INSERT INTO my_store VALUES(7, "Shorts", 10, 8.75, "Dark Brown");
+INSERT INTO my_store VALUES(8, "Shorts", 2, 9.25, "Denim");
+INSERT INTO my_store VALUES(9, "Skirt", 14, 10.00, "Pink");
+INSERT INTO my_store VALUES(10, "Skirt", 6, 10.00, "Purple");
+INSERT INTO my_store VALUES(11, "Skirt", 13, 10.50, "Denim");
+INSERT INTO my_store VALUES(12, "Dress", 21, 15.25, "Yellow");
+INSERT INTO my_store VALUES(13, "Dress", 17, 15.25, "Green");
+INSERT INTO my_store VALUES(14, "Dress", 9, 15.25, "Red");
+INSERT INTO my_store VALUES(15, "Socks", 23, 2.50, "White");
+INSERT INTO my_store VALUES(16, "Socks", 14, 2.50, "Black");
+
+--Display the database ordered by price
+SELECT * FROM my_store 
+ORDER BY price desc;
+
+--What is the quantity of items for each type of clothing?
+SELECT type, SUM(quantity) FROM my_store 
+GROUP BY type;
+
+--What is the average price for a skirt?
+SELECT AVG(price) AS 'average price of skirt' FROM my_store
+WHERE type = 'Skirt';
+
+--What is the least expensive yellow colored item?
+SELECT type, price, color FROM my_store
+WHERE color = 'Yellow'
+ORDER BY price ASC LIMIT 1;
+
+--What is the most expensive green colored item?
+SELECT type, price, color FROM my_store
+Where color = 'Green'
+ORDER BY price DESC LIMIT 1;
