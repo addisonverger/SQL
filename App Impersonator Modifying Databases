@@ -1,0 +1,32 @@
+--Create a database for a game that stores scores. 
+Create a table that displays the app's data: user id, user name, final score, and the date and time they completed the game. */
+
+CREATE TABLE app_data
+    (id INTEGER PRIMARY KEY,
+    user_id INTEGER,
+    name TEXT,
+    score INTEGER,
+    date TEXT,
+    time TEXT);
+    
+INSERT INTO app_data (user_id, name, score, date, time) VALUES (10, "Ronald McDonald", 7, "01-18-23", "16:20:08");
+INSERT INTO app_data (user_id, name, score, date, time) VALUES (07, "Cherry Garcia", 2, "11-07-23", "08:45:19");
+INSERT INTO app_data (user_id, name, score, date, time) VALUES (21, "Cynthia Nixon", 10, "06-30-22", "22:56:00");
+INSERT INTO app_data (user_id, name, score, date, time) VALUES (37, "Sally Field", 8, "03-21-22", "11:31:49");
+
+--Update the name of the player previously named "Sally Field" to "Tony the Tiger."
+SELECT * FROM app_data;
+
+UPDATE app_data SET name = "Tony the Tiger" WHERE name = "Sally Field";
+
+--Add a row to the table app_data for a game played by Cherry Garcia.
+SELECT * FROM app_data;
+
+INSERT INTO app_data (user_id, name, score, date, time) VALUES (7, "Cherry Garcia", 3, "09-09-09", "04:58:22");
+
+--Delete all data for user id 7 in the database
+SELECT * FROM app_data;
+
+DELETE FROM app_data WHERE user_id = 7;
+
+SELECT * FROM app_data;
