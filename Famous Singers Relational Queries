@@ -1,0 +1,65 @@
+--Create a database of singers. Create a table of singers & their birthdate.
+
+CREATE TABLE singers
+    (id INTEGER PRIMARY KEY,
+    name text,
+    birth_date text);
+    
+INSERT INTO singers(name, birth_date) VALUES ("Charli XCX", "1992-08-02");
+INSERT INTO singers(name, birth_date) VALUES ("Dolly Parton", "1946-01-19");
+INSERT INTO singers(name, birth_date) VALUES ("Miley Cyrus", "1992-11-23");
+INSERT INTO singers(name, birth_date) VALUES ("Porches", NULL);
+INSERT INTO singers(name, birth_date) VALUES ("Japanese Breakfast", "1989-03-29");
+
+--Create a table of songs with their associated singer and genre.
+
+CREATE TABLE songs
+    (id INTEGER PRIMARY KEY,
+    singer_id INTEGER,
+    name text,
+    genre text);
+    
+INSERT INTO songs(singer_id, name, genre) VALUES (1, "No Angel", "Hyper-pop");
+INSERT INTO songs(singer_id, name, genre) VALUES (1, "Vroom Vroom", "Hyper-pop");
+INSERT INTO songs(singer_id, name, genre) VALUES (2, "Jolene", "Country");
+INSERT INTO songs(singer_id, name, genre) VALUES (3, "Younger Now", "Country");
+INSERT INTO songs(singer_id, name, genre) VALUES (3, "Wrecking Ball", "Pop");
+INSERT INTO songs(singer_id, name, genre) VALUES (3, "Prisoner", "Dance"); 
+INSERT INTO songs(singer_id, name, genre) VALUES (4, "Car", "Synth-pop");
+INSERT INTO songs(singer_id, name, genre) VALUES (4, "Patience", "Synth-pop");
+
+--Create a table of hometown data for singers.
+
+CREATE TABLE hometown
+    (id INTEGER PRIMARY KEY,
+    singer_id INTEGER,
+    country text,
+    birth_place text);
+    
+INSERT INTO hometown(singer_id, country, birth_place) VALUES (1, "England", "Cambridge");
+INSERT INTO hometown(singer_id, country, birth_place) VALUES (2, "USA", "Pittman Center, Tennessee");
+INSERT INTO hometown(singer_id, country, birth_place) VALUES(3, "USA", "Franklin, Tennessee");
+INSERT INTO hometown(singer_id, country, birth_place) VALUES(4, "USA", "Pleasantville, New York");
+
+--Display a table showing singers, their birthdate, country of origin and birth place. Include those singers without hometown information.
+SELECT singers.name AS artist, singers.birth_date, hometown.country, hometown.birth_place
+    FROM singers
+    LEFT OUTER JOIN hometown
+    ON singers.id = hometown.singer_id;
+    
+--Display a table of song titles, their singer, the genre, and the country of origin of the singer. Sorted by song title.
+SELECT songs.name AS song_title, singers.name AS artist, songs.genre, hometown.country
+    FROM singers
+    JOIN songs
+    ON singers.id = songs.singer_id
+    JOIN hometown
+    ON singers.id = hometown.singer_id
+    ORDER BY song_title;
+    
+--Which countries have singers who make pop or dance songs? Display the number of those songs per country.
+SELECT hometown.country, COUNT(songs.genre)
+    FROM songs
+    JOIN hometown
+    ON songs.singer_id = hometown.singer_id
+    WHERE songs.genre = "Dance" OR songs.genre = "Pop";
+
