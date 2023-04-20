@@ -1,6 +1,6 @@
--- Create a marvel characters database 
--- Using marvel_characters.sql data set from https://gist.github.com/pamelafox/585364b62390ea720858
--- Created by https://gist.github.com/pamelafox
+/* Create a marvel characters database 
+Using marvel_characters.sql data set from https://gist.github.com/pamelafox/585364b62390ea720858
+Created by https://gist.github.com/pamelafox */
 
 CREATE TABLE marvels (ID INTEGER PRIMARY KEY,
     name TEXT,
@@ -44,44 +44,44 @@ INSERT INTO marvels VALUES(24, "Venon", 78, "Neutral", "Male", 1.90, 118, "EUA",
 INSERT INTO marvels VALUES(25, "Juggernaut", 76, "Neutral", "Male", 2.87, 862, "EUA", 2, 7, 2, 7, 1, 4);
 INSERT INTO marvels VALUES(26, "Professor X", 58, "Good", "Male", 1.83, 86, "EUA", 5, 2, 2, 2, 5, 3);
 
--- Display the average, maximum and minimum weight values of marvel characters
+--Display the average, maximum and minimum weight values of marvel characters
 SELECT AVG(weight_kg) FROM marvels;
 SELECT MAX(weight_kg) FROM marvels;
 SELECT MIN(weight_kg) FROM marvels;
 
--- What is the maximum weight for each hometown, excluding those maximums more than 200 kg?
+--What is the maximum weight for each hometown, excluding those maximums more than 200 kg?
 SELECT hometown, MAX(weight_kg) AS max_weight_kg
 FROM marvels
     GROUP BY hometown
     HAVING max_weight_kg < 200;
     
--- What is the sum of fighting skills per alignment (good, neutral, bad), excluding those sums less than 20? 
+--What is the sum of fighting skills per alignment (good, neutral, bad), excluding those sums less than 20? 
 SELECT alignment, SUM(fighting_Skills) AS sum_fighting_skills
 FROM marvels
     GROUP BY alignment
     HAVING sum_fighting_skills > 20;
 
--- Display all marvel characters with a hometown in either EUA, Titan or Kenya
+--Display all marvel characters with a hometown in either EUA, Titan or Kenya
 SELECT * FROM marvels 
 WHERE hometown IN ("EUA", "Titan", "Kenya");
 
--- Display all good marvel characters with an intelligence less than 5, sorted by popularity
+--Display all good marvel characters with an intelligence less than 5, sorted by popularity
 SELECT * FROM marvels 
 WHERE intelligence < 5 
 AND alignment = "Good" 
 ORDER BY popularity;
 
--- Display all female marvel characters or those characters with a height over 2.00 meters, sorted by gender
+--Display all female marvel characters or those characters with a height over 2.00 meters, sorted by gender
 SELECT * FROM marvels 
 WHERE gender = "Female" 
 OR height_m > 2.00 
 ORDER BY gender;
 
--- Display the maximum and minimum popularity values in the database
+--Display the maximum and minimum popularity values in the database
 SELECT MAX(popularity) FROM marvels;
 SELECT MIN(popularity) FROM marvels;
 
--- Display a popularity likert of marvel characters showing how many characters exist in each category 
+--Display a popularity likert of marvel characters showing how many characters exist in each category 
 SELECT COUNT(*),
     CASE
         WHEN popularity > 70 THEN "(5) Extremely popular"
