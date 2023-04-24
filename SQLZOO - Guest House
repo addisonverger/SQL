@@ -1,0 +1,41 @@
+--Database & questions provided by the SQLZOO Guest House Assessment: https://sqlzoo.net/wiki/Guest_House
+
+--(Easy) 1. Guest 1183. Give the booking_date and the number of nights for guest 1183.
+
+SELECT DATE(booking_date), nights
+FROM booking
+WHERE guest_id = '1183';
+
+--(Easy) 2. When do they get here? List the arrival time and the first and last names for all guests due to arrive on 2016-11-05, order the output by time of arrival.
+
+SELECT b.arrival_time, g.first_name, g.last_name
+FROM booking b
+JOIN guest g
+ON b.guest_id = g.id
+WHERE b.booking_date = '2016-11-05T00:00:00'
+ORDER BY b.arrival_time ASC;
+
+--(Easy) 3. Look up daily rates. Give the daily rate that should be paid for bookings with ids 5152, 5165, 5154 and 5295. Include booking id, room type, number of occupants and the amount.
+
+SELECT b.booking_id, b.room_type_requested, b.occupants, r.amount
+FROM booking b
+JOIN rate r
+ON b.room_type_requested = r.room_type
+WHERE b.booking_id IN (5152, 5165, 5154, 5295)
+AND b.occupants = r.occupancy;
+
+--(Easy) 4. Who’s in 101? Find who is staying in room 101 on 2016-12-03, include first name, last name and address.
+
+SELECT g.first_name, g.last_name, g.address
+FROM booking b
+JOIN guest g
+ON b.guest_id = g.id
+WHERE b.room_no = 101
+AND b.booking_date = '2016-12-03T00:00:00';
+
+--(Easy) 5. How many bookings, how many nights? For guests 1185 and 1270 show the number of bookings made and the total number of nights. Your output should include the guest id and the total number of bookings and the total number of nights.
+
+SELECT guest_id, COUNT(booking_id) AS num_of_bookings, SUM(nights) AS total_num_nights
+FROM booking
+WHERE guest_id IN (1185, 1270)
+GROUP BY guest_id;
