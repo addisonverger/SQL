@@ -44,3 +44,64 @@ JOIN customer c
 ON soh.customerId = c.customerId
 WHERE p.name = 'Racing Socks, L'
 AND c.companyName = 'Riding Cycles';
+
+--(Medium) 6. A "Single Item Order" is a customer order where only one item is ordered. Show the SalesOrderID and the UnitPrice for every Single Item Order.
+
+SELECT salesOrderId, unitPrice
+FROM salesOrderDetail
+WHERE orderQty = 1;
+
+--(Medium) 7. Where did the racing socks go? List the product name and the CompanyName for all Customers who ordered ProductModel 'Racing Socks'.
+
+SELECT p.name, c.companyName
+FROM productModel pm
+JOIN product p
+ON pm.productModelId = p.productModelId
+JOIN salesOrderDetail sod
+ON p.productId = sod.productId
+JOIN salesOrderheader soh
+ON sod.salesOrderId = soh.salesOrderId
+JOIN customer c
+ON soh.customerId = c.customerId
+WHERE pm.name = 'Racing Socks';
+
+--(Medium) 8. Show the product description for culture 'fr' for product with ProductID 736.
+
+SELECT pd.description
+FROM product p
+JOIN productModel pm
+ON p.productModelId = pm.productModelId
+JOIN productModelProductDescription pmpd
+ON pm.productModelId = pmpd.productModelId
+JOIN productDescription pd
+ON pmpd.productDescriptionId = pd.productDescriptionId
+WHERE pmpd.culture = 'fr'
+AND p.productId = 736;
+
+--(Medium) 9. Use the SubTotal value in SaleOrderHeader to list orders from the largest to the smallest. For each order show the CompanyName and the SubTotal and the total weight of the order.
+
+SELECT c.companyName, soh.subTotal, SUM(sod.orderQty * p.weight) AS total_weight
+FROM customer c
+JOIN salesOrderHeader soh
+ON c.customerId = soh.customerId
+JOIN salesOrderDetail sod
+ON soh.salesOrderId = sod.salesOrderId
+JOIN product p
+ON sod.productId = p.productId
+GROUP BY c.companyName, soh.subTotal
+ORDER BY soh.subTotal DESC;
+
+--(Medium) 10. How many products in ProductCategory 'Cranksets' have been sold to an address in 'London'?
+
+SELECT SUM(sod.orderQty)
+FROM address a
+JOIN salesOrderHeader soh
+ON a.addressId = soh.billToAddressId
+JOIN salesOrderDetail sod
+ON soh.salesOrderId = sod.salesOrderId
+JOIN product p
+ON sod.productId = p.productId
+JOIN productCategory pc
+ON p.productCategoryId = pc.productCategoryId
+WHERE pc.name = 'Cranksets'
+AND a.city = 'London';
