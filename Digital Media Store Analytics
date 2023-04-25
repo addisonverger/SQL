@@ -187,7 +187,7 @@ ON t.TRACKID = ii.TRACKID
 JOIN chinook.genres g 
 ON g.GENREID = g.GENREID
 GROUP BY c.customerId, c.lastName, c.firstName, genre
-ORDER BY c.customerId
+ORDER BY c.customerId;
 
 --20. What are the sales for The Office seasons per state for customers in the USA?
 
@@ -203,4 +203,4 @@ JOIN chinook.customers c
 ON i.customerId = c.customerId
 WHERE a.title LIKE '%The Office%'
 AND c.country = 'USA'
-GROUP BY a.title, c.state
+GROUP BY a.title, c.state;
