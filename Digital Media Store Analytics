@@ -122,3 +122,85 @@ AND e.title LIKE '%Agent%'
 AND i.invoiceDate LIKE '2009%'
 GROUP BY sales_agent_full_name
 ORDER BY total_sales DESC LIMIT 1;
+
+--15. What is the percentage of tracks in the system by media type?
+
+SELECT m.name AS media_type_name, 
+ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM chinook.tracks), 2) AS percentage_tracks
+FROM chinook.tracks t
+JOIN chinook.media_types m
+ON t.MediaTypeId = m.MediaTypeId
+GROUP BY m.name;
+
+--16. What is the percentage of tracks in the system by genre?
+
+SELECT g.name AS genre_name, 
+ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM chinook.tracks), 2) AS percentage_tracks
+FROM chinook.tracks t
+JOIN chinook.genres g
+ON t.genreId = g.genreId
+GROUP BY g.name;
+
+--17. Using the table tracks, show all the track names, their genre, their length, and the average length in their respective genre. Order the result by genre.
+
+WITH avg_length AS (
+        SELECT  AVG(t.milliseconds) AS average_length,
+                g.name
+        FROM tracks t
+        JOIN genres g
+        ON t.genreId = g.genreId
+        GROUP BY g.name)
+         
+SELECT  t.name,
+        g.name AS genre,
+        t.milliseconds,
+        avgl.average_length
+FROM tracks t
+JOIN genres g
+ON t.genreId = g.genreId
+JOIN avg_length avgl
+ON g.name = avgl.name
+ORDER BY g.name;
+
+--18. For each invoice, create a query that returns the invoice id, country of the customer, the invoice total, and the average invoice total per country.
+
+SELECT i.invoiceId, c.country, i.total,
+AVG(i.total) OVER (PARTITION BY c.country) AS avg_invoice_total_per_country
+FROM chinook.customers c
+JOIN chinook.invoices i
+ON c.customerId = i.CustomerId;
+
+--19. How much did each customer spend per genre?
+
+SELECT c.customerId,
+  c.lastName,
+  c.firstName,
+  g.name AS genre,
+  SUM(ii.unitprice * ii.quantity) AS total_spent
+FROM chinook.customers c
+JOIN chinook.invoices i 
+ON i.CUSTOMERID = c.CUSTOMERID
+JOIN chinook.invoice_items ii 
+ON ii.INVOICEID = I.INVOICEID
+JOIN chinook.tracks t 
+ON t.TRACKID = ii.TRACKID
+JOIN chinook.genres g 
+ON g.GENREID = g.GENREID
+GROUP BY c.customerId, c.lastName, c.firstName, genre
+ORDER BY c.customerId
+
+--20. What are the sales for The Office seasons per state for customers in the USA?
+
+SELECT a.title, c.state, COUNT(t.trackid) AS total_sold
+FROM chinook.albums a
+JOIN chinook.tracks t
+ON a.albumId = t.AlbumId
+JOIN chinook.invoice_items ii
+ON t.trackId = ii.trackId
+JOIN chinook.invoices i
+ON ii.invoiceId = i.invoiceid
+JOIN chinook.customers c
+ON i.customerId = c.customerId
+WHERE a.title LIKE '%The Office%'
+AND c.country = 'USA'
+GROUP BY a.title, c.state
