@@ -1,0 +1,46 @@
+--Database & questions provided by the SQLZOO Adventure Works Assessment: https://sqlzoo.net/wiki/AdventureWorks
+
+--(Easy) 1. Show the first name and the email address of customer with CompanyName 'Bike World'.
+
+SELECT firstName, emailAddress
+FROM customer
+WHERE companyName = 'Bike World';
+
+--(Easy) 2. Show the CompanyName for all customers with an address in City 'Dallas'.
+
+SELECT c.companyName 
+FROM customer c
+JOIN customerAddress ca
+ON c.customerId = ca.customerId
+JOIN address a
+ON ca.addressId = a.addressId
+WHERE a.city = 'Dallas';
+
+--(Easy) 3. How many items with ListPrice more than $1000 have been sold?
+
+SELECT COUNT(*)
+FROM salesOrderDetail s
+JOIN product p
+ON s.productId = p.productId
+WHERE p.listPrice > 1000;
+
+--(Easy) 4. Give the CompanyName of those customers with orders over $100000. Include the subtotal plus tax plus freight.
+
+SELECT c.companyName
+FROM customer c
+JOIN salesOrderHeader s
+ON c.customerId = s.customerId
+WHERE (s.subTotal + s.taxAmt + s.freight) > 100000;
+
+--(Easy) 5. Find the number of left racing socks ('Racing Socks, L') ordered by CompanyName 'Riding Cycles'.
+
+SELECT SUM(sod.orderQty)
+FROM product p
+JOIN salesOrderDetail sod
+ON p.productId = sod.productId
+JOIN salesOrderheader soh
+ON sod.salesOrderId = soh.salesOrderId
+JOIN customer c
+ON soh.customerId = c.customerId
+WHERE p.name = 'Racing Socks, L'
+AND c.companyName = 'Riding Cycles';
