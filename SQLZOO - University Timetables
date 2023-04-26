@@ -1,0 +1,85 @@
+--Database & questions provided by the SQLZOO University Timetables (Neeps) Assessment: https://sqlzoo.net/wiki/Neeps
+--Note: there appears to be some issues with how the editor was connected to the database (some tables not showing) and some of the table information appears to be missing (eg. staff contact time from question 10 appears to be missing)
+
+--(Easy) 1. Give the room id in which the event co42010.L01 takes place.
+
+SELECT room
+FROM event
+WHERE id = 'co42010.L01';
+
+--(Easy) 2. For each event in module co72010 show the day, the time and the place.
+
+SELECT id AS event, dow, tod, room
+FROM event
+WHERE modle = 'co72010';
+
+--(Easy) 3. List the names of the staff who teach on module co72010.
+
+SELECT DISTINCT s.name
+FROM event e
+JOIN teaches t
+ON e.id = t.event
+JOIN staff s
+ON t.staff = s.id
+WHERE e.modle = 'co72010';
+
+--(Easy) 4. Give a list of the staff and module number associated with events using room cr.132 on Wednesday, include the time each event starts.
+
+SELECT e.id AS event, s.name, e.modle, e.tod
+FROM event e
+JOIN teaches t
+ON e.id = t.event
+JOIN staff s
+ON t.staff = s.id
+WHERE e.room = 'cr.132'
+AND e.dow = 'Wednesday';
+
+--(Easy) 5. Give a list of the student groups which take modules with the word 'Database' in the name.
+
+SELECT s.name
+FROM student s
+JOIN attends a
+ON s.id = a.student
+JOIN event e
+ON a.event = e.id
+JOIN modle m
+ON e.modle = m.id
+WHERE m.name LIKE '%Database%';
+
+--(Medium) 6. Show the 'size' of each of the co72010 events. Size is the total number of students attending each event.
+
+SELECT e.id, SUM(s.sze)
+FROM event e
+JOIN attends a
+ON e.id = a.event
+JOIN student s
+ON a.student = s.id
+WHERE e.id LIKE 'co72010%'
+GROUP BY e.id;
+
+--(Medium) 7. For each post-graduate module, show the size of the teaching team. (post graduate modules start with the code co7).
+
+SELECT e.modle, COUNT(DISTINCT(t.staff))
+FROM event e
+JOIN teaches t
+ON e.id = t.event
+WHERE e.modle LIKE 'co7%'
+GROUP BY e.modle;
+
+--(Medium) 8. Give the full name of those modules which include events taught for fewer than 10 weeks.
+
+SELECT DISTINCT m.name
+FROM modle m
+JOIN event e
+ON m.id = e.modle
+JOIN occurs o
+ON e.id = o.event
+GROUP BY m.name, e.id
+HAVING COUNT(week) < 10;
+
+--(Medium) 9. Identify those events which start at the same time as one of the co72010 lectures.
+
+SELECT id
+FROM event
+WHERE tod IN (SELECT tod FROM event WHERE id LIKE 'co72010%')
+AND id NOT LIKE 'co72010%';
