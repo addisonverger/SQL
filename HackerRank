@@ -253,3 +253,26 @@ FROM station;
 
 SELECT ROUND(SQRT(POW(MAX(lat_n) - MIN(lat_n), 2) + POW(MAX(long_w) - MIN(long_w), 2)), 4) 
 FROM station;
+
+--Type of Triangle
+
+SELECT
+    CASE
+        WHEN triangles.a + triangles.b > triangles.c
+        AND triangles.a + triangles.c > triangles.b
+        AND triangles.b + triangles.c > triangles.a
+        THEN
+            CASE
+                WHEN triangles.a = triangles.b
+                AND triangles.b = triangles.c
+                AND triangles.a = triangles.c 
+                THEN 'Equilateral'
+                WHEN triangles.a = triangles.b
+                OR triangles.b = triangles.c
+                OR triangles.a = triangles.c
+                THEN 'Isosceles'
+                ELSE 'Scalene'    
+            END
+        ELSE 'Not A Triangle'
+     END
+FROM triangles;
