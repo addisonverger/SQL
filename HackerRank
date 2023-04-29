@@ -276,3 +276,17 @@ SELECT
         ELSE 'Not A Triangle'
      END
 FROM triangles;
+
+--The PADS
+
+WITH CTE AS (
+    SELECT CONCAT(name, '(', LEFT(occupation, 1), ')') AS output, -1 AS occupation_count
+    FROM occupations
+    UNION
+    SELECT CONCAT('There are a total of ', COUNT(*), ' ', LCASE(occupation), 's.') AS output, COUNT(*) AS occupation_count
+    FROM occupations 
+    GROUP BY occupation)
+
+SELECT output
+FROM CTE
+ORDER BY occupation_count ASC, output ASC;
