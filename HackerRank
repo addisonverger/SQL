@@ -329,3 +329,11 @@ FROM city;
 
 SELECT CEIL(AVG(salary) - AVG(REPLACE(salary,'0','')))
 FROM employees;
+
+--Top Earners
+
+SELECT CONCAT(MAX(months * salary), '  ',
+    (SELECT COUNT(employee_id)
+    FROM employee
+    WHERE (months * salary) = (SELECT MAX(months * salary) FROM employee)))  
+FROM employee;
