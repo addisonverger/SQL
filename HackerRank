@@ -302,3 +302,14 @@ WHERE population > 100000;
 SELECT SUM(population)
 FROM city
 WHERE district = 'California';
+
+--Revising Aggregations - Averages
+
+SELECT AVG(population)
+FROM city
+WHERE district = 'California';
+
+--Average Population
+
+SELECT ROUND(AVG(population))
+FROM city;
