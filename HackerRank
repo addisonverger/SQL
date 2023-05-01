@@ -324,3 +324,8 @@ WHERE countrycode = 'JPN';
 
 SELECT MAX(population) - MIN(population)
 FROM city;
+
+--The Blunder
+
+SELECT CEIL(AVG(salary) - AVG(REPLACE(salary,'0','')))
+FROM employees;
