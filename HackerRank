@@ -36,6 +36,11 @@ WHERE countrycode = 'JPN';
 
 SELECT city, state FROM station;
 
+--Weather Observation Station 2
+
+SELECT CONCAT(ROUND(SUM(lat_n), 2), ' ', ROUND(SUM(long_w), 2))
+FROM station;
+
 --Weather Observation Station 3
 
 SELECT  DISTINCT city FROM station
