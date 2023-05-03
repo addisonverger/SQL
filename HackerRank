@@ -385,3 +385,16 @@ WITH RECURSIVE star_pattern AS (
 
 SELECT REPEAT('* ', r) 
 FROM star_pattern;
+
+--Draw The Triangle 2
+
+WITH RECURSIVE star_pattern AS ( 
+    SELECT 1 AS r 
+    UNION ALL 
+    SELECT r + 1 AS r 
+    FROM star_pattern 
+    WHERE r < 20
+) 
+
+SELECT REPEAT('* ', r) 
+FROM star_pattern;
