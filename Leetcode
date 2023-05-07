@@ -40,3 +40,11 @@ FROM (
 )
 JOIN 
   logs L3 ON L1.num = L3.num AND L2.id = L3.id-1;
+
+--181. Employees Earning More Than Their Managers
+
+SELECT E1.name AS Employee
+FROM employee E1
+JOIN employee E2
+ON E1.managerId = E2.id
+AND E1.salary > E2.salary;
