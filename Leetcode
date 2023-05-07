@@ -7,3 +7,9 @@ SELECT p.firstName, p.lastName, a.city, a.state
 FROM person p
 LEFT JOIN address a
 ON p.personId = a.personId;
+
+--176. Second Highest Salary
+
+SELECT MAX(salary) AS SecondHighestSalary
+FROM employee
+WHERE salary NOT IN (SELECT MAX(salary) FROM employee);
