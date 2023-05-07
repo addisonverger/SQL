@@ -48,3 +48,10 @@ FROM employee E1
 JOIN employee E2
 ON E1.managerId = E2.id
 AND E1.salary > E2.salary;
+
+--182. Duplicate Emails
+
+SELECT email AS Email
+FROM person
+GROUP BY email
+HAVING COUNT(id) > 1;
