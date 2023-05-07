@@ -25,3 +25,9 @@ BEGIN
       SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT M, 1
   );
 END
+
+--178. Rank Scores
+
+SELECT score, DENSE_RANK() OVER(ORDER BY score DESC) AS 'rank'
+FROM scores
+ORDER BY score DESC;
