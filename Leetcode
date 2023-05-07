@@ -63,3 +63,13 @@ FROM customers c
 LEFT JOIN orders o
 ON c.id = o.customerId
 WHERE o.customerId IS NULL;
+
+--184. Department Highest Salary
+
+SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary
+FROM employee e
+JOIN department d
+ON e.departmentId = d.id
+WHERE e.salary IN (
+  SELECT MAX(salary) OVER (PARTITION BY departmentId) FROM employee
+);
