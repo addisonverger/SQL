@@ -74,3 +74,18 @@ AND (e.departmentId, e.salary) IN
   (SELECT departmentId, MAX(salary) 
   FROM employee 
   GROUP BY departmentId);
+
+--185. Department Top Three Salaries
+
+WITH employee_CTE AS (
+  SELECT departmentId, name, salary,
+  DENSE_RANK() OVER (PARTITION BY departmentId ORDER BY salary DESC) AS dRank
+  FROM employee
+)
+
+SELECT d.name AS Department, e.name AS Employee, e.salary AS Salary
+FROM employee_CTE e
+JOIN department d
+ON e.departmentId = d.id
+WHERE e.dRank = 1 OR e.dRank = 2 OR e.dRank = 3
+ORDER BY Department ASC, Salary DESC, Employee ASC;
