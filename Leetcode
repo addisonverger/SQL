@@ -89,3 +89,11 @@ JOIN department d
 ON e.departmentId = d.id
 WHERE e.dRank = 1 OR e.dRank = 2 OR e.dRank = 3
 ORDER BY Department ASC, Salary DESC, Employee ASC;
+
+--196. Delete Duplicate Emails
+
+DELETE p1 
+FROM person p1
+JOIN person p2 
+ON p1.email = p2.email
+WHERE p1.id > p2.id;
