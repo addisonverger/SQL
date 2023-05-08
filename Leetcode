@@ -105,3 +105,22 @@ FROM weather w1
 JOIN weather w2
 ON DATEDIFF(w1.recordDate, w2.recordDate) = 1 
 WHERE w1.temperature > w2.temperature;
+
+--262. Trips and Users
+
+WITH trips_CTE AS (
+  SELECT * FROM trips
+  WHERE client_id IN (SELECT users_id FROM users WHERE banned = 'No')
+  AND driver_id IN (SELECT users_id FROM users WHERE banned = 'No')
+)
+
+SELECT request_at AS Day,
+ROUND(AVG(
+  CASE
+    WHEN status = 'completed' THEN 0
+    ELSE 1
+  END
+), 2) AS 'Cancellation Rate'
+FROM trips_CTE
+GROUP BY Day
+HAVING Day BETWEEN "2013-10-01" AND "2013-10-03";
