@@ -21,7 +21,6 @@ BEGIN
     DECLARE M INT;
     SET M=N-1;
   RETURN (
-      # Write your MySQL query statement below.
       SELECT DISTINCT Salary FROM Employee ORDER BY Salary DESC LIMIT M, 1
   );
 END
@@ -130,3 +129,12 @@ HAVING Day BETWEEN "2013-10-01" AND "2013-10-03";
 SELECT player_id, MIN(event_date) AS first_login
 FROM activity
 GROUP BY player_id;
+
+--550. Game Play Analysis IV
+
+SELECT ROUND(COUNT(DISTINCT a1.player_id)/(SELECT COUNT(DISTINCT player_id) FROM activity), 2) AS fraction 
+FROM activity a1
+JOIN activity a2 
+ON DATE_ADD(a1.event_date, INTERVAL 1 DAY) = a2.event_date
+AND a1.player_id = a2.player_id
+AND (a1.player_id, a1.event_date) IN (SELECT player_id, MIN(event_date) FROM activity GROUP BY player_id);
