@@ -168,3 +168,21 @@ SELECT name
 FROM customer
 WHERE referee_id <> 2
 OR referee_id IS NULL;
+
+--585. Investments in 2016
+
+WITH tiv_2015_CTE AS (
+  SELECT tiv_2015 
+  FROM insurance 
+  GROUP BY tiv_2015 
+  HAVING COUNT(*) > 1
+), lat_lon_CTE AS (
+  SELECT * 
+  FROM insurance 
+  GROUP BY lat, lon 
+  HAVING COUNT(*) = 1
+)
+
+SELECT ROUND(SUM(tiv_2016), 2) AS tiv_2016
+FROM lat_lon_CTE
+WHERE tiv_2015 IN (SELECT * FROM tiv_2015_CTE);
