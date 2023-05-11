@@ -208,3 +208,20 @@ SELECT class
 FROM courses
 GROUP BY class
 HAVING COUNT(student) >= 5;
+
+--601. Human Traffic of Stadium
+
+WITH CTE AS (
+  select * , id - ROW_NUMBER() OVER(ORDER BY id ASC) AS consec
+  from Stadium
+  where people >= 100
+)
+
+SELECT id, visit_date, people
+FROM CTE
+WHERE consec IN (
+  SELECT consec 
+  FROM CTE GROUP BY consec 
+  HAVING COUNT(*) >= 3
+)
+ORDER BY visit_date ASC;
