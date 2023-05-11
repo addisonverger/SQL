@@ -225,3 +225,16 @@ WHERE consec IN (
   HAVING COUNT(*) >= 3
 )
 ORDER BY visit_date ASC;
+
+--602. Friend Requests II: Who Has the Most Friends
+
+SELECT ids.id, COUNT(*) AS num
+FROM (
+  SELECT requester_id AS id 
+  FROM requestAccepted
+  UNION ALL
+  SELECT accepter_id AS id
+  FROM requestAccepted
+) AS ids
+GROUP BY ids.id
+ORDER BY num DESC LIMIT 1;
