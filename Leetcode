@@ -238,3 +238,17 @@ FROM (
 ) AS ids
 GROUP BY ids.id
 ORDER BY num DESC LIMIT 1;
+
+--607. Sales Person
+
+SELECT name
+FROM salesPerson
+WHERE name NOT IN (
+  SELECT s.name
+  FROM salesPerson s
+  LEFT JOIN orders o
+  ON s.sales_id = o.sales_id
+  LEFT JOIN company c
+  ON o.com_id = c.com_id
+  WHERE c.name = 'RED'
+);
