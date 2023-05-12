@@ -274,3 +274,18 @@ SELECT x, y, z,
     ELSE 'No'
   END AS triangle
 FROM triangle;
+
+--619. Biggest Single Number
+
+SELECT 
+  CASE 
+    WHEN count = 1 THEN num
+    ELSE Null
+  END AS num
+FROM (
+  SELECT num, COUNT(*) AS count
+  FROM myNumbers
+  GROUP BY num
+) AS num_counts
+ORDER BY num DESC
+LIMIT 1;
