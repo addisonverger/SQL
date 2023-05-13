@@ -306,3 +306,13 @@ SELECT id,
     ELSE IFNULL(LEAD(student) OVER (ORDER BY id), student)
   END AS "student"
 FROM seat;
+
+--627. Swap Salary
+
+UPDATE salary 
+SET sex = CASE sex
+  WHEN 'm' THEN 'f'
+  WHEN 'f' THEN 'm'
+  ELSE sex
+  END
+WHERE sex IN ('m', 'f');
