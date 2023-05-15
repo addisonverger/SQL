@@ -372,3 +372,11 @@ AND (p.product_id) NOT IN (
   FROM sales
   WHERE sale_date NOT BETWEEN '2019-01-01' AND '2019-03-31'
 );
+
+--1141. User Activity for the Past 30 Days I
+--Note: problem specified inlcusive dates within the range provided (30 days) but testcases required non inclusive date range (29 days) to pass
+
+SELECT activity_date AS day, COUNT(DISTINCT user_id) AS active_users
+FROM activity
+GROUP BY activity_date
+HAVING activity_date BETWEEN DATE_ADD('2019-07-27', INTERVAL -29 DAY) AND '2019-07-27';
