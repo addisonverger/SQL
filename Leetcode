@@ -397,3 +397,23 @@ ON u.user_id = o.buyer_id
 AND YEAR(o.order_date) = 2019
 GROUP BY u.user_id, u.join_date
 ORDER BY u.user_id;
+
+--1164. Product Price at a Given Date
+
+WITH CTE_before AS (
+  SELECT product_id, new_price, RANK() OVER (PARTITION BY product_id ORDER BY change_date DESC) as rk
+  FROM products
+  WHERE change_date <= '2019-08-16'
+), CTE_after AS (
+  SELECT product_id, 10 AS new_price
+  FROM products
+  GROUP BY product_id
+  HAVING MIN(change_date) > '2019-08-16'
+)
+
+SELECT product_id, new_price AS price
+FROM CTE_before
+WHERE rk = 1
+UNION
+SELECT *
+FROM CTE_after;
