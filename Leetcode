@@ -493,3 +493,19 @@ SELECT
   SUM(CASE WHEN state = 'approved' THEN amount ELSE 0 END) AS approved_total_amount
 FROM transactions
 GROUP BY month, country;
+
+--1204. Last Person to Fit in the Bus
+
+WITH CTE AS (
+  SELECT turn, person_name, weight,
+  SUM(weight) OVER(ORDER BY turn) AS total_weight
+  FROM queue
+)
+
+SELECT person_name
+FROM queue
+WHERE turn = (
+  SELECT MAX(turn)
+  FROM CTE
+  WHERE total_weight <= 1000
+);
