@@ -525,3 +525,15 @@ JOIN prices p
 ON u.product_id = p.product_id
 AND u.purchase_date BETWEEN p.start_date AND p.end_date
 GROUP BY u.product_id;
+
+--1280. Students and Examinations
+
+SELECT stu.student_id, stu.student_name, sub.subject_name, 
+SUM(CASE WHEN e.student_id IS NULL THEN 0 ELSE 1 END) AS attended_exams
+FROM students stu
+CROSS JOIN subjects sub
+LEFT JOIN examinations e
+ON stu.student_id = e.student_id
+AND sub.subject_name = e.subject_name
+GROUP BY stu.student_id, stu.student_name, sub.subject_name
+ORDER BY stu.student_id, sub.subject_name;
