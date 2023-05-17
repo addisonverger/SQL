@@ -537,3 +537,21 @@ ON stu.student_id = e.student_id
 AND sub.subject_name = e.subject_name
 GROUP BY stu.student_id, stu.student_name, sub.subject_name
 ORDER BY stu.student_id, sub.subject_name;
+
+--1321. Restaurant Growth
+
+WITH CTE_by_date AS (
+  SELECT visited_on, SUM(amount) AS amount
+  FROM customer
+  GROUP BY visited_on
+), CTE_agg AS (
+  SELECT visited_on,
+  SUM(amount) OVER(ORDER BY visited_on ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW) AS amount,
+  ROUND(AVG(amount) OVER(ORDER BY visited_on ASC ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 2) AS average_amount
+  FROM CTE_by_date
+)
+
+SELECT *
+FROM CTE_agg
+WHERE visited_on >= (SELECT DATE_ADD(MIN(visited_on), INTERVAL 6 DAY) FROM customer) 
+AND visited_on <= (SELECT MAX(visited_on) FROM customer);
