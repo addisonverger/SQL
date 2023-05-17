@@ -555,3 +555,13 @@ SELECT *
 FROM CTE_agg
 WHERE visited_on >= (SELECT DATE_ADD(MIN(visited_on), INTERVAL 6 DAY) FROM customer) 
 AND visited_on <= (SELECT MAX(visited_on) FROM customer);
+
+--1327. List the Products Ordered in a Period
+
+SELECT p.product_name, SUM(o.unit) AS unit
+FROM products p
+JOIN orders o
+ON p.product_id = o.product_id
+WHERE o.order_date LIKE '2020-02%'
+GROUP BY p.product_name
+HAVING SUM(o.unit) >= 100;
