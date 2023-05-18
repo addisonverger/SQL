@@ -599,3 +599,15 @@ SELECT eu.unique_id, e.name
 FROM employees e
 LEFT JOIN employeeUNI eu
 ON e.id = eu.id;
+
+--1393. Capital Gain/Loss
+
+SELECT stock_name, 
+total_sell - total_buy AS capital_gain_loss
+FROM (
+  SELECT stock_name,
+  SUM(CASE WHEN operation = 'Buy' THEN price ELSE 0 END) AS total_buy,
+  SUM(CASE WHEN operation = 'Sell' THEN price ELSE 0 END) AS total_sell
+  FROM stocks
+  GROUP BY stock_name
+) total_buy_sell;
