@@ -565,3 +565,26 @@ ON p.product_id = o.product_id
 WHERE o.order_date LIKE '2020-02%'
 GROUP BY p.product_name
 HAVING SUM(o.unit) >= 100;
+
+--1341. Movie Rating
+
+SELECT name AS results FROM (
+  SELECT u.name
+  FROM users u
+  JOIN movieRating m
+  ON u.user_id = m.user_id
+  GROUP BY u.name
+  ORDER BY COUNT(*) DESC, u.name
+  LIMIT 1
+) greatest_num_rating
+UNION ALL
+SELECT title AS results FROM (
+  SELECT m.title
+  FROM movies m
+  JOIN movieRating mr
+  ON m.movie_id = mr.movie_id
+  WHERE mr.created_at LIKE '2020-02%'
+  GROUP BY m.title
+  ORDER BY AVG(mr.rating) DESC, m.title
+  LIMIT 1
+) highest_avg_rating;
