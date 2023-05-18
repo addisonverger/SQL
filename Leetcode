@@ -592,3 +592,10 @@ FROM greatest_num_rating
 UNION ALL
 SELECT title AS results 
 FROM highest_avg_rating;
+
+--1378. Replace Employee ID With The Unique Identifier
+
+SELECT eu.unique_id, e.name
+FROM employees e
+LEFT JOIN employeeUNI eu
+ON e.id = eu.id;
