@@ -568,7 +568,7 @@ HAVING SUM(o.unit) >= 100;
 
 --1341. Movie Rating
 
-SELECT name AS results FROM (
+WITH greatest_num_rating AS (
   SELECT u.name
   FROM users u
   JOIN movieRating m
@@ -576,9 +576,7 @@ SELECT name AS results FROM (
   GROUP BY u.name
   ORDER BY COUNT(*) DESC, u.name
   LIMIT 1
-) greatest_num_rating
-UNION ALL
-SELECT title AS results FROM (
+), highest_avg_rating AS (
   SELECT m.title
   FROM movies m
   JOIN movieRating mr
@@ -587,4 +585,10 @@ SELECT title AS results FROM (
   GROUP BY m.title
   ORDER BY AVG(mr.rating) DESC, m.title
   LIMIT 1
-) highest_avg_rating;
+)
+
+SELECT name AS results 
+FROM greatest_num_rating
+UNION ALL
+SELECT title AS results 
+FROM highest_avg_rating;
