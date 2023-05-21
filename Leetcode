@@ -659,3 +659,12 @@ JOIN transactions t
 ON u.account = t.account
 GROUP BY u.account
 HAVING SUM(t.amount) > 10000;
+
+--1633. Percentage of Users Attended a Contest
+
+SELECT r.contest_id, ROUND(COUNT(*) * 100 / (SELECT COUNT(*) FROM users), 2) AS percentage
+FROM users u
+JOIN register r
+ON u.user_id = r.user_id
+GROUP BY r.contest_id
+ORDER BY percentage DESC, r.contest_id;
