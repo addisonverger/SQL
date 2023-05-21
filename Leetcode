@@ -640,3 +640,13 @@ SELECT *
 FROM patients
 WHERE conditions LIKE 'DIAB1%'
 OR conditions LIKE '% DIAB1%';
+
+--1581. Customer Who Visited but Did Not Make Any Transactions
+
+SELECT v.customer_id, COUNT(*) AS count_no_trans
+FROM visits v
+LEFT JOIN transactions t
+ON v.visit_id = t.visit_id
+WHERE t.amount IS NULL
+GROUP BY v.customer_id
+ORDER BY count_no_trans DESC;
