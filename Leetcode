@@ -650,3 +650,12 @@ ON v.visit_id = t.visit_id
 WHERE t.amount IS NULL
 GROUP BY v.customer_id
 ORDER BY count_no_trans DESC;
+
+--1587. Bank Account Summary II
+
+SELECT u.name, SUM(t.amount) AS BALANCE
+FROM users u
+JOIN transactions t
+ON u.account = t.account
+GROUP BY u.account
+HAVING SUM(t.amount) > 10000;
