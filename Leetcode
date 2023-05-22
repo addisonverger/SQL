@@ -683,3 +683,9 @@ GROUP BY act_start.machine_id;
 SELECT user_id, CONCAT(LEFT(UPPER(name), 1), RIGHT(LOWER(name), LENGTH(name) - 1)) AS name
 FROM users
 ORDER BY user_id;
+
+--1683. Invalid Tweets
+
+SELECT tweet_id
+FROM tweets
+WHERE LENGTH(content) > 15;
