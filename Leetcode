@@ -711,3 +711,9 @@ JOIN employees e2
 ON e1.employee_id = e2.reports_to
 GROUP BY e1.employee_id, e1.name
 ORDER BY e1.employee_id;
+
+--1741. Find Total Time Spent by Each Employee
+
+SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time
+FROM employees
+GROUP BY day, emp_id;
