@@ -717,3 +717,10 @@ ORDER BY e1.employee_id;
 SELECT event_day AS day, emp_id, SUM(out_time - in_time) AS total_time
 FROM employees
 GROUP BY day, emp_id;
+
+--1757. Recyclable and Low Fat Products
+
+SELECT product_id
+FROM products
+WHERE low_fats = 'Y'
+AND recyclable = 'Y';
