@@ -695,3 +695,10 @@ WHERE LENGTH(content) > 15;
 SELECT date_id, make_name, COUNT(DISTINCT lead_id) AS unique_leads, COUNT(DISTINCT partner_id) AS unique_partners
 FROM dailySales
 GROUP BY date_id, make_name;
+
+--1729. Find Followers Count
+
+SELECT user_id, COUNT(*) AS followers_count
+FROM followers
+GROUP BY user_id
+ORDER BY user_id ASC;
