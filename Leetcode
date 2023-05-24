@@ -770,3 +770,17 @@ FROM (
   WHERE time_stamp LIKE '2020%'
 ) 2020_logins
 GROUP BY user_id;
+
+--1907. Count Salary Categories
+
+SELECT 'Low Salary' AS category, COUNT(*) AS accounts_count
+FROM accounts
+WHERE income < 20000
+UNION
+SELECT 'Average Salary' AS category, COUNT(*) AS accounts_count
+FROM accounts
+WHERE income BETWEEN 20000 AND 50000
+UNION
+SELECT 'High Salary' AS category, COUNT(*) AS accounts_count
+FROM accounts
+WHERE income > 50000;
