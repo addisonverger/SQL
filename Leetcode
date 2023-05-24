@@ -760,3 +760,13 @@ SELECT employee_id,
   END AS bonus
 FROM employees
 ORDER BY employee_id;
+
+--1890. The Latest Login in 2020
+
+SELECT user_id, MAX(time_stamp) AS last_stamp
+FROM (
+  SELECT user_id, time_stamp
+  FROM logins
+  WHERE time_stamp LIKE '2020%'
+) 2020_logins
+GROUP BY user_id;
