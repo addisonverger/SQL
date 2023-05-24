@@ -792,3 +792,26 @@ FROM signups s
 LEFT JOIN confirmations c
 ON s.user_id = c.user_id
 GROUP BY s.user_id;
+
+--1965. Employees With Missing Information
+
+WITH CTE1 AS (
+  SELECT e.employee_id
+  FROM employees e
+  LEFT JOIN salaries s
+  ON e.employee_id = s.employee_id
+  WHERE s.salary IS NULL
+), CTE2 AS (
+  SELECT s.employee_id
+  FROM employees e
+  RIGHT JOIN salaries s
+  ON e.employee_id = s.employee_id
+  WHERE e.name IS NULL
+)
+
+SELECT employee_id
+FROM CTE1
+UNION
+SELECT employee_id
+FROM CTE2
+ORDER BY employee_id;
