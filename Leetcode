@@ -750,3 +750,13 @@ UNION
 SELECT product_id, 'store3' AS store, store3 AS price
 FROM products
 WHERE store3 IS NOT NULL;
+
+--1873. Calculate Special Bonus
+
+SELECT employee_id, 
+  CASE
+    WHEN employee_id % 2 != 0 AND name NOT LIKE 'M%' THEN salary
+    ELSE 0
+  END AS bonus
+FROM employees
+ORDER BY employee_id;
