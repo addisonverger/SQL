@@ -1,0 +1,73 @@
+--COVID 19 Data Exploration 
+--Skills used: Joins, CTE's, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
+--Data Source: https://ourworldindata.org/covid-deaths
+
+--Looking at Total Cases vs Total Deaths
+
+SELECT location, date, total_cases, total_deaths, (total_deaths/total_cases) * 100 AS death_percentage
+FROM PortfolioProject.CovidDeaths
+ORDER BY 1, 2;
+
+--Looking at Total Cases vs Population
+
+SELECT location, date, total_cases, population, (total_cases/population) * 100 AS percent_population_infected
+FROM PortfolioProject.CovidDeaths
+ORDER BY 1, 2;
+
+--Looking at Countries with the Highest Infection Rate compared to Population
+
+SELECT location, population, MAX(total_cases) AS highest_infection_count, MAX((total_cases/population)) * 100 AS percent_population_infected
+FROM PortfolioProject.CovidDeaths
+GROUP BY location, population
+ORDER BY 4 DESC;
+
+--Showing Countries with the Highest Death Count per Population
+
+SELECT location, MAX(CAST(total_deaths AS int)) AS total_death_count
+FROM PortfolioProject.CovidDeaths
+WHERE continent != ''
+GROUP BY location
+ORDER BY 2 DESC;
+
+--Showing Continents with the Highest Death Count per Population
+
+SELECT continent, MAX(CAST(total_deaths AS int)) AS total_death_count
+FROM PortfolioProject.CovidDeaths
+WHERE continent != ''
+GROUP BY continent
+ORDER BY 2 DESC;
+
+--Looking at Global Total New Cases vs. Global Total New Deaths by Date
+
+SELECT date, SUM(new_cases) AS total_new_cases, SUM(CAST(new_deaths AS int)) AS total_new_deaths, SUM(CAST(new_deaths AS int))/SUM(new_cases) * 100 AS death_percentage
+FROM PortfolioProject.CovidDeaths
+WHERE continent != ''
+GROUP BY date
+ORDER BY 1;
+
+--Looking at Total Population vs. Vaccinations
+
+WITH PopVsVac (continent, location, date, population, new_vaccinations, total_vaccinations) AS (
+    SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, 
+    SUM(CAST(vac.new_vaccinations AS int)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS total_vaccinations 
+    FROM CovidDeaths dea
+    JOIN CovidVaccinations vac
+    ON dea.location = vac.location
+    AND dea.date = vac.date
+    WHERE dea.continent != ''
+)
+
+SELECT *, (total_vaccinations/population) * 100 AS percentage_population_vaccinated
+FROM PopVsVac
+ORDER BY 2;
+
+--Creating View to store data for later visualizations
+
+CREATE VIEW TotalVaccinations AS
+SELECT dea.continent, dea.location, dea.date, dea.population, vac.new_vaccinations, 
+SUM(CAST(vac.new_vaccinations AS int)) OVER (PARTITION BY dea.location ORDER BY dea.location, dea.date) AS total_vaccinations 
+FROM CovidDeaths dea
+JOIN CovidVaccinations vac
+ON dea.location = vac.location
+AND dea.date = vac.date
+WHERE dea.continent != '';
