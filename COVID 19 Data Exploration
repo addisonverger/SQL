@@ -1,6 +1,7 @@
 --COVID 19 Data Exploration 
 --Skills used: Joins, CTE's, Windows Functions, Aggregate Functions, Creating Views, Converting Data Types
 --Data Source: https://ourworldindata.org/covid-deaths
+--I used Excel to create my tables and SQLite to query the database.
 
 --Looking at Total Cases vs Total Deaths
 
