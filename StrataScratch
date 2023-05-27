@@ -20,3 +20,10 @@ FROM CTE
 UNION
 SELECT 'bear' AS word, (LENGTH(group_contents) - LENGTH(REPLACE(group_contents, 'bear', ''))) / LENGTH('bear') AS nentry
 FROM CTE;
+
+--Bikes Last Used
+
+SELECT bike_number, MAX(end_time) AS last_used
+FROM dc_bikeshare_q1_2012
+GROUP BY bike_number
+ORDER BY last_used DESC;
