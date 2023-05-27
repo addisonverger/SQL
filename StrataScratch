@@ -7,3 +7,16 @@ SELECT profits, company
 FROM forbes_global_2010_2014
 ORDER BY profits DESC
 LIMIT 3;
+
+--Counting Instances in Text
+
+WITH CTE AS (
+    SELECT GROUP_CONCAT(contents SEPARATOR ' ') AS group_contents
+    FROM google_file_store
+)
+
+SELECT 'bull' AS word, (LENGTH(group_contents) - LENGTH(REPLACE(group_contents, 'bull', ''))) / LENGTH('bull') AS nentry
+FROM CTE
+UNION
+SELECT 'bear' AS word, (LENGTH(group_contents) - LENGTH(REPLACE(group_contents, 'bear', ''))) / LENGTH('bear') AS nentry
+FROM CTE;
