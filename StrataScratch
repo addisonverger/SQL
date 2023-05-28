@@ -34,3 +34,13 @@ SELECT *
 FROM lyft_drivers
 WHERE yearly_salary <= 30000
 OR yearly_salary >= 70000;
+
+--Find all posts which were reacted to with a heart
+
+SELECT *
+FROM facebook_posts
+WHERE post_id IN (
+    SELECT post_id
+    FROM facebook_reactions
+    WHERE reaction = 'heart'
+);
