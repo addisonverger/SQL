@@ -27,3 +27,10 @@ SELECT bike_number, MAX(end_time) AS last_used
 FROM dc_bikeshare_q1_2012
 GROUP BY bike_number
 ORDER BY last_used DESC;
+
+--Lyft Driver Wages
+
+SELECT * 
+FROM lyft_drivers
+WHERE yearly_salary <= 30000
+OR yearly_salary >= 70000;
