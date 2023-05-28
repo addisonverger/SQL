@@ -44,3 +44,11 @@ WHERE post_id IN (
     FROM facebook_reactions
     WHERE reaction = 'heart'
 );
+
+--Popularity of Hack
+
+SELECT fe.location, AVG(fhs.popularity) 
+FROM facebook_employees fe
+JOIN facebook_hack_survey fhs
+ON fe.id = fhs.employee_id
+GROUP BY fe.location;
