@@ -128,3 +128,19 @@ FROM (
 ) temp
 GROUP BY user_id
 HAVING session_time IS NOT NULL;
+
+--Popularity Percentage
+
+WITH all_users_CTE AS (
+    SELECT user1, user2
+    FROM facebook_friends
+    UNION
+    SELECT user2 AS user1, user1 AS user2
+    FROM facebook_friends
+)
+
+SELECT user1,
+    COUNT(user2) / (SELECT COUNT(DISTINCT(user1)) FROM all_users_CTE) * 100 AS percentage_popularity
+FROM all_users_CTE
+GROUP BY user1
+ORDER BY user1;
