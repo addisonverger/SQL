@@ -113,3 +113,18 @@ WHERE total_energy IN (
     SELECT MAX(total_energy)
     FROM total_energy_CTE
 );
+
+--Users By Average Session Time
+
+SELECT user_id, AVG(TIMESTAMPDIFF(SECOND, load_time, exit_time)) AS session_time
+FROM (
+    SELECT 
+        DATE(timestamp), 
+        user_id, 
+        MAX(CASE WHEN action = 'page_load' THEN timestamp ELSE NULL END) AS load_time, 
+        MIN(CASE WHEN action = 'page_exit' THEN timestamp ELSE NULL END) AS exit_time
+    FROM facebook_web_log
+    GROUP BY 1, 2
+) temp
+GROUP BY user_id
+HAVING session_time IS NOT NULL;
