@@ -144,3 +144,10 @@ SELECT user1,
 FROM all_users_CTE
 GROUP BY user1
 ORDER BY user1;
+
+--Finding Updated Records
+
+SELECT id, first_name, last_name, department_id, MAX(salary) AS max
+FROM ms_employee_salary
+GROUP BY 1, 2, 3, 4
+ORDER BY 1;
