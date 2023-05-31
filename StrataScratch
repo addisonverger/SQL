@@ -151,3 +151,18 @@ SELECT id, first_name, last_name, department_id, MAX(salary) AS max
 FROM ms_employee_salary
 GROUP BY 1, 2, 3, 4
 ORDER BY 1;
+
+--Premium vs Freemium
+
+SELECT 
+    f.date, 
+    SUM(CASE WHEN a.paying_customer = 'no' THEN f.downloads ELSE 0 END) AS non_paying, 
+    SUM(CASE WHEN a.paying_customer = 'yes' THEN f.downloads ELSE 0 END) AS paying
+FROM ms_user_dimension u
+JOIN ms_acc_dimension a
+ON u.acc_id = a.acc_id
+JOIN ms_download_facts f
+ON u.user_id = f.user_id
+GROUP BY f.date
+HAVING non_paying > paying
+ORDER BY 1 ASC;
