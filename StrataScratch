@@ -179,3 +179,14 @@ SELECT department, first_name, salary,
     AVG(salary) OVER (PARTITION BY department) AS avg
 FROM employee
 GROUP BY 1, 2, 3;
+
+--Highest Target Under Manager
+
+SELECT first_name, target
+FROM salesforce_employees
+WHERE manager_id = 13
+AND target = (
+    SELECT MAX(target)
+    FROM salesforce_employees
+    WHERE manager_id = 13
+);
