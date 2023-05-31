@@ -167,8 +167,15 @@ GROUP BY f.date
 HAVING non_paying > paying
 ORDER BY 1 ASC;
 
--Count the number of movies that Abigail Breslin nominated for oscar
+--Count the number of movies that Abigail Breslin nominated for oscar
 
 SELECT COUNT(*) AS n_movies_by_abi
 FROM oscar_nominees
 WHERE nominee = 'Abigail Breslin';
+
+--Average Salaries
+
+SELECT department, first_name, salary, 
+    AVG(salary) OVER (PARTITION BY department) AS avg
+FROM employee
+GROUP BY 1, 2, 3;
