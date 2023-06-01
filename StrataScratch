@@ -190,3 +190,10 @@ AND target = (
     FROM salesforce_employees
     WHERE manager_id = 13
 );
+
+--Find how many times each artist appeared on the Spotify ranking list
+
+SELECT artist, COUNT(*) AS n_occurences
+FROM spotify_worldwide_daily_song_ranking
+GROUP BY artist
+ORDER BY n_occurences DESC;
