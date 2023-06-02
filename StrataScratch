@@ -197,3 +197,11 @@ SELECT artist, COUNT(*) AS n_occurences
 FROM spotify_worldwide_daily_song_ranking
 GROUP BY artist
 ORDER BY n_occurences DESC;
+
+--Find the top 10 ranked songs in 2010
+
+SELECT DISTINCT year_rank, group_name, song_name
+FROM billboard_top_100_year_end
+WHERE year = 2010
+ORDER BY year_rank ASC
+LIMIT 10;
