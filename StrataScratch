@@ -224,3 +224,9 @@ WHERE (department, salary) IN (
     GROUP BY department
 )
 ORDER BY salary DESC;
+
+--Find all wineries which produce wines by possessing aromas of plum, cherry, rose, or hazelnut
+
+SELECT DISTINCT winery
+FROM winemag_p1
+WHERE LOWER(description) REGEXP '(plum|rose|cherry|hazelnut)([^a-z])';
