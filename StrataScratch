@@ -230,3 +230,32 @@ ORDER BY salary DESC;
 SELECT DISTINCT winery
 FROM winemag_p1
 WHERE LOWER(description) REGEXP '(plum|rose|cherry|hazelnut)([^a-z])';
+
+--Reviews of Categories
+
+WITH CTE AS (
+SELECT
+y.review_count,
+SUBSTRING_INDEX(
+  SUBSTRING_INDEX(
+    y.categories, ';', numbers.n
+  ), ';', -1
+) AS category
+FROM
+  (SELECT 1 AS n UNION ALL
+   SELECT 2 UNION ALL SELECT 3 UNION ALL
+   SELECT 4 UNION ALL SELECT 5 UNION ALL
+   SELECT 6 UNION ALL SELECT 7 UNION ALL
+   SELECT 8 UNION ALL SELECT 9 UNION ALL
+   SELECT 10 UNION ALL SELECT 11 UNION ALL
+   SELECT 12
+   ) numbers
+INNER JOIN yelp_business y
+  ON CHAR_LENGTH(y.categories)
+     - CHAR_LENGTH(REPLACE(y.categories, ';', '')) >= numbers.n-1
+)
+
+SELECT category, SUM(review_count) AS review_cnt
+FROM CTE
+GROUP BY category
+ORDER BY review_cnt DESC;
