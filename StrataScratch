@@ -259,3 +259,10 @@ SELECT category, SUM(review_count) AS review_cnt
 FROM CTE
 GROUP BY category
 ORDER BY review_cnt DESC;
+
+--Top Businesses With Most Reviews
+
+SELECT name, review_count
+FROM yelp_business
+ORDER BY review_count DESC
+LIMIT 5;
