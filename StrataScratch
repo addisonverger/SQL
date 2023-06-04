@@ -266,3 +266,12 @@ SELECT name, review_count
 FROM yelp_business
 ORDER BY review_count DESC
 LIMIT 5;
+
+--Top Cool Votes
+
+SELECT business_name, review_text
+FROM yelp_reviews
+WHERE cool = (
+    SELECT MAX(cool)
+    FROM yelp_reviews
+);
