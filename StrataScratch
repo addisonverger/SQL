@@ -275,3 +275,25 @@ WHERE cool = (
     SELECT MAX(cool)
     FROM yelp_reviews
 );
+
+--Top 5 States With 5 Star Businesses
+
+WITH five_star_businesses AS (
+    SELECT state, COUNT(*) AS n_businesses
+    FROM yelp_business
+    WHERE stars = 5
+    GROUP BY state
+), top_five AS (
+    SELECT n_businesses,
+    ROW_NUMBER() OVER (ORDER BY n_businesses DESC) as rn
+    FROM five_star_businesses
+)
+
+SELECT state, n_businesses
+FROM five_star_businesses
+WHERE n_businesses IN (
+    SELECT n_businesses
+    FROM top_five
+    WHERE rn <= 5
+)
+ORDER BY n_businesses DESC, STATE ASC;
