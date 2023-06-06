@@ -315,3 +315,11 @@ SELECT ABS(MAX(CASE WHEN d.department = 'marketing' THEN e.salary ELSE 0 END) - 
 FROM db_employee e
 JOIN db_dept d
 ON e.department_id = d.id;
+
+--Employee and Manager Salaries
+
+SELECT e1.first_name AS employee_name, e1.salary AS employee_salary
+FROM employee e1
+JOIN employee e2
+ON e1.manager_id = e2.id
+WHERE e1.salary > e2.salary;
