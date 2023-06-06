@@ -308,3 +308,10 @@ WHERE w.salary = (
     SELECT MAX(salary)
     FROM worker
 );
+
+--Salaries Differences
+
+SELECT ABS(MAX(CASE WHEN d.department = 'marketing' THEN e.salary ELSE 0 END) - MAX(CASE WHEN d.department = 'engineering' THEN e.salary ELSE 0 END)) AS sal_diff
+FROM db_employee e
+JOIN db_dept d
+ON e.department_id = d.id;
