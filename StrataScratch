@@ -339,3 +339,14 @@ FROM forbes_global_2010_2014
 WHERE sector = 'Financials'
 ORDER BY profits DESC
 LIMIT 1;
+
+--Finding User Purchases
+
+SELECT DISTINCT a1.user_id
+FROM amazon_transactions a1
+JOIN amazon_transactions a2
+ON a1.user_id = a2.user_id
+AND a1.id <> a2.id
+AND a1.created_at >= a2.created_at
+WHERE DATEDIFF(a1.created_at, a2.created_at) <= 7
+ORDER BY a1.user_id;
