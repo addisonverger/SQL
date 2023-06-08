@@ -362,3 +362,14 @@ WITH monthly_revenue AS (
 SELECT date AS 'year_month', ROUND((revenue - LAG(revenue) OVER (ORDER BY date))/LAG(revenue) OVER (ORDER BY date)*100, 2) AS revenue_diff_pct
 FROM monthly_revenue
 ORDER BY date;
+
+--Ranking Most Active Guests
+
+WITH sum_messages AS (
+    SELECT id_guest, SUM(n_messages) AS sum_n_messages
+    FROM airbnb_contacts
+    GROUP BY id_guest
+)
+
+SELECT DENSE_RANK() OVER (ORDER BY sum_n_messages DESC) AS ranking, id_guest, sum_n_messages
+FROM sum_messages;
