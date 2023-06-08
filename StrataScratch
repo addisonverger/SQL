@@ -350,3 +350,15 @@ AND a1.id <> a2.id
 AND a1.created_at >= a2.created_at
 WHERE DATEDIFF(a1.created_at, a2.created_at) <= 7
 ORDER BY a1.user_id;
+
+--Monthly Percentage Difference
+
+WITH monthly_revenue AS (
+    SELECT LEFT(created_at, 7) AS date, SUM(value) AS revenue
+    FROM sf_transactions
+    GROUP BY date
+)
+
+SELECT date AS 'year_month', ROUND((revenue - LAG(revenue) OVER (ORDER BY date))/LAG(revenue) OVER (ORDER BY date)*100, 2) AS revenue_diff_pct
+FROM monthly_revenue
+ORDER BY date;
