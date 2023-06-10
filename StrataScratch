@@ -398,3 +398,10 @@ FROM airbnb_hosts h
 JOIN airbnb_guests g
 ON h.nationality = g.nationality
 AND h.gender = g.gender;
+
+--Find the base pay for Police Captains
+
+SELECT employeename, basepay
+FROM sf_public_salaries
+WHERE jobtitle LIKE '%Captain%'
+AND jobtitle LIKE '%Police%';
