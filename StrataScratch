@@ -445,3 +445,15 @@ FROM CTE_2020 a
 JOIN CTE_2019 b
 ON a.company_name = b.company_name
 ORDER BY company_name ASC;
+
+--Risky Projects
+
+SELECT p.title, p.budget, CEILING(SUM(e.salary) * DATEDIFF(p.end_date, p.start_date)/365) AS prorated_employee_expense
+FROM linkedin_projects p
+JOIN linkedin_emp_projects emp_p
+ON p.id = emp_p.project_id
+JOIN linkedin_employees e
+ON emp_p.emp_id = e.id
+GROUP BY p.title, p.budget
+HAVING p.budget < prorated_employee_expense
+ORDER BY p.title ASC;
