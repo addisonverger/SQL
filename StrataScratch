@@ -418,3 +418,10 @@ LEFT JOIN (
 ON e.id = b.worker_ref_id
 GROUP BY e.employee_title, e.sex
 HAVING avg_compensation IS NOT NULL;
+
+--Activity Rank
+
+SELECT from_user, COUNT(*) AS total_emails, ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC, from_user ASC) AS activity_rank
+FROM google_gmail_emails
+GROUP BY from_user
+ORDER BY total_emails DESC, from_user ASC;
