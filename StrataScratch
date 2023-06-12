@@ -425,3 +425,23 @@ SELECT from_user, COUNT(*) AS total_emails, ROW_NUMBER() OVER (ORDER BY COUNT(*)
 FROM google_gmail_emails
 GROUP BY from_user
 ORDER BY total_emails DESC, from_user ASC;
+
+--New Products
+
+WITH CTE_2020 AS (
+    SELECT company_name, COUNT(*) AS launch_cnt
+    FROM car_launches
+    WHERE year = 2020
+    GROUP BY company_name
+), CTE_2019 AS (
+    SELECT company_name, COUNT(*) AS launch_cnt
+    FROM car_launches
+    WHERE year = 2019
+    GROUP BY company_name
+)
+
+SELECT a.company_name, a.launch_cnt - b.launch_cnt AS net_products
+FROM CTE_2020 a
+JOIN CTE_2019 b
+ON a.company_name = b.company_name
+ORDER BY company_name ASC;
