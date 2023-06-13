@@ -495,3 +495,10 @@ SELECT
     MAX(price) AS max_price
 FROM reviews_price_by_host_CTE
 GROUP BY 1;
+
+--Reviews of Hotel Arena
+
+SELECT hotel_name, reviewer_score, COUNT(*)
+FROM hotel_reviews
+WHERE hotel_name = 'Hotel Arena'
+GROUP BY 1, 2;
