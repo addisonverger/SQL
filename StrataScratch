@@ -457,3 +457,14 @@ ON emp_p.emp_id = e.id
 GROUP BY p.title, p.budget
 HAVING p.budget < prorated_employee_expense
 ORDER BY p.title ASC;
+
+--City With Most Amenities
+
+SELECT city
+FROM (
+    SELECT city, SUM(LENGTH(amenities))
+    FROM airbnb_search_details
+    GROUP BY 1
+    ORDER BY 2 DESC
+) most_amenities
+LIMIT 1;
