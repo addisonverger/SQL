@@ -474,3 +474,24 @@ LIMIT 1;
 SELECT city, property_type, AVG(bathrooms), AVG(bedrooms)
 FROM airbnb_search_details
 GROUP BY 1, 2;
+
+--Host Popularity Rental Prices
+
+WITH reviews_price_by_host_CTE AS (
+    SELECT DISTINCT CONCAT(price,room_type, host_since, zipcode, number_of_reviews) AS host_id, number_of_reviews, price
+    FROM airbnb_host_searches
+)
+
+SELECT 
+    CASE
+        WHEN number_of_reviews = 0 THEN 'New'
+        WHEN number_of_reviews BETWEEN 1 AND 5 THEN 'Rising'
+        WHEN number_of_reviews BETWEEN 6 AND 15 THEN 'Trending Up'
+        WHEN number_of_reviews BETWEEN 16 AND 40 THEN 'Popular'
+        ELSE 'Hot'
+    END AS host_popularity,
+    MIN(price) AS min_price,
+    AVG(price) AS avg_price,
+    MAX(price) AS max_price
+FROM reviews_price_by_host_CTE
+GROUP BY 1;
