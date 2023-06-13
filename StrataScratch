@@ -468,3 +468,9 @@ FROM (
     ORDER BY 2 DESC
 ) most_amenities
 LIMIT 1;
+
+--Number Of Bathrooms And Bedrooms
+
+SELECT city, property_type, AVG(bathrooms), AVG(bedrooms)
+FROM airbnb_search_details
+GROUP BY 1, 2;
