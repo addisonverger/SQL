@@ -520,3 +520,21 @@ SELECT COUNT(worker_id) AS n_admins
 FROM worker
 WHERE department = 'Admin'
 AND MONTH(joining_date) BETWEEN 4 AND 12;
+
+--Marketing Campaign Success [Advanced]
+
+WITH CTE AS (
+    SELECT user_id, created_at, product_id,
+    DENSE_RANK() OVER (PARTITION BY user_id ORDER BY created_at) AS den_rank,
+    CONCAT(user_id, '_', product_id) AS user_product_id
+    FROM marketing_campaign
+)
+
+SELECT COUNT(DISTINCT user_id)
+FROM CTE
+WHERE den_rank > 1
+AND user_product_id NOT IN (
+    SELECT user_product_id
+    FROM CTE
+    WHERE den_rank = 1
+);
