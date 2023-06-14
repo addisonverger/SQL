@@ -538,3 +538,11 @@ AND user_product_id NOT IN (
     FROM CTE
     WHERE den_rank = 1
 );
+
+--Customer Details
+
+SELECT c.first_name, c.last_name, c.city, o.order_details
+FROM customers c
+LEFT JOIN orders o
+ON c.id = o.cust_id
+ORDER BY 1, 4;
