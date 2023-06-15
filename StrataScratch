@@ -546,3 +546,16 @@ FROM customers c
 LEFT JOIN orders o
 ON c.id = o.cust_id
 ORDER BY 1, 4;
+
+--Order Details
+
+SELECT c.first_name, o.order_date, o.order_details, o.total_order_cost
+FROM orders o
+JOIN (
+    SELECT id, first_name
+    FROM customers
+    WHERE first_name = 'Jill'
+    OR first_name = 'Eva'
+) c
+ON o.cust_id = c.id
+ORDER BY c.id ASC;
