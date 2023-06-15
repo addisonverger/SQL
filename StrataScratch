@@ -589,3 +589,9 @@ FROM worker
 WHERE MONTH(joining_date) BETWEEN 4 AND 12
 GROUP BY 1
 ORDER BY 2 DESC;
+
+--Number of Shipments Per Month
+
+SELECT LEFT(shipment_date, 7) AS 'year_month', COUNT(CONCAT(shipment_id, sub_id)) AS count
+FROM amazon_shipment
+GROUP BY 1;
