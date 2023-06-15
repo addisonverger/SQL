@@ -581,3 +581,11 @@ SELECT COUNT(c.address)/(SELECT COUNT(id) FROM orders) * 100 AS percent_shipable
 FROM orders o
 LEFT JOIN customers c
 ON o.cust_id = c.id;
+
+--Number of Workers by Department Starting in April or Later
+
+SELECT department, COUNT(worker_id) AS num_workers
+FROM worker
+WHERE MONTH(joining_date) BETWEEN 4 AND 12
+GROUP BY 1
+ORDER BY 2 DESC;
