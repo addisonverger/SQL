@@ -559,3 +559,18 @@ JOIN (
 ) c
 ON o.cust_id = c.id
 ORDER BY c.id ASC;
+
+--Cookbook Recipes
+
+WITH page_numbers AS (
+    SELECT (ROW_NUMBER() OVER (ORDER BY page_number ASC) - 1) * 2 AS left_page_number,
+    (ROW_NUMBER() OVER (ORDER BY page_number ASC) - 1) * 2 + 1 AS right_page_number
+    FROM cookbook_titles
+)
+
+SELECT p.left_page_number, a.title AS left_title, b.title AS right_title
+FROM page_numbers p
+LEFT JOIN cookbook_titles a
+ON p.left_page_number = a.page_number
+LEFT JOIN cookbook_titles b
+ON p.right_page_number = b.page_number;
