@@ -574,3 +574,10 @@ LEFT JOIN cookbook_titles a
 ON p.left_page_number = a.page_number
 LEFT JOIN cookbook_titles b
 ON p.right_page_number = b.page_number;
+
+--Find the percentage of shipable orders
+
+SELECT COUNT(c.address)/(SELECT COUNT(id) FROM orders) * 100 AS percent_shipable
+FROM orders o
+LEFT JOIN customers c
+ON o.cust_id = c.id;
