@@ -595,3 +595,15 @@ ORDER BY 2 DESC;
 SELECT LEFT(shipment_date, 7) AS 'year_month', COUNT(CONCAT(shipment_id, sub_id)) AS count
 FROM amazon_shipment
 GROUP BY 1;
+
+--Second Highest Salary
+
+WITH rank_CTE AS (
+    SELECT salary,
+    RANK() OVER (ORDER BY salary DESC) AS salary_rank
+    FROM employee
+)
+
+SELECT salary
+FROM rank_CTE
+WHERE salary_rank = 2;
