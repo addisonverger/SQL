@@ -630,3 +630,10 @@ AND b.final_price > 0
 WHERE a.final_price > 0
 GROUP BY 1
 LIMIT 7;
+
+--Churro Activity Date
+
+SELECT activity_date, pe_description
+FROM los_angeles_restaurant_health_inspections
+WHERE facility_name = 'STREET CHURROS'
+AND score < 95;
