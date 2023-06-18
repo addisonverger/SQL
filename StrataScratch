@@ -666,3 +666,20 @@ WHERE business_name = 'Roxanne Cafe'
 AND violation_id IS NOT NULL
 GROUP BY 1
 ORDER BY 1 ASC;
+
+--Find students with a median writing score
+
+WITH rn_CTE AS (
+    SELECT *, ROW_NUMBER() OVER (ORDER BY sat_writing ASC) AS rn
+    FROM sat_scores
+)
+
+SELECT student_id
+FROM sat_scores
+WHERE sat_writing IN (
+    SELECT sat_writing
+    FROM rn_CTE
+    WHERE rn = (
+        ((SELECT MAX(rn) FROM rn_CTE) + 1) / 2
+    )
+);
