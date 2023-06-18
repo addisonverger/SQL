@@ -657,3 +657,12 @@ FROM library_usage
 WHERE circulation_active_year = 2016
 AND notice_preference_definition = 'email'
 AND provided_email_address = 0;
+
+--Number of violations
+
+SELECT YEAR(inspection_date) AS 'YEAR', COUNT(inspection_id) AS 'n_inspections'
+FROM sf_restaurant_health_violations
+WHERE business_name = 'Roxanne Cafe'
+AND violation_id IS NOT NULL
+GROUP BY 1
+ORDER BY 1 ASC;
