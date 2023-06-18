@@ -637,3 +637,15 @@ SELECT activity_date, pe_description
 FROM los_angeles_restaurant_health_inspections
 WHERE facility_name = 'STREET CHURROS'
 AND score < 95;
+
+--Classify Business Type
+
+SELECT DISTINCT business_name,
+    CASE
+        WHEN business_name LIKE '%restaurant%' THEN 'restaurant'
+        WHEN business_name LIKE '%cafe%' OR business_name LIKE '%café%'
+        OR business_name LIKE '%coffee%' THEN 'cafe'
+        WHEN business_name LIKE '%school%' THEN 'school'
+        ELSE 'other'
+    END AS business_type
+FROM sf_restaurant_health_violations;
