@@ -724,3 +724,9 @@ FROM (
     GROUP BY 1
 ) a
 WHERE approved_cnt_rnk = 1;
+
+--Flags per Video
+
+SELECT video_id, COUNT(DISTINCT CONCAT(COALESCE(user_firstname, ''), COALESCE(user_lastname, ''))) AS num_unique_users
+FROM (SELECT * FROM user_flags WHERE flag_id IS NOT NULL) uf
+GROUP BY 1;
