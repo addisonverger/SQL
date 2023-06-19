@@ -683,3 +683,9 @@ WHERE sat_writing IN (
         ((SELECT MAX(rn) FROM rn_CTE) + 1) / 2
     )
 );
+
+--Make a report showing the number of survivors and non-survivors by passenger class
+
+SELECT survived, SUM(CASE WHEN pclass = 1 THEN 1 ELSE 0 END) AS first_class, SUM(CASE WHEN pclass = 2 THEN 1 ELSE 0 END) AS second_class, SUM(CASE WHEN pclass = 3 THEN 1 ELSE 0 END) AS third_class
+FROM titanic
+GROUP BY 1;
