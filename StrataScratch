@@ -689,3 +689,25 @@ WHERE sat_writing IN (
 SELECT survived, SUM(CASE WHEN pclass = 1 THEN 1 ELSE 0 END) AS first_class, SUM(CASE WHEN pclass = 2 THEN 1 ELSE 0 END) AS second_class, SUM(CASE WHEN pclass = 3 THEN 1 ELSE 0 END) AS third_class
 FROM titanic
 GROUP BY 1;
+
+--Election Results
+
+WITH vote_rn_CTE AS (
+    SELECT voter, candidate, ROW_NUMBER() OVER (PARTITION BY voter) AS vote_rn
+    FROM voting_results
+    WHERE candidate IS NOT NULL
+), vote_points_CTE AS (
+    SELECT voter, (1 / MAX(vote_rn)) AS vote_points
+    FROM vote_rn_CTE
+    GROUP BY 1
+)
+
+SELECT candidate
+FROM (
+    SELECT a.candidate, SUM(b.vote_points), DENSE_RANK() OVER (ORDER BY SUM(b.vote_points) DESC) AS winner_rank
+    FROM vote_rn_CTE a
+    JOIN vote_points_CTE b
+    ON a.voter = b.voter
+    GROUP BY 1
+) total_vote_points
+WHERE winner_rank = 1;
