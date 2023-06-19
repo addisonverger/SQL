@@ -711,3 +711,16 @@ FROM (
     GROUP BY 1
 ) total_vote_points
 WHERE winner_rank = 1;
+
+--User with Most Approved Flags
+
+SELECT username
+FROM (
+    SELECT CONCAT(user_firstname, ' ', user_lastname) AS username, DENSE_RANK () OVER (ORDER BY COUNT(DISTINCT f.video_id) DESC) AS approved_cnt_rnk
+    FROM user_flags f
+    JOIN flag_review r
+    ON f.flag_id = r.flag_id
+    WHERE r.reviewed_outcome = 'APPROVED'
+    GROUP BY 1
+) a
+WHERE approved_cnt_rnk = 1;
