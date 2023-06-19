@@ -742,3 +742,11 @@ JOIN playbook_events e
 ON u.user_id = e.user_id
 GROUP BY 1
 ORDER BY 3 DESC;
+
+--Most Lucrative Products
+
+SELECT product_id, SUM(cost_in_dollars * units_sold) AS revenue
+FROM online_orders
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5;
