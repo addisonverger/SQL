@@ -756,3 +756,11 @@ LIMIT 5;
 SELECT COUNT(CASE WHEN status = 'open' THEN user_id ELSE NULL END)/COUNT(user_id) AS active_users_share
 FROM fb_active_users
 WHERE country = 'USA';
+
+--Spam Posts
+
+SELECT p.post_date, COUNT(CASE WHEN post_keywords LIKE '%spam%' THEN pv.viewer_id ELSE NULL END) / COUNT(pv.viewer_id) * 100 AS spam_share 
+FROM facebook_posts p
+JOIN facebook_post_views pv
+ON p.post_id = pv.post_id
+GROUP BY 1;
