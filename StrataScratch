@@ -750,3 +750,9 @@ FROM online_orders
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5;
+
+--Share of Active Users
+
+SELECT COUNT(CASE WHEN status = 'open' THEN user_id ELSE NULL END)/COUNT(user_id) AS active_users_share
+FROM fb_active_users
+WHERE country = 'USA';
