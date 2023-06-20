@@ -798,3 +798,18 @@ FROM (
     FROM fraud_score
 ) percent_rnk_qry
 WHERE percent_rnk >= .95;
+
+--Retention Rate
+
+WITH retention_cnt_CTE AS (
+    SELECT 
+        account_id, 
+        COUNT(DISTINCT(CASE WHEN YEAR(date) = 2020 AND MONTH(date) = 12 THEN user_id ELSE NULL END)) AS dec_2020_cnt, 
+        COUNT(DISTINCT(CASE WHEN YEAR(date) = 2021 AND MONTH(date) = 1 THEN user_id ELSE NULL END)) AS jan_2021_cnt, 
+        COUNT(DISTINCT(CASE WHEN YEAR(date) = 2021 AND MONTH(date) = 2 THEN user_id ELSE NULL END)) AS feb_2021_cnt
+    FROM sf_events
+    GROUP BY 1
+)
+
+SELECT account_id, ROUND((feb_2021_cnt / jan_2021_cnt) / (jan_2021_cnt / dec_2020_cnt)) AS retention
+FROM retention_cnt_CTE;
