@@ -770,3 +770,22 @@ GROUP BY 1;
 SELECT client_id, MONTH(time_id), COUNT(DISTINCT user_id)
 FROM fact_events
 GROUP BY 1, 2;
+
+--The Most Popular Client_Id Among Users Using Video and Voice Calls
+
+WITH event_cnt_CTE AS (
+    SELECT user_id, COUNT(CASE WHEN event_type IN ('video call received', 'video call sent', 'voice call received', 'voice call sent') THEN event_id ELSE NULL END) / COUNT(event_id) AS evnt_perc
+    FROM fact_events
+    GROUP BY 1
+    HAVING evnt_perc >= .50
+)
+
+SELECT client_id
+FROM (
+    SELECT client_id, RANK() OVER (ORDER BY COUNT(*) DESC) AS rnk
+    FROM fact_events e
+    JOIN event_cnt_CTE c
+    ON e.user_id = c.user_id
+    GROUP BY 1
+) AS client_id_rnk
+WHERE rnk = 1;
