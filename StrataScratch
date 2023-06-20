@@ -764,3 +764,9 @@ FROM facebook_posts p
 JOIN facebook_post_views pv
 ON p.post_id = pv.post_id
 GROUP BY 1;
+
+--Unique Users Per Client Per Month
+
+SELECT client_id, MONTH(time_id), COUNT(DISTINCT user_id)
+FROM fact_events
+GROUP BY 1, 2;
