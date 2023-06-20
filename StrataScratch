@@ -789,3 +789,12 @@ FROM (
     GROUP BY 1
 ) AS client_id_rnk
 WHERE rnk = 1;
+
+--Top Percentile Fraud
+
+SELECT policy_num, state, claim_cost, fraud_score
+FROM (
+    SELECT *, PERCENT_RANK() OVER (PARTITION BY state ORDER BY fraud_score) AS percent_rnk
+    FROM fraud_score
+) percent_rnk_qry
+WHERE percent_rnk >= .95;
