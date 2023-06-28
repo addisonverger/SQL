@@ -6,3 +6,9 @@
 SELECT page_id
 FROM pages
 WHERE page_id NOT IN (SELECT page_id FROM page_likes);
+
+--Unfinished Parts
+
+SELECT part, assembly_step
+FROM parts_assembly
+WHERE finish_date IS NULL;
