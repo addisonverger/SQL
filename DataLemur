@@ -1,5 +1,5 @@
 --Challenges provided by DataLemur: https://datalemur.com/
---All answers written in MySQL
+--All answers written in postgreSQL
 
 --Page With No Likes
 
@@ -12,3 +12,14 @@ WHERE page_id NOT IN (SELECT page_id FROM page_likes);
 SELECT part, assembly_step
 FROM parts_assembly
 WHERE finish_date IS NULL;
+
+--Histogram of Tweets
+
+SELECT tweet_bucket, COUNT(*) AS users_num
+FROM (
+  SELECT COUNT(tweet_id) AS tweet_bucket
+  FROM tweets
+  WHERE EXTRACT('Year' FROM tweet_date) = 2022
+  GROUP BY user_id
+) tweet_bucket_counts
+GROUP BY 1;
