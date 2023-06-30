@@ -1,5 +1,5 @@
 --Challenges provided by DataLemur: https://datalemur.com/
---All answers written in postgreSQL
+--All answers written in PostgreSQL
 
 --Page With No Likes
 
@@ -30,3 +30,12 @@ SELECT
   SUM(CASE WHEN device_type = 'laptop' THEN 1 ELSE 0 END) AS laptop_views,
   SUM(CASE WHEN device_type = 'tablet' OR device_type = 'phone' THEN 1 ELSE 0 END) AS laptop_views
 FROM viewership;
+
+--Data Science Skills
+
+SELECT candidate_id
+FROM candidates
+WHERE skill IN ('Python', 'Tableau', 'PostgreSQL')
+GROUP BY 1
+HAVING COUNT(skill) = 3
+ORDER BY 1 ASC;
