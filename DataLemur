@@ -39,3 +39,18 @@ WHERE skill IN ('Python', 'Tableau', 'PostgreSQL')
 GROUP BY 1
 HAVING COUNT(skill) = 3
 ORDER BY 1 ASC;
+
+--Average Post Hiatus (Part 1)
+
+SELECT 
+  user_id, 
+  DATE_PART('day', MAX(post_date)::timestamp - MIN(post_date)::timestamp) AS days_between
+FROM posts
+WHERE user_id IN (
+  SELECT user_id
+  FROM posts
+  WHERE EXTRACT('Year' FROM post_date) = 2021
+  GROUP BY 1
+  HAVING COUNT(post_id) >= 2
+) 
+GROUP BY 1;
