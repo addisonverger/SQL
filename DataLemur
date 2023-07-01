@@ -74,3 +74,14 @@ ON jl1.company_id = jl2.company_id
 AND jl1.title = jl2.title
 AND jl1.description = jl2.description
 AND jl1.job_id != jl2.job_id;
+
+--Cities With Completed Trades
+
+SELECT u.city, COUNT(t.order_id) AS total_orders
+FROM users u
+JOIN trades t
+ON u.user_id = t.user_id
+AND t.status = 'Completed'
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 3;
