@@ -54,3 +54,13 @@ WHERE user_id IN (
   HAVING COUNT(post_id) >= 2
 ) 
 GROUP BY 1;
+
+--Teams Power Users
+
+SELECT sender_id, COUNT(message_id) AS message_count
+FROM messages
+WHERE EXTRACT('Year' FROM sent_date) = 2022
+AND EXTRACT('Month' FROM sent_date) = 8
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 2;
