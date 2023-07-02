@@ -95,3 +95,12 @@ SELECT
 FROM reviews
 GROUP BY 1, 2
 ORDER BY 1, 2;
+
+--App Click-through Rate (CTR)
+
+SELECT 
+  app_id,
+  ROUND(100.0 * COUNT(CASE WHEN event_type = 'click' THEN event_type ELSE NULL END) / COUNT(CASE WHEN event_type = 'impression' THEN event_type ELSE NULL END), 2) AS ctr
+FROM events
+WHERE EXTRACT('Year' FROM timestamp) = 2022
+GROUP BY 1;
