@@ -104,3 +104,12 @@ SELECT
 FROM events
 WHERE EXTRACT('Year' FROM timestamp) = 2022
 GROUP BY 1;
+
+--Second Day Confirmation
+
+SELECT e.user_id
+FROM emails e 
+JOIN texts t
+ON e.email_id = t.email_id
+AND t.signup_action = 'Confirmed'
+AND DATE_PART('day', t.action_date - e.signup_date) = 1;
