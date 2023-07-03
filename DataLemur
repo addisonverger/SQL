@@ -127,3 +127,10 @@ ORDER BY 2 DESC;
 
 SELECT ROUND(SUM(CAST(item_count AS DECIMAL) * order_occurrences) / SUM(order_occurrences), 1) AS mean
 FROM items_per_order;
+
+--Pharmacy Analytics (Part 1)
+
+SELECT drug, total_sales - cogs AS total_profit
+FROM pharmacy_sales
+ORDER BY 2 DESC
+LIMIT 3;
