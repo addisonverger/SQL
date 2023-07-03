@@ -134,3 +134,14 @@ SELECT drug, total_sales - cogs AS total_profit
 FROM pharmacy_sales
 ORDER BY 2 DESC
 LIMIT 3;
+
+--Pharmacy Analytics (Part 2)
+
+SELECT 
+  manufacturer, 
+  COUNT(drug) AS drug_count,
+  SUM(ABS(total_sales - cogs)) AS total_loss
+FROM pharmacy_sales
+WHERE total_sales - cogs < 0
+GROUP BY 1
+ORDER BY 3 DESC;
