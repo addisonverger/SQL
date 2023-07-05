@@ -170,3 +170,12 @@ FROM (
 SELECT 
   ROUND(100.0 * COUNT(case_id) FILTER (WHERE call_category = 'n/a' OR call_category IS NULL) / COUNT(case_id), 1) AS call_percentage
 FROM callers;
+
+--User's Third Transaction
+
+SELECT user_id, spend, transaction_date
+FROM (
+  SELECT user_id, spend, transaction_date, RANK() OVER (PARTITION BY user_id ORDER BY transaction_date) AS rnk
+  FROM transactions
+) transactions_rnk
+WHERE rnk = 3;
