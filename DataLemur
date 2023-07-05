@@ -164,3 +164,9 @@ FROM (
   GROUP BY policy_holder_id
   HAVING COUNT(case_id) >= 3
 ) member_calls_count;
+
+--Patient Support Analysis (Part 2)
+
+SELECT 
+  ROUND(100.0 * COUNT(case_id) FILTER (WHERE call_category = 'n/a' OR call_category IS NULL) / COUNT(case_id), 1) AS call_percentage
+FROM callers;
