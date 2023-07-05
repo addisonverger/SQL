@@ -154,3 +154,13 @@ SELECT
 FROM pharmacy_sales
 GROUP BY 1
 ORDER BY SUM(total_sales) DESC;
+
+--Patient Support Analysis (Part 1)
+
+SELECT COUNT(member_calls) AS member_count
+FROM (
+  SELECT COUNT(case_id) AS member_calls
+  FROM callers
+  GROUP BY policy_holder_id
+  HAVING COUNT(case_id) >= 3
+) member_calls_count;
