@@ -219,3 +219,23 @@ SELECT category, product, total_spend
 FROM total_spend_rnk_cte
 WHERE rnk IN (1, 2)
 ORDER BY 1, 3 DESC;
+
+--Top 5 Artists
+
+WITH top_10_rnk_cte AS (
+  SELECT 
+    a.artist_name,
+    COUNT(*) AS top_10_cnt,
+    DENSE_RANK() OVER (ORDER BY COUNT(*) DESC) AS artist_rank
+  FROM artists a  
+  JOIN songs s 
+  ON a.artist_id = s.artist_id
+  JOIN global_song_rank g  
+  ON s.song_id = g.song_id
+  WHERE g.rank <= 10
+  GROUP BY 1
+)
+
+SELECT artist_name, artist_rank
+FROM top_10_rnk_cte
+WHERE artist_rank IN (1, 2, 3, 4, 5);
