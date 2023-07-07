@@ -239,3 +239,12 @@ WITH top_10_rnk_cte AS (
 SELECT artist_name, artist_rank
 FROM top_10_rnk_cte
 WHERE artist_rank IN (1, 2, 3, 4, 5);
+
+--Signup Activation Rate
+
+SELECT 
+  ROUND(CAST(COUNT(DISTINCT e.user_id) FILTER (WHERE t.signup_action = 'Confirmed') AS DECIMAL) /
+  COUNT(DISTINCT e.user_id), 2) AS confirm_rate
+FROM emails e  
+LEFT JOIN texts t  
+ON e.email_id = t.email_id;
