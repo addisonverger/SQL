@@ -260,3 +260,21 @@ HAVING COUNT(DISTINCT p.product_category) = (
   SELECT COUNT(DISTINCT product_category)
   FROM products
 );
+
+--Odd and Even Measurements 
+
+WITH measurement_rnk_CTE AS (
+  SELECT 
+    DENSE_RANK() OVER (PARTITION BY EXTRACT('Day' FROM measurement_time) ORDER BY measurement_time) AS dns_rnk,
+    measurement_value,
+    DATE(measurement_time) AS measurement_day
+  FROM measurements
+)
+
+SELECT 
+  measurement_day, 
+  SUM(measurement_value) FILTER (WHERE dns_rnk % 2 != 0) AS odd_sum,
+  SUM(measurement_value) FILTER (WHERE dns_rnk % 2 = 0) AS even_sum
+FROM measurement_rnk_CTE
+GROUP BY 1
+ORDER BY 1;
