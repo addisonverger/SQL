@@ -278,3 +278,22 @@ SELECT
 FROM measurement_rnk_CTE
 GROUP BY 1
 ORDER BY 1;
+
+--Histogram of Users and Purchases
+
+WITH purch_cnt_per_day_CTE AS (
+  SELECT transaction_date, user_id, COUNT(product_id) AS purchase_count
+  FROM user_transactions
+  GROUP BY 1, 2
+), max_trans_date_per_user_CTE AS (
+  SELECT MAX(transaction_date) AS transaction_date, user_id
+  FROM user_transactions
+  GROUP BY 2
+)
+
+SELECT m.transaction_date, m.user_id, p.purchase_count
+FROM max_trans_date_per_user_CTE m  
+JOIN purch_cnt_per_day_CTE p  
+ON m.transaction_date = p.transaction_date
+AND m.user_id = p.user_id
+ORDER BY 1, 2;
