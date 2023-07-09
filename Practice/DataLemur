@@ -297,3 +297,13 @@ JOIN purch_cnt_per_day_CTE p
 ON m.transaction_date = p.transaction_date
 AND m.user_id = p.user_id
 ORDER BY 1, 2;
+
+--Compressed Mode
+
+SELECT item_count
+FROM items_per_order
+WHERE order_occurrences = (
+  SELECT MAX(order_occurrences)
+  FROM items_per_order
+)
+ORDER BY 1 ASC;
