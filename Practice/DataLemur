@@ -307,3 +307,19 @@ WHERE order_occurrences = (
   FROM items_per_order
 )
 ORDER BY 1 ASC;
+
+--Card Launch Success
+
+WITH launch_date_CTE AS (
+  SELECT 
+    card_name, 
+    MAKE_DATE(issue_year, issue_month, 1) AS issue_date,
+    issued_amount,
+    MIN(MAKE_DATE(issue_year, issue_month, 1)) OVER (PARTITION BY card_name) AS launch_date
+  FROM monthly_cards_issued
+)
+
+SELECT card_name, issued_amount
+FROM launch_date_CTE
+WHERE issue_date = launch_date
+ORDER BY 2 DESC;
