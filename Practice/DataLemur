@@ -350,3 +350,18 @@ WITH july_users_CTE AS (
 SELECT 7 AS month, COUNT(user_id) AS monthly_active_users
 FROM july_users_CTE
 WHERE user_id IN (SELECT user_id FROM june_user_CTE);
+
+--Y-on-Y Growth Rate
+
+SELECT 
+  EXTRACT('Year' FROM u1.transaction_date) AS year,
+  u1.product_id,
+  SUM(u1.spend) AS curr_year_spend,
+  SUM(u2.spend) AS prev_year_spend,
+  ROUND(100.0 * (SUM(u1.spend) - SUM(u2.spend)) / SUM(u2.spend), 2) AS yoy_rate
+FROM user_transactions u1
+LEFT JOIN user_transactions u2
+ON u1.product_id = u2.product_id
+AND EXTRACT('Year' FROM u1.transaction_date) - 1 = EXTRACT('Year' FROM u2.transaction_date)
+GROUP BY 1, 2
+ORDER BY 2;
