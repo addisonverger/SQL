@@ -332,3 +332,21 @@ LEFT JOIN phone_info ci
 ON c.caller_id = ci.caller_id
 LEFT JOIN phone_info ri  
 ON c.receiver_id = ri.caller_id;
+
+--Active User Retention
+
+WITH july_users_CTE AS (
+  SELECT DISTINCT user_id
+  FROM user_actions
+  WHERE EXTRACT('Month' FROM event_date) = 7
+  AND EXTRACT('Year' FROM event_date) = 2022
+), june_user_CTE AS (
+  SELECT DISTINCT user_id
+  FROM user_actions
+  WHERE EXTRACT('Month' FROM event_date) = 6
+  AND EXTRACT('Year' FROM event_date) = 2022
+)
+
+SELECT 7 AS month, COUNT(user_id) AS monthly_active_users
+FROM july_users_CTE
+WHERE user_id IN (SELECT user_id FROM june_user_CTE);
