@@ -365,3 +365,35 @@ ON u1.product_id = u2.product_id
 AND EXTRACT('Year' FROM u1.transaction_date) - 1 = EXTRACT('Year' FROM u2.transaction_date)
 GROUP BY 1, 2
 ORDER BY 2;
+
+--Maximize Prime Item Inventory
+
+WITH type_totals_CTE AS (
+  SELECT
+    item_type,
+    SUM(square_footage) AS total_sqft,
+    COUNT(item_id) AS item_count
+  FROM inventory
+  GROUP BY 1
+), prime_CTE AS (
+  SELECT
+    item_type,
+    total_sqft,
+    FLOOR(500000 / total_sqft) AS max_combos,
+    FLOOR(500000 / total_sqft) * item_count AS max_items
+  FROM type_totals_CTE
+  WHERE item_type = 'prime_eligible'
+), not_prime_CTE AS (
+  SELECT
+    item_type,
+    total_sqft,
+    FLOOR((500000 - (SELECT total_sqft * max_combos FROM prime_CTE)) / total_sqft) * item_count AS item_count
+  FROM type_totals_CTE
+  WHERE item_type = 'not_prime'
+)
+
+SELECT item_type, max_items
+FROM prime_CTE
+UNION ALL
+SELECT item_type, item_count
+FROM not_prime_CTE;
