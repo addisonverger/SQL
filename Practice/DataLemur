@@ -397,3 +397,18 @@ FROM prime_CTE
 UNION ALL
 SELECT item_type, item_count
 FROM not_prime_CTE;
+
+--Median Google Search Frequency
+
+WITH searches_expanded AS (
+  SELECT searches
+  FROM search_frequency
+  GROUP BY searches,
+    GENERATE_SERIES(1, num_users)
+)
+
+SELECT 
+  PERCENTILE_CONT(0.5)
+    WITHIN GROUP (
+      ORDER BY searches) AS median
+FROM searches_expanded;
