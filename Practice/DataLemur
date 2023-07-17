@@ -412,3 +412,23 @@ SELECT
     WITHIN GROUP (
       ORDER BY searches) AS median
 FROM searches_expanded;
+
+--Advertiser Status
+
+SELECT 
+  COALESCE(a.user_id, d.user_id) AS user_id, 
+  CASE
+    WHEN a.status IS NULL AND d.paid IS NOT NULL
+    THEN 'NEW'
+    WHEN a.status IN ('NEW', 'EXISTING', 'RESURRECT') AND d.paid IS NOT NULL
+    THEN 'EXISTING'
+    WHEN d.paid IS NULL
+    THEN 'CHURN'
+    WHEN a.status = 'CHURN' AND d.paid IS NOT NULL
+    THEN 'RESURRECT'
+    ELSE NULL
+  END AS new_status
+FROM advertiser a
+FULL OUTER JOIN daily_pay d
+ON a.user_id = d.user_id
+ORDER BY 1;
