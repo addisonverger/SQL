@@ -478,3 +478,21 @@ SELECT
   ROUND(100.0 * (current_mth_cnt - previous_mth_cnt) / previous_mth_cnt, 1) AS long_calls_growth_pct
 FROM long_call_cnt_CTE
 ORDER BY 1, 2;
+
+--Repeated Payments
+
+WITH minute_diff_CTE AS (
+  SELECT
+    transaction_id,
+    merchant_id,
+    credit_card_id,
+    amount,
+    transaction_timestamp,
+    LAG(transaction_timestamp) OVER (PARTITION BY merchant_id, credit_card_id, amount ORDER BY transaction_timestamp) AS previous_trans_timestamp,
+    EXTRACT(EPOCH FROM transaction_timestamp - LAG(transaction_timestamp) OVER (PARTITION BY merchant_id, credit_card_id, amount ORDER BY transaction_timestamp))/60 AS minute_difference
+  FROM transactions
+)
+
+SELECT COUNT(*) AS payment_count
+FROM minute_diff_CTE
+WHERE minute_difference <= 10;
