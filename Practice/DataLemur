@@ -458,3 +458,23 @@ WITH time_difference_CTE AS (
 SELECT COUNT(DISTINCT policy_holder_id) AS patient_count
 FROM time_difference_CTE
 WHERE time_difference <= 7;
+
+--Patient Support Analysis (Part 4)
+
+WITH long_call_cnt_CTE AS (
+  SELECT
+    EXTRACT(YEAR FROM call_received) AS yr,
+    EXTRACT(MONTH FROM call_received) AS mth,
+    COUNT(case_id) AS current_mth_cnt,
+    LAG(COUNT(case_id)) OVER (ORDER BY EXTRACT(YEAR FROM call_received), EXTRACT(MONTH FROM call_received)) AS previous_mth_cnt
+  FROM callers
+  WHERE call_duration_secs > 300
+  GROUP BY 1, 2
+)
+
+SELECT 
+  yr, 
+  mth, 
+  ROUND(100.0 * (current_mth_cnt - previous_mth_cnt) / previous_mth_cnt, 1) AS long_calls_growth_pct
+FROM long_call_cnt_CTE
+ORDER BY 1, 2;
