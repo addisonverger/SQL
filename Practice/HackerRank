@@ -452,3 +452,16 @@ JOIN packages p2
 ON f.friend_id = p2.id
 WHERE p2.salary > p1.salary
 ORDER BY p2.salary;
+
+--Weather Observation Station 20
+
+WITH lat_percentile_CTE AS (
+    SELECT 
+        lat_n,
+        percent_rank() OVER (ORDER BY lat_n) p
+    FROM station
+)
+
+SELECT ROUND(lat_n, 4) 
+FROM lat_percentile_CTE
+WHERE p = 0.5;
