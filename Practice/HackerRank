@@ -465,3 +465,14 @@ WITH lat_percentile_CTE AS (
 SELECT ROUND(lat_n, 4) 
 FROM lat_percentile_CTE
 WHERE p = 0.5;
+
+--The Report
+
+SELECT 
+    CASE WHEN g.grade >= 8 THEN s.name ELSE NULL END AS Name, 
+    g.grade, 
+    s.marks AS Mark
+FROM students s
+JOIN grades g
+WHERE s.marks BETWEEN g.min_mark AND g.max_mark 
+ORDER BY 2 DESC, 1, 3;
