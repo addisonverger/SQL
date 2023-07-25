@@ -494,3 +494,18 @@ SELECT
 FROM partitioned_dates_CTE
 GROUP BY PartID
 ORDER BY COUNT(*) ASC;
+
+--Symmetric Pairs
+
+SELECT f1.x,f1.y
+FROM (
+    SELECT x, y, ROW_NUMBER() OVER (ORDER BY x) rn
+    FROM functions
+) f1
+JOIN (
+    SELECT x, y, ROW_NUMBER() OVER (ORDER BY x) rn
+    FROM functions
+) f2
+ON f1.rn < f2.rn
+AND f1.x = f2.y 
+AND f2.x = f1.y;
