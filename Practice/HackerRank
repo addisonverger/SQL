@@ -543,3 +543,43 @@ END $$
 DELIMITER ;
 
 CALL prime();
+
+--Interviews
+
+SELECT 
+    c.contest_id, 
+    c.hacker_id, 
+    c.name, 
+    SUM(s.total_submissions) AS total_submissions,
+    SUM(s.total_accepted_submissions) AS total_accepted_submissions,
+    SUM(v.total_views) AS total_views,
+    SUM(v.total_unique_views) AS total_unique_views
+FROM contests c
+LEFT JOIN colleges cl 
+ON c.contest_id = cl.contest_id
+LEFT JOIN challenges ch 
+ON cl.college_id = ch.college_id
+LEFT JOIN (
+    SELECT 
+        challenge_id, 
+        SUM(total_submissions) AS total_submissions, 
+        SUM(total_accepted_submissions) AS total_accepted_submissions
+    FROM submission_stats
+    GROUP BY 1
+) s
+ON ch.challenge_id = s.challenge_id
+LEFT JOIN (
+    SELECT 
+        challenge_id, 
+        SUM(total_views) AS total_views, 
+        SUM(total_unique_views) AS total_unique_views
+    FROM view_stats
+    GROUP BY 1
+) v
+ON ch.challenge_id = v.challenge_id
+GROUP BY 1, 2, 3
+HAVING SUM(s.total_submissions) > 0
+AND SUM(s.total_accepted_submissions) > 0
+AND SUM(v.total_views) > 0
+AND SUM(v.total_unique_views) > 0
+ORDER BY 1;
