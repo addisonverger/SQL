@@ -579,7 +579,7 @@ LEFT JOIN (
 ON ch.challenge_id = v.challenge_id
 GROUP BY 1, 2, 3
 HAVING SUM(s.total_submissions) > 0
-AND SUM(s.total_accepted_submissions) > 0
-AND SUM(v.total_views) > 0
-AND SUM(v.total_unique_views) > 0
+OR SUM(s.total_accepted_submissions) > 0
+OR SUM(v.total_views) > 0
+OR SUM(v.total_unique_views) > 0
 ORDER BY 1;
