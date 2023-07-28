@@ -1,0 +1,13 @@
+--Challenges provided by Coding Ninjas: https://www.codingninjas.com/studio/problems?category[]=SQL%20Databases
+
+--IMDb Metacritic Rating
+
+SELECT 
+    i.title,
+    i.rating
+FROM IMDB i
+JOIN earning e
+ON i.movie_id = e.movie_id
+WHERE SUBSTRING(i.title, LENGTH(i.title) - 4, 4) = '2012'
+AND i.metaCritic > 60
+AND e.domestic > 100000000;
