@@ -25,3 +25,13 @@ AND g.genre <> ''
 AND MAX((i.rating + i.metaCritic/10.0)/2) IS NOT NULL
 AND MAX((i.rating + i.metaCritic/10.0)/2) <> 0
 ORDER BY 1 ASC;
+
+--IMDb Rating
+
+SELECT i.title, i.rating
+FROM imdb i
+JOIN genre g 
+ON i.movie_id = g.movie_id
+WHERE g.genre LIKE 'C%'
+AND i.title LIKE '%2014%'
+AND i.budget > 40000000;
