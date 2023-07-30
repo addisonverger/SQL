@@ -11,3 +11,17 @@ ON i.movie_id = e.movie_id
 WHERE SUBSTRING(i.title, LENGTH(i.title) - 4, 4) = '2012'
 AND i.metaCritic > 60
 AND e.domestic > 100000000;
+
+--IMDb Max Weighted Rating
+
+SELECT g.genre, MAX((i.rating + i.metaCritic/10.0)/2) AS weighted_rating
+FROM genre g
+JOIN imdb i 
+ON g.movie_id = i.movie_id
+WHERE SUBSTRING(i.title, LENGTH(i.title) - 4, 4) = '2014'
+GROUP BY 1
+HAVING g.genre IS NOT NULL
+AND g.genre <> ''
+AND MAX((i.rating + i.metaCritic/10.0)/2) IS NOT NULL
+AND MAX((i.rating + i.metaCritic/10.0)/2) <> 0
+ORDER BY 1 ASC;
