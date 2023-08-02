@@ -57,3 +57,10 @@ ORDER BY 1 ASC;
 INSERT INTO students VALUES (3, 'Kim', 'F'), (4, 'Molina', 'F'), (5, 'Dev', 'M');
 
 SELECT * FROM students;
+
+--Big Countries
+
+SELECT name, population, area
+FROM world
+WHERE area > 3000000
+OR population > 25000000;
