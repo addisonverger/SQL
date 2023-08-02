@@ -51,3 +51,9 @@ AND g.genre <> ''
 AND MAX(e.domestic + e.worldwide - i.budget) IS NOT NULL
 AND MAX(e.domestic + e.worldwide - i.budget) <> 0
 ORDER BY 1 ASC;
+
+--Students DB
+
+INSERT INTO students VALUES (3, 'Kim', 'F'), (4, 'Molina', 'F'), (5, 'Dev', 'M');
+
+SELECT * FROM students;
