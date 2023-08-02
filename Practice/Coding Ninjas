@@ -35,3 +35,19 @@ ON i.movie_id = g.movie_id
 WHERE g.genre LIKE 'C%'
 AND i.title LIKE '%2014%'
 AND i.budget > 40000000;
+
+--IMDb Genre
+
+SELECT g.genre, MAX(e.domestic + e.worldwide - i.budget) AS net_profit
+FROM imdb i
+JOIN genre g 
+ON i.movie_id = g.movie_id
+JOIN earning e
+ON i.movie_id = e.movie_id
+WHERE i.title LIKE '%2012%'
+GROUP BY 1
+HAVING g.genre IS NOT NULL
+AND g.genre <> ''
+AND MAX(e.domestic + e.worldwide - i.budget) IS NOT NULL
+AND MAX(e.domestic + e.worldwide - i.budget) <> 0
+ORDER BY 1 ASC;
