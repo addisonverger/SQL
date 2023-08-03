@@ -76,3 +76,11 @@ WHERE sales_id NOT IN (
     ON o.com_id = c.com_id
     WHERE c.name = 'RED'
 );
+
+--Director's Actor
+
+SELECT actor_id, director_id
+FROM actorDirector
+WHERE actor_id = director_id
+GROUP BY 1, 2
+HAVING COUNT(*) >= 3;
