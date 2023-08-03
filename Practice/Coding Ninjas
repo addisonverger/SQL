@@ -91,3 +91,12 @@ SELECT p.firstName, p.lastName, a.city, a.state
 FROM person p 
 LEFT JOIN address a 
 ON p.personId = a.personId;
+
+--Second Highest Salary
+
+SELECT salary
+FROM (
+    SELECT salary, RANK() OVER (ORDER BY salary DESC) AS rnk
+    FROM employee
+) salary_rnk
+WHERE rnk = 2;
