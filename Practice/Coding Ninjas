@@ -116,3 +116,10 @@ WHERE temperature > lag_temp;
 --Swap Salary
 
 UPDATE salary SET sex = CASE WHEN sex = 'm' THEN 'f' ELSE 'm' END;
+
+--Rank Scores
+
+SELECT 
+    score,
+    DENSE_RANK() OVER (ORDER BY score DESC) AS "RANK" 
+FROM scores;
