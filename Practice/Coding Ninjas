@@ -84,3 +84,10 @@ FROM actorDirector
 WHERE actor_id = director_id
 GROUP BY 1, 2
 HAVING COUNT(*) >= 3;
+
+--Combine Two Tables
+
+SELECT p.firstName, p.lastName, a.city, a.state
+FROM person p 
+LEFT JOIN address a 
+ON p.personId = a.personId;
