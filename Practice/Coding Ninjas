@@ -100,3 +100,15 @@ FROM (
     FROM employee
 ) salary_rnk
 WHERE rnk = 2;
+
+--Rising Temperature
+
+SELECT id AS "Id"
+FROM (
+    SELECT 
+        id,
+        temperature,
+        LAG(temperature) OVER (ORDER BY recordDate ASC) AS lag_temp
+    FROM weather
+) lt 
+WHERE temperature > lag_temp;
