@@ -163,16 +163,14 @@ WHERE id IN (
 
 --Winning Candidate
 
-SELECT name
-FROM candidate
-WHERE id = (
-    SELECT candidateId 
-    FROM (
-        SELECT 
-            candidateId,
-            RANK() OVER (ORDER BY COUNT(id) DESC) AS rnk
-        FROM vote
-        GROUP BY 1
-    ) vote_rnk
-    WHERE rnk = 1
-);
+SELECT name 
+FROM (
+    SELECT 
+        c.name,
+        RANK() OVER (ORDER BY COUNT(v.id) DESC) AS rnk
+    FROM vote v 
+    JOIN candidate c 
+    ON v.candidateId = c.id
+    GROUP BY 1
+) vote_rnk
+WHERE rnk = 1;
