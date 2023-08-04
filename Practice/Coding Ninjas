@@ -174,3 +174,12 @@ FROM (
     GROUP BY 1
 ) vote_rnk
 WHERE rnk = 1;
+
+--Count Student Number in Departments
+
+SELECT dept_name, COUNT(student_id) AS student_number
+FROM department d 
+LEFT JOIN student s 
+ON d.dept_id = s.dept_id
+GROUP BY 1
+ORDER BY 2 DESC, 1 ASC;
