@@ -135,3 +135,17 @@ AND L1.id = L2.id - 1
 JOIN logs L3 
 ON L1.num = L3.num 
 AND L2.id = L3.id - 1;
+
+--Department Highest Salary
+
+SELECT d.name AS "Department", e.name AS "Employee", e.salary
+FROM department d 
+LEFT JOIN employee e 
+ON e.departmentId = d.id 
+WHERE (d.name, e.salary) IN (
+    SELECT d.name, MAX(e.salary)
+    FROM department d 
+    LEFT JOIN employee e 
+    ON e.departmentId = d.id 
+    GROUP BY 1
+);
