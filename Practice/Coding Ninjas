@@ -160,3 +160,19 @@ WHERE id IN (
     GROUP BY 1
     HAVING COUNT(id) >= 5
 );
+
+--Winning Candidate
+
+SELECT name
+FROM candidate
+WHERE id = (
+    SELECT candidateId 
+    FROM (
+        SELECT 
+            candidateId,
+            RANK() OVER (ORDER BY COUNT(id) DESC) AS rnk
+        FROM vote
+        GROUP BY 1
+    ) vote_rnk
+    WHERE rnk = 1
+);
