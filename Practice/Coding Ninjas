@@ -200,3 +200,14 @@ AND (lat, lon) IN (
     GROUP BY 1, 2
     HAVING COUNT(pid) = 1
 );
+
+--Tree Node
+
+SELECT 
+    id,
+    CASE
+        WHEN p_id IS NULL THEN 'Root'
+        WHEN id IN (SELECT p_id FROM tree) THEN 'Inner'
+        ELSE 'Leaf'
+    END AS type
+FROM tree;
