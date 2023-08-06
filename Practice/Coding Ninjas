@@ -229,3 +229,10 @@ SELECT
         ELSE LEAD(student) OVER (ORDER BY id)
     END, student) AS student
 FROM seat;
+
+--Second Degree Follower
+
+SELECT followee AS follower, COUNT(follower) AS num
+FROM follow
+WHERE followee IN (SELECT follower FROM follow)
+GROUP BY 1;
