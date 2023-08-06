@@ -259,3 +259,17 @@ SELECT
     SUM(duration) AS total_duration
 FROM calls
 GROUP BY 1, 2;
+
+--Biggest Window Between Visits
+
+SELECT 
+    user_id,
+    MAX(lead_visit_date - visit_date) AS biggest_window
+FROM (
+    SELECT 
+        user_id,
+        visit_date,
+        COALESCE(LEAD(visit_date) OVER (PARTITION BY user_id ORDER BY visit_date), '2021-1-1') AS lead_visit_date
+    FROM userVisits
+) lead_dates
+GROUP BY 1;
