@@ -236,3 +236,16 @@ SELECT followee AS follower, COUNT(follower) AS num
 FROM follow
 WHERE followee IN (SELECT follower FROM follow)
 GROUP BY 1;
+
+--Find the Missing IDs
+
+WITH series_CTE AS (
+    SELECT GENERATE_SERIES(MIN(customer_id), MAX(customer_id)) AS ids
+    FROM customers
+)
+
+SELECT s.ids
+FROM series_CTE s 
+LEFT JOIN customers c
+ON s.ids = c.customer_id
+WHERE c.customer_id IS NULL;
