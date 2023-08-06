@@ -249,3 +249,13 @@ FROM series_CTE s
 LEFT JOIN customers c
 ON s.ids = c.customer_id
 WHERE c.customer_id IS NULL;
+
+--Number of Calls Between Two Persons
+
+SELECT 
+    LEAST(from_id, to_id) AS person1, 
+    GREATEST(from_id, to_id) AS person2, 
+    COUNT(*) AS call_count,
+    SUM(duration) AS total_duration
+FROM calls
+GROUP BY 1, 2;
