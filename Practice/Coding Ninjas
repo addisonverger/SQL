@@ -286,3 +286,14 @@ WHERE (l1.login BETWEEN l2.login AND l2.logout)
 OR (l1.logout BETWEEN l2.login AND l2.logout) 
 OR (l1.login < l2.login AND l1.logout > l2.logout) 
 OR (l1.login > l2.login AND l1.logout < l2.logout);
+
+--Maximum Transaction Each Day
+
+SELECT transaction_id
+FROM transactions
+WHERE (CAST(day AS DATE), amount) IN (
+    SELECT CAST(day AS DATE), MAX(amount)
+    FROM transactions
+    GROUP BY 1
+)
+ORDER BY 1 ASC;
