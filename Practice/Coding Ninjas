@@ -297,3 +297,38 @@ WHERE (CAST(day AS DATE), amount) IN (
     GROUP BY 1
 )
 ORDER BY 1 ASC;
+
+--Premier League Stats
+
+WITH home_team_CTE AS (
+    SELECT t.team_name, m.home_team_goals AS goals_for, m.away_team_goals AS goals_against
+    FROM matches m 
+    JOIN teams t 
+    ON t.team_id = m.home_team_id
+), away_team_CTE AS (
+    SELECT t.team_name, m.away_team_goals AS goals_for, m.home_team_goals AS goals_against
+    FROM matches m 
+    JOIN teams t 
+    ON t.team_id = m.away_team_id
+)
+
+SELECT
+    team_name,
+    COUNT(*) AS matches_played,
+    SUM(CASE
+        WHEN goals_for > goals_against THEN 3
+        WHEN goals_for = goals_against THEN 1
+        WHEN goals_for < goals_against THEN 0
+        END) AS points,
+    SUM(goals_for) AS goal_for,
+    SUM(goals_against) AS goal_against,
+    SUM(goals_for) - SUM(goals_against) AS goal_diff
+FROM (
+    SELECT team_name, goals_for, goals_against
+    FROM home_team_CTE
+    UNION ALL
+    SELECT team_name, goals_for, goals_against
+    FROM away_team_CTE
+) union_CTE
+GROUP BY team_name
+ORDER BY points DESC, goal_diff DESC, team_name ASC;
