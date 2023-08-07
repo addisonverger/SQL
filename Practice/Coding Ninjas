@@ -332,3 +332,18 @@ FROM (
 ) union_CTE
 GROUP BY team_name
 ORDER BY points DESC, goal_diff DESC, team_name ASC;
+
+--Department Top Three Salaries
+
+SELECT department AS "Department", employee AS "Employee", salary AS "Salary"
+FROM (
+    SELECT 
+        d.name AS department, 
+        e.name AS employee, 
+        e.salary, 
+        DENSE_RANK() OVER (PARTITION BY d.name ORDER BY e.salary DESC) AS rnk
+    FROM employee e 
+    JOIN department d 
+    ON e.departmentId = d.id 
+) dept_salary_rnk
+WHERE rnk <= 3;
