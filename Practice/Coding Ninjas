@@ -364,3 +364,18 @@ WHERE rn_diff IN (
     GROUP BY rn_diff
     HAVING COUNT(id) >= 3
 );
+
+--Geography Report
+
+SELECT 
+    MAX(CASE WHEN continent = 'America' THEN name ELSE NULL END) AS America,
+    MAX(CASE WHEN continent = 'Asia' THEN name ELSE NULL END) AS Asia,
+    MAX(CASE WHEN continent = 'Europe' THEN name ELSE NULL END) AS Europe
+FROM (
+    SELECT 
+        *, 
+        ROW_NUMBER() OVER (PARTITION BY continent ORDER BY name ASC) AS rn
+    FROM student
+) alpha_student
+GROUP BY rn
+ORDER BY rn ASC;
