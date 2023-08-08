@@ -347,3 +347,32 @@ FROM (
     ON e.departmentId = d.id 
 ) dept_salary_rnk
 WHERE rnk <= 3;
+
+--Human Traffic of Stadium
+
+WITH one_hundred_people_CTE AS (
+    SELECT id, visit_date, people
+    FROM stadium
+    WHERE people >= 100
+), consecutive_CTE AS (
+    SELECT a.id AS aid, b.id AS bid, c.id AS cid
+    FROM one_hundred_people_CTE a 
+    JOIN one_hundred_people_CTE b 
+    ON a.id + 1 = b.id
+    JOIN one_hundred_people_CTE c 
+    ON b.id + 1 = c.id
+)
+
+SELECT id, visit_date, people
+FROM stadium
+WHERE id IN (
+    SELECT aid AS id
+    FROM consecutive_CTE
+    UNION 
+    SELECT bid AS id
+    FROM consecutive_CTE
+    UNION 
+    SELECT cid AS id
+    FROM consecutive_CTE
+)
+ORDER BY 2 ASC;
