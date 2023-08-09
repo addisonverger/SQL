@@ -395,3 +395,19 @@ SELECT product_id
 FROM products 
 WHERE low_fats = 'Y'
 AND recyclable = 'Y';
+
+--Article
+
+WITH article_count_CTE AS (
+    SELECT
+        view_date,
+        viewer_id,
+        article_id,
+        DENSE_RANK() OVER (PARTITION BY view_date, viewer_id ORDER BY article_id) AS dns_rnk
+    FROM views
+    ORDER BY 1
+)
+
+SELECT DISTINCT viewer_id AS id
+FROM article_count_CTE
+WHERE dns_rnk >= 2;
