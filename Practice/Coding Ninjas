@@ -388,3 +388,10 @@ JOIN products p
 ON w.product_id = p.product_id
 GROUP BY 1
 ORDER BY 1 ASC;
+
+--Recyclable and Low Fat Products
+
+SELECT product_id
+FROM products 
+WHERE low_fats = 'Y'
+AND recyclable = 'Y';
