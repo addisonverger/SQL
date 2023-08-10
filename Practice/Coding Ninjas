@@ -425,3 +425,12 @@ SELECT ROUND(COUNT(*) * 100 / (SELECT COUNT(*) FROM order_num_CTE WHERE rnk = 1)
 FROM order_num_CTE
 WHERE rnk = 1
 AND order_date = customer_pref_delivery_date;
+
+--Ad-Free Sessions
+
+SELECT DISTINCT p.session_id
+FROM playback p 
+JOIN ads a 
+ON p.customer_id = a.customer_id
+WHERE a.timestamp NOT BETWEEN p.start_time AND p.end_time
+ORDER BY 1;
