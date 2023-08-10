@@ -434,3 +434,9 @@ JOIN ads a
 ON p.customer_id = a.customer_id
 WHERE a.timestamp NOT BETWEEN p.start_time AND p.end_time
 ORDER BY 1;
+
+--Patients With a Condition
+
+SELECT patient_id, patient_name, conditions
+FROM patients
+WHERE conditions LIKE '%DIAB1%';
