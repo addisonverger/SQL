@@ -440,3 +440,13 @@ ORDER BY 1;
 SELECT patient_id, patient_name, conditions
 FROM patients
 WHERE conditions LIKE '%DIAB1%';
+
+--Fix the Issue
+
+SELECT
+    TRIM(LOWER(product_name)) AS product_name,
+    TO_CHAR(sale_date, 'YYYY-MM') AS sale_date,
+    COUNT(*) AS total
+FROM sales
+GROUP BY 1, 2
+ORDER BY 1, 2;
