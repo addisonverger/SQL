@@ -481,3 +481,22 @@ SELECT id, company, salary
 FROM rn_CTE
 WHERE rn = CEILING(rn_max * 1.0 / 2) 
 OR rn = CEILING(rn_max * 1.0 / 2 + 0.5);
+
+--Get the Second Most Recent Activity
+
+WITH rnk_CTE AS (
+    SELECT
+        *,
+        RANK() OVER (PARTITION BY username ORDER BY startDate) AS rnk,
+        COUNT(*) OVER (PARTITION BY username) AS count
+    FROM userActivity
+)
+
+SELECT 
+    username,
+    activity,
+    startDate,
+    endDate
+FROM rnk_CTE
+WHERE rnk = 2
+OR count = 1;
