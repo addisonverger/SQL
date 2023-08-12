@@ -466,3 +466,18 @@ ON a.student_id <> c.student_id
 AND a.student_name <> c.student_name
 AND b.student_id <> c.student_id
 AND b.student_name <> c.student_name;
+
+--Median Employee Salary
+
+WITH rn_CTE AS (
+    SELECT 
+        *,
+        ROW_NUMBER() OVER (PARTITION BY company ORDER BY salary, id) AS rn,
+        COUNT(*) OVER (PARTITION BY company) AS rn_max
+    FROM employee
+)
+
+SELECT id, company, salary
+FROM rn_CTE
+WHERE rn = CEILING(rn_max * 1.0 / 2) 
+OR rn = CEILING(rn_max * 1.0 / 2 + 0.5);
