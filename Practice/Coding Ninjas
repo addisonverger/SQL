@@ -568,3 +568,10 @@ SELECT MIN(ABS(p2.x - p1.x)) AS shortest
 FROM point p1
 CROSS JOIN point p2
 WHERE p1.x <> p2.x;
+
+--Classes with more than 5 students
+
+SELECT class 
+FROM courses
+GROUP BY 1
+HAVING COUNT(*) >= 5;
