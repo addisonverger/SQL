@@ -561,3 +561,10 @@ SELECT *
 FROM city
 WHERE countryCode = 'Marv'
 AND population > 100000;
+
+--Shortest Distance
+
+SELECT MIN(ABS(p2.x - p1.x)) AS shortest
+FROM point p1
+CROSS JOIN point p2
+WHERE p1.x <> p2.x;
