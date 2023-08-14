@@ -554,3 +554,10 @@ SELECT
 FROM lag_CTE
 WHERE month <> recent_month
 ORDER BY id ASC, month DESC;
+
+--Marvel Cities
+
+SELECT *
+FROM city
+WHERE countryCode = 'Marv'
+AND population > 100000;
