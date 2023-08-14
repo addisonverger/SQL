@@ -523,3 +523,34 @@ ON s.student_id = e.student_id
 WHERE s.student_id NOT IN (
     SELECT * FROM loud_student_id_CTE
 );
+
+--Find Cumulative Salary of an Employee
+
+WITH lag_CTE AS (
+    SELECT
+        *,
+        LAG(salary) OVER (PARTITION BY id ORDER BY month) AS prev_salary,
+        LAG(salary, 2) OVER (PARTITION BY id ORDER BY month) AS prev_2_salary,
+        LAG(month) OVER (PARTITION BY id ORDER BY month) AS prev_month,
+        LAG(month, 2) OVER (PARTITION BY id ORDER BY month) AS prev_2_month,
+        MAX(month) OVER (PARTITION BY id) AS recent_month
+    FROM employee
+)
+
+SELECT
+    id,
+    month,
+    (salary + 
+        CASE
+            WHEN (prev_salary IS NOT NULL) AND (month - prev_month = 1) 
+            THEN prev_salary
+            ELSE 0
+        END +
+        CASE
+            WHEN (prev_2_salary IS NOT NULL) AND (month - prev_2_month = 2)
+            THEN prev_2_salary
+            ELSE 0
+        END) AS salary
+FROM lag_CTE
+WHERE month <> recent_month
+ORDER BY id ASC, month DESC;
