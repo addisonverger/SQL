@@ -639,3 +639,17 @@ WHERE customer_number IN (
     ORDER BY COUNT(*) DESC
     LIMIT 1
 );
+
+--Friend Request
+
+SELECT COUNT(*) AS unique_request
+FROM (
+    SELECT DISTINCT requester_id, accepter_id
+    FROM requestAccepted
+) distinct_accepted_pairs;
+
+SELECT COUNT(*) AS total_request
+FROM (
+    SELECT DISTINCT sender_id, send_to_id
+    FROM friendRequest
+) distinct_request_pairs;
