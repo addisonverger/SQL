@@ -627,3 +627,15 @@ LEFT JOIN bonus b
 ON e.empId = b.empId 
 WHERE b.bonus < 1000
 OR b.bonus IS NULL;
+
+--Customer Placing the Largest Number Orders
+
+SELECT DISTINCT customer_number
+FROM orders
+WHERE customer_number IN (
+    SELECT customer_number
+    FROM orders
+    GROUP BY 1
+    ORDER BY COUNT(*) DESC
+    LIMIT 1
+);
