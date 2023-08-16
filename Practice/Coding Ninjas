@@ -600,3 +600,21 @@ WHERE id NOT IN (
     SELECT customerId
     FROM orders
 );
+
+--Delete Duplicate emails
+
+DELETE FROM person
+WHERE (id, email) IN (
+    SELECT id, email
+    FROM (
+        SELECT 
+            id, 
+            email, 
+            ROW_NUMBER() OVER (PARTITION BY email ORDER BY id) AS rn 
+        FROM person
+    ) rn_duplicates
+    WHERE rn > 1
+);
+
+SELECT *
+FROM person;
