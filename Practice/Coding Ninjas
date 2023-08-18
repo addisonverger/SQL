@@ -670,3 +670,15 @@ FROM consecutive_available_cte
 UNION
 SELECT c2 AS seat_id
 FROM consecutive_available_cte;
+
+--Triangle Judgement
+
+SELECT *, 
+    CASE
+        WHEN x + y > z
+        AND x + z > y
+        AND y + z > x
+        THEN 'Yes'
+        ELSE 'No'
+    END AS triangle
+FROM triangle;
