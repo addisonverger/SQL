@@ -682,3 +682,13 @@ SELECT *,
         ELSE 'No'
     END AS triangle
 FROM triangle;
+
+--Biggest Single Number
+
+SELECT MAX(num) AS num
+FROM (
+    SELECT num, COUNT(*)
+    FROM my_numbers
+    GROUP BY 1
+) num_count
+WHERE count = 1;
