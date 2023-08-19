@@ -692,3 +692,11 @@ FROM (
     GROUP BY 1
 ) num_count
 WHERE count = 1;
+
+--Not Boring Movies
+
+SELECT id, movie, description, rating
+FROM cinema
+WHERE id % 2 <> 0
+AND description NOT LIKE '%boring%'
+ORDER BY 4 DESC;
