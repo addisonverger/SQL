@@ -720,3 +720,10 @@ SELECT
 FROM department
 GROUP BY 1
 ORDER BY 1;
+
+--Queries Quality and Percentage
+
+SELECT query_name, ROUND(AVG(rating * 1.0/position), 2) AS quality
+FROM queries
+GROUP BY 1
+ORDER BY 2 DESC;
