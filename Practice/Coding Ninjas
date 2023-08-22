@@ -782,3 +782,13 @@ FROM (
 LEFT JOIN submissions s2 
 ON s1.sub_id = s2.parent_id
 GROUP BY 1;
+
+--Customers Who Bought All Products
+
+SELECT customer_id
+FROM customer c
+GROUP BY 1
+HAVING COUNT(DISTINCT product_key) = (
+    SELECT COUNT(DISTINCT product_key)
+    FROM product
+);
