@@ -833,3 +833,19 @@ FROM (
     GROUP BY 1
 ) active_business_cnt
 WHERE count > 1;
+
+--Product Price at a Given Date
+
+SELECT a.product_id, COALESCE(MAX(b.new_price), 10) AS price
+FROM (
+    SELECT DISTINCT product_id
+    FROM products
+) a
+LEFT JOIN (
+    SELECT product_id, new_price, change_date 
+    FROM products 
+    WHERE change_date <= '2019-08-16'
+) b
+ON a.product_id = b.product_id
+GROUP BY 1
+ORDER BY 2 ASC;
