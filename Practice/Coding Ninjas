@@ -804,3 +804,13 @@ FROM (
 ) first_login
 WHERE day_diff <= 90
 GROUP BY 1;
+
+--Highest Grade For Each Student
+
+SELECT student_id, course_id, grade
+FROM (
+    SELECT student_id, course_id, grade, RANK() OVER (PARTITION BY student_id ORDER BY grade DESC, course_id ASC) AS rnk
+    FROM enrollments
+) enrollments_rnk
+WHERE rnk = 1
+ORDER BY 1 ASC;
