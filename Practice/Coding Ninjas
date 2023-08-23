@@ -792,3 +792,15 @@ HAVING COUNT(DISTINCT product_key) = (
     SELECT COUNT(DISTINCT product_key)
     FROM product
 );
+
+--New Users Daily Count
+
+SELECT date AS login_date, COUNT(user_id) AS user_count
+FROM (
+    SELECT user_id, MIN(activity_date) AS date, '2019-06-30' - MIN(activity_date) AS day_diff
+    FROM traffic
+    WHERE activity = 'login'
+    GROUP BY 1
+) first_login
+WHERE day_diff <= 90
+GROUP BY 1;
