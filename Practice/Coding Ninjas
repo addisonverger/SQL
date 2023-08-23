@@ -814,3 +814,22 @@ FROM (
 ) enrollments_rnk
 WHERE rnk = 1
 ORDER BY 1 ASC;
+
+--Active Businesses
+
+SELECT business_id 
+FROM (
+    SELECT business_id, COUNT(*)
+    FROM (
+        SELECT 
+            business_id,
+            event_type, 
+            occurences,
+            AVG(occurences) OVER (PARTITION BY event_type) AS avg,
+            CASE WHEN occurences > AVG(occurences) OVER (PARTITION BY event_type) THEN 'T' ELSE 'F' END AS active
+        FROM events
+    ) avg_activity
+    WHERE active = 'T'
+    GROUP BY 1
+) active_business_cnt
+WHERE count > 1;
