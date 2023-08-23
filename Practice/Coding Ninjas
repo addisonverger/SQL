@@ -865,3 +865,17 @@ FROM (
 WHERE sum_weight <= 1000
 ORDER BY turn DESC
 LIMIT 1;
+
+--Capital Gain Loss
+
+SELECT 
+    stock_name, 
+    sum_sold - sum_bought AS capital_gain_loss
+FROM (
+    SELECT
+        stock_name,
+        SUM(CASE WHEN operation = 'Sell' THEN price ELSE 0 END) AS sum_sold,
+        SUM(CASE WHEN operation = 'Buy' THEN price ELSE 0 END) AS sum_bought
+    FROM stocks
+    GROUP BY 1
+) sum_sold_bought;
