@@ -913,3 +913,24 @@ CROSS JOIN points b
 WHERE ABS(b.x_value - a.x_value) * ABS(b.y_value - a.y_value) <> 0
 AND a.id < b.id
 ORDER BY 3 DESC, 1 ASC, 2 ASC;
+
+--Calculate Salaries
+
+SELECT
+    a.company_id,
+    a.employee_id,
+    a.employee_name,
+    ROUND(a.salary - (a.salary * b.tax_rate / 100)) AS salary
+FROM salaries a 
+JOIN (
+    SELECT
+        company_id,
+        CASE
+            WHEN MAX(salary) < 1000 THEN 0
+            WHEN MAX(salary) BETWEEN 1000 AND 10000 THEN 24
+            ELSE 49
+        END AS tax_rate
+    FROM salaries
+    GROUP BY 1
+) b
+ON a.company_id = b.company_id;
