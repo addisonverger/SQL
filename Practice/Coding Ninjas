@@ -879,3 +879,25 @@ FROM (
     FROM stocks
     GROUP BY 1
 ) sum_sold_bought;
+
+--Apples & Oranges
+
+SELECT 
+    a.sale_date,
+    a.apples_sold - o.oranges_sold AS diff
+FROM (
+    SELECT 
+        sale_date,
+        sold_num AS apples_sold
+    FROM sales
+    WHERE fruit = 'apples'
+) a
+JOIN (
+    SELECT 
+        sale_date,
+        sold_num AS oranges_sold
+    FROM sales
+    WHERE fruit = 'oranges'
+) o
+ON a.sale_date = o.sale_date
+ORDER BY 1 ASC;
