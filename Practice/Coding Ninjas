@@ -934,3 +934,20 @@ JOIN (
     GROUP BY 1
 ) b
 ON a.company_id = b.company_id;
+
+--Bank Account Summary
+
+SELECT 
+    u.user_id,
+    u.user_name,
+    COALESCE(u.credit - a.amount + b.amount, u.credit) AS credit,
+    CASE 
+        WHEN COALESCE(u.credit - a.amount + b.amount, u.credit) < 0 
+        THEN 'Yes'
+        ELSE 'No'
+    END as credit_limit_breached
+FROM users u 
+LEFT JOIN transactions a
+ON u.user_id = a.paid_by
+LEFT JOIN transactions b 
+ON u.user_id = b.paid_to;
