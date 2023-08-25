@@ -983,3 +983,37 @@ FROM queries q
 LEFT JOIN npv n 
 ON q.id = n.id
 AND q.year = n.year;
+
+--Evaluate Bool Expressions
+
+SELECT 
+    e.left_operand,
+    e.operator,
+    e.right_operand,
+    CASE
+        WHEN e.operator = '>'
+        THEN 
+            CASE
+                WHEN v1.value > v2.value 
+                THEN 'true'
+                ELSE 'false'
+            END
+        WHEN e.operator = '<'
+        THEN 
+            CASE
+                WHEN v1.value < v2.value 
+                THEN 'true'
+                ELSE 'false'
+            END
+        ELSE 
+            CASE
+                WHEN v1.value = v2.value 
+                THEN 'true'
+                ELSE 'false'
+            END
+    END AS value
+FROM expressions e
+JOIN variables v1
+ON v1.name = e.left_operand
+JOIN variables v2
+ON v2.name = e.right_operand;
