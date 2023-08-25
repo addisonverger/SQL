@@ -951,3 +951,24 @@ LEFT JOIN transactions a
 ON u.user_id = a.paid_by
 LEFT JOIN transactions b 
 ON u.user_id = b.paid_to;
+
+--The Most Frequently Ordered Products for Each Customer
+
+SELECT
+    customer_id,
+    product_id,
+    product_name
+FROM (
+    SELECT
+        c.customer_id,
+        p.product_id,
+        p.product_name,
+        DENSE_RANK() OVER (PARTITION BY c.customer_id ORDER BY COUNT(p.product_id) DESC) AS dns_rnk
+    FROM customers c 
+    JOIN orders o 
+    ON c.customer_id = o.customer_id
+    JOIN products p 
+    ON o.product_id = p.product_id
+    GROUP BY 1, 2, 3
+) most_ordered_product
+WHERE dns_rnk = 1;
