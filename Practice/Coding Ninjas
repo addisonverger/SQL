@@ -1043,3 +1043,13 @@ AND page_id NOT IN (
     FROM likes 
     WHERE user_id = 1
 );
+
+--Running Total for Different Genders
+
+SELECT
+    gender,
+    day,
+    SUM(score_points) OVER (PARTITION BY gender ORDER BY day) AS total
+FROM scores 
+GROUP BY 1, 2, score_points
+ORDER BY 1, 2;
