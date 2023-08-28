@@ -1072,3 +1072,28 @@ AND count NOT IN (
     SELECT MAX(count)
     FROM activity_count_CTE
 );
+
+--Trusted Contacts of User
+
+SELECT 
+    i.invoice_id,
+    cu.customer_name,
+    i.price,
+    COUNT(DISTINCT co.contact_name) AS contacts_cnt,
+    COUNT(DISTINCT t.contact_name) AS trusted_contacts_cnt
+FROM customers cu
+LEFT JOIN contacts co 
+ON cu.customer_id = co.user_id
+LEFT JOIN invoices i 
+ON cu.customer_id = i.user_id
+LEFT JOIN (
+    SELECT user_id, contact_name
+    FROM contacts 
+    WHERE contact_email IN (
+        SELECT email 
+        FROM customers
+    )
+) t
+ON cu.customer_id = t.user_id
+GROUP BY 1, 2, 3
+ORDER BY 1 ASC;
