@@ -1053,3 +1053,22 @@ SELECT
 FROM scores 
 GROUP BY 1, 2, score_points
 ORDER BY 1, 2;
+
+--Activity Participants
+
+WITH activity_count_CTE AS (
+    SELECT activity, COUNT(*)
+    FROM friends
+    GROUP BY 1
+)
+
+SELECT activity
+FROM activity_count_CTE
+WHERE count NOT IN (
+    SELECT MIN(count)
+    FROM activity_count_CTE
+)
+AND count NOT IN (
+    SELECT MAX(count)
+    FROM activity_count_CTE
+);
