@@ -1097,3 +1097,27 @@ LEFT JOIN (
 ON cu.customer_id = t.user_id
 GROUP BY 1, 2, 3
 ORDER BY 1 ASC;
+
+--Countries You Can Safely Invest In
+
+SELECT country
+FROM (
+    SELECT 
+        co.name AS country,
+        AVG(ca.duration) AS avg_call_duration,
+        (SELECT SUM(duration) * 1.0 / COUNT(*)
+        FROM calls) AS avg_global_duration
+    FROM country co 
+    JOIN person p 
+    ON co.country_code = LEFT(p.phone_number, 3)
+    JOIN (
+        SELECT caller_id AS call_id, duration
+        FROM calls
+        UNION ALL
+        SELECT callee_id AS call_id, duration
+        FROM calls
+    ) ca
+    ON p.id = ca.call_id
+    GROUP BY 1
+) country_avg_durations
+WHERE avg_call_duration > avg_global_duration;
