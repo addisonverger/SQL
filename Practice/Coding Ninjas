@@ -1121,3 +1121,22 @@ FROM (
     GROUP BY 1
 ) country_avg_durations
 WHERE avg_call_duration > avg_global_duration;
+
+--Suspicious Bank Accounts
+
+SELECT DISTINCT account_id
+FROM (
+    SELECT
+        t.account_id,
+        CONCAT_WS('-', EXTRACT(MONTH FROM t.day), EXTRACT(YEAR FROM t.day)) AS month,
+        SUM(t.amount) AS total_income,
+        LAG(SUM(t.amount)) OVER (PARTITION BY t.account_id ORDER BY CONCAT_WS('-', EXTRACT(MONTH FROM t.day), EXTRACT(YEAR FROM t.day))) AS previous_total_income,
+        a.max_income
+    FROM transactions t
+    JOIN accounts a
+    ON t.account_id = a.account_id
+    WHERE t.type_pro = 'Creditor'
+    GROUP BY 1, 2, 5
+) account_monthly_income
+WHERE total_income > max_income
+AND previous_total_income > max_income;
