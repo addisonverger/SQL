@@ -1157,3 +1157,22 @@ HAVING MAX(quantity) > (
         GROUP BY 1
     ) b 
 );
+
+--Group Employees of the Same Salary
+
+SELECT
+    a.employee_id,
+    a.name,
+    a.salary,
+    b.team_id
+FROM employees a
+JOIN (
+    SELECT
+        salary,
+        RANK() OVER (ORDER BY salary ASC) AS team_id
+    FROM employees 
+    GROUP BY 1
+    HAVING COUNT(*) > 1
+) b 
+ON a.salary = b.salary
+ORDER BY 4 ASC, 1 ASC;
