@@ -1193,3 +1193,13 @@ SELECT
     'High Salary' AS category,
     COUNT(CASE WHEN income > 50000 THEN account_id ELSE NULL END) AS accounts_count
 FROM accounts;
+
+--Confirmation of Signups
+
+SELECT
+    s.user_id,
+    ROUND(COUNT(*) FILTER (WHERE c.action_value = 'confirmed') * 1.0 / COUNT(*), 2) AS confirmation_rate
+FROM signups s 
+LEFT JOIN confirmations c 
+ON s.user_id = c.user_id
+GROUP BY 1;
