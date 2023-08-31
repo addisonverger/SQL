@@ -1203,3 +1203,22 @@ FROM signups s
 LEFT JOIN confirmations c 
 ON s.user_id = c.user_id
 GROUP BY 1;
+
+--Strong and Steady Friendship
+
+WITH friendship_CTE AS (
+    SELECT user1_id, user2_id
+    FROM friendship
+    UNION
+    SELECT user2_id, user1_id
+    FROM friendship
+)
+
+SELECT 
+a.user1_id, b.user2_id, COUNT(*) AS common_friend
+FROM friendship_CTE a 
+JOIN friendship_CTE b 
+ON a.user2_id = b.user1_id
+GROUP BY 1, 2
+HAVING COUNT(*) >= 3
+AND a.user1_id < b.user2_id;
