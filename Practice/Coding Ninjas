@@ -1222,3 +1222,22 @@ ON a.user2_id = b.user1_id
 GROUP BY 1, 2
 HAVING COUNT(*) >= 3
 AND a.user1_id < b.user2_id;
+
+--All the Pairs With the Maximum Number of Common Followers
+
+WITH common_followers_CTE AS (
+    SELECT 
+    a.user_id AS user1_id, b.user_id AS user2_id, COUNT(*)
+    FROM relations a 
+    JOIN relations b 
+    ON a.follower_id = b.follower_id
+    AND a.user_id < b.user_id
+    GROUP BY 1, 2
+)
+
+SELECT user1_id, user2_id
+FROM common_followers_CTE
+WHERE count = (
+    SELECT MAX(count)
+    FROM common_followers_CTE
+);
