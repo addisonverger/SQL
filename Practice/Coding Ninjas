@@ -1273,3 +1273,17 @@ SELECT
 FROM register
 GROUP BY 1
 ORDER BY 2 DESC, 1 ASC;
+
+--Product's Worth Over Invoices
+
+SELECT
+    p.name,
+    SUM(i.rest) AS rest,
+    SUM(i.paid) AS paid,
+    SUM(i.canceled) AS canceled,
+    SUM(i.refunded) AS refunded
+FROM product p 
+JOIN invoice i 
+ON p.product_id = i.product_id
+GROUP BY 1
+ORDER BY 1;
