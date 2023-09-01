@@ -1264,3 +1264,12 @@ WHERE seller_name NOT IN (
     WHERE EXTRACT(YEAR FROM o.sale_date) = '2020'
 )
 ORDER BY 1 ASC;
+
+--Percentage of Users Attended a Contest
+
+SELECT
+    contest_id,
+    ROUND(COUNT(user_id) * 100.0 / (SELECT COUNT(*) FROM users), 2) AS percentage
+FROM register
+GROUP BY 1
+ORDER BY 2 DESC, 1 ASC;
