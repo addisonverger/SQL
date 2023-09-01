@@ -1262,4 +1262,5 @@ WHERE seller_name NOT IN (
     JOIN orders o
     ON s.seller_id = o.seller_id
     WHERE EXTRACT(YEAR FROM o.sale_date) = '2020'
-);
+)
+ORDER BY 1 ASC;
