@@ -1295,3 +1295,13 @@ SELECT
     CONCAT(UPPER(LEFT(name, 1)), LOWER(RIGHT(name, LENGTH(name) - 1))) AS name
 FROM users
 ORDER BY 1;
+
+--Spotify Sessions
+
+SELECT
+    DISTINCT p.session_id
+FROM playback p
+JOIN ads a
+ON p.customer_id = a.customer_id 
+WHERE a.timestamp NOT BETWEEN p.start_time AND p.end_time
+ORDER BY 1;
