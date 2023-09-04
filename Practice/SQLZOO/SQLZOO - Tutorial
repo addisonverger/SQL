@@ -17,6 +17,18 @@ SELECT name, population FROM world
 SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000;
 
+/* SELECT names */
+
+--1. Find the country that start with Y
+
+SELECT name FROM world
+  WHERE name LIKE 'Y%'
+
+--2. Find the countries that end with y
+
+SELECT name FROM world
+  WHERE name LIKE '%y'
+
 /* SELECT from WORLD Tutorial */
 
 --1. Introduction
