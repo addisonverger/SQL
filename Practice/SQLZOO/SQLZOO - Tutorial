@@ -1,6 +1,6 @@
 --All resources provided by SQLZOO: https://sqlzoo.net/wiki/SQL_Tutorial
 
---SELECT basics
+ /* SELECT basics */
 
 --1. Introducing the world table of countries
 
@@ -16,3 +16,14 @@ SELECT name, population FROM world
 
 SELECT name, area FROM world
   WHERE area BETWEEN 200000 AND 250000;
+
+/* SELECT from WORLD Tutorial */
+
+--1. Introduction
+
+SELECT name, continent, population FROM world;
+
+--2. Large Countries
+
+SELECT name FROM world
+WHERE population >= 200000000;
