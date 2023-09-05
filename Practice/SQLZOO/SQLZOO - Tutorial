@@ -71,6 +71,24 @@ SELECT name FROM world
 SELECT name FROM world
  WHERE name LIKE '____'
 
+--11. Find the country where the name is the capital city.
+
+SELECT name
+  FROM world
+  WHERE name = capital
+
+--12. Find the country where the capital is the country plus "City".
+
+SELECT name
+  FROM world
+  WHERE capital = CONCAT(name, ' City')
+
+--13. Find the capital and the name where the capital includes the name of the country.
+
+SELECT capital, name
+ FROM world
+ WHERE capital LIKE CONCAT('%', name, '%')
+
 /* SELECT from WORLD Tutorial */
 
 --1. Introduction
