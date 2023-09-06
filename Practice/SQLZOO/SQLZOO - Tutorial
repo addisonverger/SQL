@@ -151,3 +151,18 @@ SELECT name, population, area
 FROM world
 WHERE (population > 250000000 AND area <= 3000000)
 OR (population <= 250000000 AND area > 3000000)
+
+--9. Rounding
+
+SELECT 
+ name, 
+ ROUND(population / 1000000.0, 2) AS 'population (in millions)',
+ ROUND(GDP / 1000000000.0, 2) AS 'GDP (in billions)'
+FROM world
+WHERE continent = 'South America'
+
+--10. Trillion dollar economies
+
+SELECT name, ROUND(GDP * 1.0 / population, -3) AS 'per-capita GDP'
+FROM world
+WHERE GDP >= 1000000000000
