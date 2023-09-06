@@ -131,3 +131,23 @@ WHERE continent = 'South America'
 SELECT name, population
 FROM world
 WHERE name IN ('France', 'Germany', 'Italy')
+
+--6. United
+
+SELECT name
+FROM world
+WHERE name LIKE '%United%'
+
+--7. Two ways to be big
+
+SELECT name, population, area
+FROM world
+WHERE population > 250000000
+OR area > 3000000
+
+--8. One or the other (but not both)
+
+SELECT name, population, area
+FROM world
+WHERE (population > 250000000 AND area <= 3000000)
+OR (population <= 250000000 AND area > 3000000)
