@@ -69,3 +69,15 @@ WHERE (subject = 'Medicine'
 AND yr < 1910)
 OR (subject = 'Literature'
 AND yr >= 2004)
+
+--11. Umlaut
+
+SELECT *
+FROM nobel
+WHERE winner = 'Peter Grünberg'
+
+--12. Apostrophe
+
+SELECT *
+FROM nobel
+WHERE winner = 'Eugene O''Neill'
