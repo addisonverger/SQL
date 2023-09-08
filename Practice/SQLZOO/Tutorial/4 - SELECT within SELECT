@@ -28,3 +28,22 @@ WHERE continent IN
   WHERE name = 'Argentina'
   OR name = 'Australia')
 ORDER BY name ASC
+
+--4. Between Canada and Poland (United Kingdom and Germany)
+
+SELECT name, population
+FROM world
+WHERE population >
+  (SELECT population
+  FROM world
+  WHERE name = 'United Kingdom')
+AND population <
+  (SELECT population
+  FROM world
+  WHERE name = 'Germany')
+
+--5. Percentages of Germany
+
+SELECT name, CONCAT(CAST(ROUND(population * 100.0 / (SELECT population FROM world WHERE name = 'Germany'), 0) AS INT), '%') AS percentage
+FROM world
+WHERE continent = 'Europe'
