@@ -1,0 +1,8 @@
+--All resources provided by SQLZOO: https://sqlzoo.net/wiki/SELECT_within_SELECT_Tutorial
+
+--1. Bigger than Russia
+
+SELECT name FROM world
+WHERE population >
+  (SELECT population FROM world
+  WHERE name = 'Russia')
