@@ -2,7 +2,29 @@
 
 --1. Bigger than Russia
 
-SELECT name FROM world
+SELECT name 
+FROM world
 WHERE population >
   (SELECT population FROM world
   WHERE name = 'Russia')
+
+--2. Richer than UK
+
+SELECT name
+FROM world
+WHERE continent = 'Europe'
+AND GDP / population > 
+  (SELECT GDP / population
+  FROM world
+  WHERE name = 'United Kingdom')
+
+--3. Neighbours of Argentina and Australia
+
+SELECT name, continent
+FROM world
+WHERE continent IN 
+  (SELECT continent
+  FROM world
+  WHERE name = 'Argentina'
+  OR name = 'Australia')
+ORDER BY name ASC
