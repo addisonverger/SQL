@@ -40,3 +40,13 @@ SELECT continent, COUNT(name)
 FROM world
 WHERE population >= 10000000
 GROUP BY continent
+
+--8. Counting big continents
+
+SELECT continent
+FROM (
+  SELECT continent, SUM(population)
+  FROM world
+  GROUP BY continent
+  HAVING SUM(population) >= 100000000
+)
