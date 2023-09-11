@@ -1,0 +1,11 @@
+--All resources provided by SQLZOO: https://sqlzoo.net/wiki/SUM_and_COUNT
+
+--1. Bigger than Russia
+
+SELECT SUM(population)
+FROM world
+
+--2. List of continents
+
+SELECT DISTINCT continent
+FROM world
