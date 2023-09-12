@@ -1,0 +1,7 @@
+--All resources provided by SQLZOO: https://new.sqlzoo.net/wiki/The_JOIN_operation
+
+--1. Show the matchid and player name for all goals scored by Germany.
+
+SELECT matchid, player 
+FROM goal 
+WHERE teamid = 'GER'
