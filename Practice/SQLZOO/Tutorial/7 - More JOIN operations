@@ -50,3 +50,13 @@ ON movie.id = casting.movieid
 JOIN actor
 ON actor.id = casting.actorid
 WHERE movie.title = 'Alien'
+
+--8. Harrison Ford movies
+
+SELECT movie.title
+FROM movie
+JOIN casting
+ON movie.id = casting.movieid
+JOIN actor
+ON actor.id = casting.actorid
+WHERE actor.name = 'Harrison Ford'
