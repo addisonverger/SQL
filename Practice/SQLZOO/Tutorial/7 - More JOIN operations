@@ -40,3 +40,13 @@ ON movie.id = casting.movieid
 JOIN actor
 ON actor.id = casting.actorid
 WHERE movie.id = 27
+
+--7. Alien cast list
+
+SELECT actor.name
+FROM movie
+JOIN casting
+ON movie.id = casting.movieid
+JOIN actor
+ON actor.id = casting.actorid
+WHERE movie.title = 'Alien'
