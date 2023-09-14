@@ -18,3 +18,9 @@ SELECT id, title, yr
 FROM movie
 WHERE title LIKE '%Star Trek%'
 ORDER BY yr
+
+--4. id for actor Glenn Close
+
+SELECT id
+FROM actor
+WHERE name = 'Glenn Close'
