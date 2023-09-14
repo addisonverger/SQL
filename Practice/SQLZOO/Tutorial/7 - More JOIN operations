@@ -1,0 +1,7 @@
+--All resources provided by SQLZOO: https://new.sqlzoo.net/wiki/The_JOIN_operation
+
+--1. 1962 movies
+
+SELECT id, title
+FROM movie
+WHERE yr = 1962
