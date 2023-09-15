@@ -111,3 +111,14 @@ WHERE casting.movieid IN (
   WHERE actor.name = 'Julie Andrews'
 )
 AND casting.ord = 1
+
+--13. Actors with 15 leading roles
+
+SELECT actor.name
+FROM actor
+JOIN casting
+ON actor.id = casting.actorid
+WHERE casting.ord = 1
+GROUP BY actor.name
+HAVING COUNT(casting.movieid) >= 15
+ORDER BY actor.name ASC
