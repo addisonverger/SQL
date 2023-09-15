@@ -94,3 +94,20 @@ ON actorid = actor.id
 WHERE name = 'Rock Hudson'
 GROUP BY yr
 HAVING COUNT(title) > 1
+
+--12. Lead actor in Julie Andrews movies
+
+SELECT movie.title, actor.name
+FROM movie
+JOIN casting
+ON movie.id = casting.movieid
+JOIN actor
+ON actor.id = casting.actorid
+WHERE casting.movieid IN (
+  SELECT movieid
+  FROM casting 
+  JOIN actor
+  ON casting.actorid = actor.id
+  WHERE actor.name = 'Julie Andrews'
+)
+AND casting.ord = 1
