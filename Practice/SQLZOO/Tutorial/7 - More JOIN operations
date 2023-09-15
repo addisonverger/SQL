@@ -60,3 +60,14 @@ ON movie.id = casting.movieid
 JOIN actor
 ON actor.id = casting.actorid
 WHERE actor.name = 'Harrison Ford'
+
+--9. Harrison Ford as a supporting actor
+
+SELECT movie.title
+FROM movie
+JOIN casting
+ON movie.id = casting.movieid
+JOIN actor
+ON actor.id = casting.actorid
+WHERE actor.name = 'Harrison Ford'
+AND casting.ord <> 1
