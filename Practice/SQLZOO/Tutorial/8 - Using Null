@@ -1,0 +1,7 @@
+--All resources provided by SQLZOO: https://new.sqlzoo.net/wiki/Using_Null
+
+--1. List the teachers who have NULL for their department.
+
+SELECT name
+FROM teacher
+WHERE dept IS NULL
