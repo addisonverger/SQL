@@ -43,3 +43,11 @@ ON teacher.dept = dept.id
 
 SELECT COUNT(id), COUNT(mobile)
 FROM teacher
+
+--8. Show each department and the number of staff. Use a RIGHT JOIN to ensure that the Engineering department is listed.
+
+SELECT dept.name, COUNT(teacher.id)
+FROM teacher
+RIGHT JOIN dept
+ON teacher.dept = dept.id
+GROUP BY dept.name
