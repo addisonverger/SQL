@@ -1,9 +1,16 @@
 --All resources provided by SQLZOO: https://new.sqlzoo.net/wiki/NSS_Tutorial
 
---1. Show the the percentage who STRONGLY AGREE
+--1. Check out one row
 
 SELECT A_STRONGLY_AGREE
 FROM nss
 WHERE question = 'Q01'
 AND institution = 'Edinburgh Napier University'
 AND subject = '(8) Computer Science'
+
+--2. Calculate how many agree or strongly agree
+
+SELECT institution, subject
+FROM nss
+WHERE question = 'Q15'
+AND score >= 100
