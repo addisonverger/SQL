@@ -14,3 +14,11 @@ SELECT institution, subject
 FROM nss
 WHERE question = 'Q15'
 AND score >= 100
+
+--3. Unhappy Computer Students
+
+SELECT institution, score
+FROM nss
+WHERE subject = '(8) Computer Science'
+AND question = 'Q15'
+AND score < 50
