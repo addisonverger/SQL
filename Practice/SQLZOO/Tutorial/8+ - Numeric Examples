@@ -22,3 +22,12 @@ FROM nss
 WHERE subject = '(8) Computer Science'
 AND question = 'Q15'
 AND score < 50
+
+--4. More Computing or Creative Students?
+
+SELECT subject, SUM(response)
+FROM nss
+WHERE question = 'Q22'
+AND (subject = '(8) Computer Science' 
+OR subject = '(H) Creative Arts and Design')
+GROUP BY subject
