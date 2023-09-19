@@ -31,3 +31,12 @@ WHERE question = 'Q22'
 AND (subject = '(8) Computer Science' 
 OR subject = '(H) Creative Arts and Design')
 GROUP BY subject
+
+--5. Strongly Agree Numbers
+
+SELECT subject, SUM(a_strongly_agree * response / 100)
+FROM nss
+WHERE question = 'Q22'
+AND (subject = '(8) Computer Science'
+OR subject = '(H) Creative Arts and Design')
+GROUP BY subject
