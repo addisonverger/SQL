@@ -49,3 +49,11 @@ WHERE question = 'Q22'
 AND (subject = '(8) Computer Science'
 OR subject = '(H) Creative Arts and Design')
 GROUP BY subject
+
+--7. Scores for Institutions in Manchester
+
+SELECT institution, ROUND(SUM(score * response) / SUM(response), 0)
+FROM nss
+WHERE question = 'Q22'
+AND institution LIKE '%Manchester%'
+GROUP BY institution
