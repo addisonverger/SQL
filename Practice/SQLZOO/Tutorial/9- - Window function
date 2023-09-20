@@ -40,3 +40,15 @@ FROM (
   AND yr = 2017
 ) x
 WHERE posn = 1
+
+--6. Scottish seats
+
+SELECT party, COUNT(*)
+FROM (
+  SELECT constituency, party, votes, RANK() OVER (PARTITION BY constituency ORDER BY votes DESC) AS posn
+  FROM ge
+  WHERE constituency LIKE 'S%'
+  AND yr = 2017
+) x
+WHERE posn = 1
+GROUP BY party
