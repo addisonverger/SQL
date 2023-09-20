@@ -21,3 +21,11 @@ ORDER BY party
 SELECT yr, party, votes, RANK() OVER (PARTITION BY yr ORDER BY votes DESC)
 FROM ge
 WHERE constituency = 'S14000021'
+
+--4. Edinburgh Constituency
+
+SELECT constituency, party, votes, RANK() OVER (PARTITION BY constituency ORDER BY votes DESC) AS posn
+FROM ge
+WHERE constituency BETWEEN 'S14000021' AND 'S14000026'
+AND yr = 2017
+ORDER BY RANK() OVER (PARTITION BY constituency ORDER BY votes DESC), constituency
