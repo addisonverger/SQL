@@ -71,3 +71,17 @@ ON covid.name = world.name
 WHERE whn = '2020-04-20' 
 AND population >= 10000000
 ORDER BY population DESC
+
+--8. Turning the corner
+
+SELECT name, date, new_cases AS peakNewCases
+FROM (
+  SELECT name, date, new_cases, RANK() OVER (PARTITION BY name ORDER BY new_cases DESC) AS rnk
+  FROM (
+    SELECT name, DATE_FORMAT(whn,'%Y-%m-%d') AS date, confirmed - LAG(confirmed, 1) OVER (PARTITION BY name ORDER BY whn) AS new_cases
+    FROM covid
+  ) x
+  WHERE new_cases >= 1000
+) y
+WHERE rnk = 1
+ORDER BY date ASC, name ASC
