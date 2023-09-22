@@ -58,3 +58,16 @@ SELECT
 FROM covid
 WHERE whn = '2020-04-20'
 ORDER BY confirmed DESC
+
+--7. Infection rate
+
+SELECT 
+  world.name,
+  ROUND(100000*confirmed/population,2),
+  RANK() OVER (ORDER BY 100000*confirmed/population ASC) AS rank
+FROM covid 
+JOIN world 
+ON covid.name = world.name
+WHERE whn = '2020-04-20' 
+AND population >= 10000000
+ORDER BY population DESC
