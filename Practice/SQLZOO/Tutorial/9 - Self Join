@@ -10,3 +10,13 @@ FROM stops
 SELECT id
 FROM stops
 WHERE name = 'Craiglockhart'
+
+--3. Give the id and the name for the stops on the '4' 'LRT' service.
+
+SELECT s.id, s.name
+FROM stops s
+JOIN route r
+ON s.id = r.stop
+WHERE num = 4
+AND company = 'LRT'
+ORDER BY r.pos
