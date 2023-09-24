@@ -1,0 +1,6 @@
+--All resources provided by SQLZOO: https://new.sqlzoo.net/wiki/Self_join
+
+--1. How many stops are in the database.
+
+SELECT COUNT(id)
+FROM stops
