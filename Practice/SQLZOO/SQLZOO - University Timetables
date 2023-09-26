@@ -1,5 +1,4 @@
 --Database & questions provided by the SQLZOO University Timetables (Neeps) Assessment: https://sqlzoo.net/wiki/Neeps
---Note: there appears to be some issues with how the editor was connected to the database (some tables not showing) and some of the table information appears to be missing (eg. staff contact time from question 10 appears to be missing)
 
 --(Easy) 1. Give the room id in which the event co42010.L01 takes place.
 
@@ -83,3 +82,17 @@ SELECT id
 FROM event
 WHERE tod IN (SELECT tod FROM event WHERE id LIKE 'co72010%')
 AND id NOT LIKE 'co72010%';
+
+--(Medium) 10. How many members of staff have contact time which is greater than the average?
+
+WITH CTE AS (
+  SELECT staff, SUM(duration) AS contact_time
+  FROM teaches t
+  JOIN event e
+  ON t.event = e.id
+  GROUP BY staff
+)
+
+SELECT COUNT(staff)
+FROM CTE
+WHERE contact_time > (SELECT AVG(contact_time) FROM CTE);
