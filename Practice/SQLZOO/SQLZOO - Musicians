@@ -1,0 +1,10 @@
+--Database & questions provided by the SQLZOO Adventure Works Assessment: https://new.sqlzoo.net/wiki/Musicians
+
+--(Easy) 1. Give the organiser's name of the concert in the Assembly Rooms after the first of Feb, 1997.
+
+SELECT m.m_name
+FROM concert c
+JOIN musician m
+ON c.concert_orgniser = m.m_no
+WHERE c.concert_venue = 'Assembly Rooms'
+AND con_date > 02/01/1997;
