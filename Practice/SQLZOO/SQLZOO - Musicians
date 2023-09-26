@@ -8,3 +8,15 @@ JOIN musician m
 ON c.concert_orgniser = m.m_no
 WHERE c.concert_venue = 'Assembly Rooms'
 AND con_date > 02/01/1997;
+
+--(Easy) 2. Find all the performers who played guitar or violin and were born in England.
+
+SELECT m.m_name
+FROM musician m
+JOIN place p
+ON m.born_in = p.place_no
+JOIN performer per
+ON m.m_no = per.perf_is
+WHERE p.place_country = 'England'
+AND (per.instrument = 'guitar'
+OR per.instrument = 'violin');
