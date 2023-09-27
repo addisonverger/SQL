@@ -20,3 +20,15 @@ ON m.m_no = per.perf_is
 WHERE p.place_country = 'England'
 AND (per.instrument = 'guitar'
 OR per.instrument = 'violin');
+
+--(Easy) 3. List the names of musicians who have conducted concerts in USA together with the towns and dates of these concerts.
+
+SELECT DISTINCT m.m_name, p.place_town, c.con_date
+FROM concert c
+JOIN place p
+ON c.concert_in = p.place_no
+JOIN performance per
+ON c.concert_no = per.performed_in
+JOIN musician m
+ON per.conducted_by = m.m_no
+WHERE p.place_country = 'USA'
