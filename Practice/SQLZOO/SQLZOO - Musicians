@@ -32,3 +32,19 @@ ON c.concert_no = per.performed_in
 JOIN musician m
 ON per.conducted_by = m.m_no
 WHERE p.place_country = 'USA'
+
+--(Easy) 4. How many concerts have featured at least one composition by Andy Jones? List concert date, venue and the composition's title.
+
+SELECT con.con_date, con.concert_venue, comp.c_title
+FROM musician m
+JOIN composer c
+ON m.m_no = c.comp_is
+JOIN has_composed h
+ON h.cmpr_no = c.comp_no
+JOIN composition comp
+ON comp.c_no = h.cmpn_no
+JOIN performance p
+ON p.performed = comp.c_no
+JOIN concert con
+ON p.performed_in = con.concert_no
+WHERE m_name = 'Andy Jones'
