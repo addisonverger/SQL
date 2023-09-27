@@ -48,3 +48,11 @@ ON p.performed = comp.c_no
 JOIN concert con
 ON p.performed_in = con.concert_no
 WHERE m_name = 'Andy Jones'
+
+--(Easy) 5. list the different instruments played by the musicians and avg number of musicians who play the instrument.
+
+SELECT p.instrument, COUNT(*)/(SELECT COUNT(*) FROM musician) AS avg
+FROM musician m
+JOIN performer p
+ON m.m_no = p.perf_is
+GROUP BY p.instrument
