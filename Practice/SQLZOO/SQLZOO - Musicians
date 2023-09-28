@@ -72,3 +72,21 @@ AND p.instrument IN (
   ON m.m_no = p.perf_is
   WHERE m.m_name LIKE 'Theo%'
 )
+
+--(Medium) 7. List the name and the number of players for the band whose number of players is greater than the average number of players in each band.
+
+WITH CTE AS (
+  SELECT b.band_name, COUNT(pi.player) AS num_players
+  FROM musician m
+  JOIN performer p
+  ON m.m_no = p.perf_is
+  JOIN plays_in pi
+  ON p.perf_no = pi.player
+  JOIN band b
+  ON pi.band_id = b.band_no
+  GROUP BY b.band_name
+)
+
+SELECT band_name, num_players
+FROM CTE
+WHERE num_players > (SELECT AVG(num_players) FROM CTE)
