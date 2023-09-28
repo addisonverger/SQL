@@ -102,3 +102,17 @@ ON m.m_no = c.comp_is
 JOIN performance p
 ON m.m_no = p.conducted_by
 WHERE pl.place_country IN ('England', 'Scotland')
+
+--(Medium) 9. Show the least commonly played instrument and the number of musicians who play it.
+
+WITH CTE AS (
+  SELECT p.instrument, COUNT(m.m_no) AS num_musc
+  FROM musician m
+  JOIN performer p
+  ON m.m_no = p.perf_is
+  GROUP BY p.instrument
+)
+
+SELECT instrument, num_musc
+FROM CTE
+WHERE num_musc = (SELECT MIN(num_musc) FROM CTE)
