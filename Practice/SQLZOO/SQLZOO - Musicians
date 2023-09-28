@@ -91,4 +91,14 @@ SELECT band_name, num_players
 FROM CTE
 WHERE num_players > (SELECT AVG(num_players) FROM CTE)
 
+--(Medium) 8. List the names of musicians who both conduct and compose and live in Britain.
 
+SELECT DISTINCT m.m_name
+FROM musician m
+JOIN place pl
+ON m.living_in = pl.place_no
+JOIN composer c
+ON m.m_no = c.comp_is
+JOIN performance p
+ON m.m_no = p.conducted_by
+WHERE pl.place_country IN ('England', 'Scotland')
