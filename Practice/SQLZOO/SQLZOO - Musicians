@@ -116,3 +116,20 @@ WITH CTE AS (
 SELECT instrument, num_musc
 FROM CTE
 WHERE num_musc = (SELECT MIN(num_musc) FROM CTE)
+
+--(Medium) 10. List the bands that have played music composed by Sue Little; Give the titles of the composition in each case.
+
+SELECT b.band_name, c.c_title
+FROM band b
+JOIN performance p
+ON b.band_no = p.gave
+JOIN composition c
+ON p.performed = c.c_no
+JOIN has_composed h
+ON c.c_no = h.cmpn_no
+JOIN composer co
+ON co.comp_no = h.cmpr_no
+JOIN musician m
+ON co.comp_is = m.m_no
+WHERE m.m_name = 'Sue Little'
+ORDER BY b.band_name
