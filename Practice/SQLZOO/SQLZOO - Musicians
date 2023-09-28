@@ -49,10 +49,26 @@ JOIN concert con
 ON p.performed_in = con.concert_no
 WHERE m_name = 'Andy Jones'
 
---(Easy) 5. list the different instruments played by the musicians and avg number of musicians who play the instrument.
+--(Easy) 5. List the different instruments played by the musicians and avg number of musicians who play the instrument.
 
 SELECT p.instrument, COUNT(*)/(SELECT COUNT(*) FROM musician) AS avg
 FROM musician m
 JOIN performer p
 ON m.m_no = p.perf_is
 GROUP BY p.instrument
+
+--(Medium) 6. List the names, dates of birth and the instrument played of living musicians who play a instrument which Theo also plays.
+
+SELECT m.m_name, m.born, p.instrument
+FROM musician m
+JOIN performer p
+ON m.m_no = p.perf_is
+WHERE m.died IS NULL
+AND m.m_name NOT LIKE 'Theo%' 
+AND p.instrument IN (
+  SELECT p.instrument
+  FROM performer p
+  JOIN musician m
+  ON m.m_no = p.perf_is
+  WHERE m.m_name LIKE 'Theo%'
+)
