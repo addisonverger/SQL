@@ -90,3 +90,5 @@ WITH CTE AS (
 SELECT band_name, num_players
 FROM CTE
 WHERE num_players > (SELECT AVG(num_players) FROM CTE)
+
+
