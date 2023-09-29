@@ -11,3 +11,11 @@ ON do.order_no = ol.order_ref
 JOIN garment g
 ON ol.ol_style = g.style_no
 WHERE j.c_name = 'Ms Brown'
+
+--(Easy) 2. List the customer name, postal information, order date and order number of all orders that have been completed.
+
+SELECT j.c_name, j.c_house_no, j.c_post_code, do.order_date, do.order_no
+FROM jmcust j
+JOIN dress_order do
+ON j.c_no = do.cust_no
+WHERE do.completed = 'Y'
