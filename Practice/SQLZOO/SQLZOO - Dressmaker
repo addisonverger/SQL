@@ -19,3 +19,14 @@ FROM jmcust j
 JOIN dress_order do
 ON j.c_no = do.cust_no
 WHERE do.completed = 'Y'
+
+--(Easy) 3. Which garments have been made or are being made from 'red abstract' or 'blue abstract' coloured materials.
+
+SELECT DISTINCT g.description
+FROM garment g
+JOIN order_line ol
+ON g.style_no = ol.ol_style
+JOIN material m
+ON ol.ol_material = m.material_no
+WHERE m.colour = 'Red Abstract'
+OR m.colour = 'Blue Abstract'
