@@ -1,0 +1,13 @@
+--Database & questions provided by the SQLZOO Dressmaker Assessment: https://sqlzoo.net/wiki/Dressmaker
+
+--(Easy) 1. List the post code, order number, order date and garment descriptions for all items associated with Ms Brown.
+
+SELECT j.c_post_code, do.order_no, do.order_date, g.description
+FROM jmcust j
+JOIN dress_order do
+ON j.c_no = do.cust_no
+JOIN order_line ol
+ON do.order_no = ol.order_ref
+JOIN garment g
+ON ol.ol_style = g.style_no
+WHERE j.c_name = 'Ms Brown'
