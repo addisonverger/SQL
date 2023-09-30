@@ -30,3 +30,14 @@ JOIN material m
 ON ol.ol_material = m.material_no
 WHERE m.colour = 'Red Abstract'
 OR m.colour = 'Blue Abstract'
+
+--(Easy) 4. How many garments has each dressmaker constructed? You should give the number of garments and the name and postal information of each dressmaker.
+
+SELECT COUNT(*) AS num_garments, d.d_name, d.d_house_no, d.d_post_code
+FROM dressmaker d
+JOIN construction c
+ON d.d_no = c.maker
+JOIN order_line o
+ON c.order_ref = o.order_ref
+AND c.line_ref = line_no
+GROUP BY 2, 3, 4
