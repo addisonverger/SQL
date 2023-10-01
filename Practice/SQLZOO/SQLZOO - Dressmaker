@@ -41,3 +41,19 @@ JOIN order_line o
 ON c.order_ref = o.order_ref
 AND c.line_ref = o.line_no
 GROUP BY 2, 3, 4
+
+--(Easy) 5. Give the names of those dressmakers who have finished items made from silk for completed orders.
+
+SELECT DISTINCT d.d_name
+FROM dressmaker d
+JOIN construction c
+ON d.d_no = c.maker
+JOIN order_line o
+ON c.order_ref = o.order_ref
+AND c.line_ref = o.line_no
+JOIN material m
+ON o.ol_material = m.material_no
+JOIN dress_order do
+ON o.order_ref = do.order_no
+WHERE m.fabric = 'Silk'
+AND do.completed = 'Y'
