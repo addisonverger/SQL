@@ -89,3 +89,18 @@ SELECT description, num_orders
 FROM garment_CTE
 WHERE num_orders < (SELECT AVG(num_orders) FROM garment_CTE)
 ORDER BY num_orders, description
+
+--(Medium) 8. Which is the most popular line, that is, the garment with the highest number of orders. Bearing in mind the fact that there may be several such garments, list the garment description(s) and number(s) of orders.
+
+WITH garment_CTE AS (
+  SELECT g.description, COUNT(ol.order_ref) AS num_orders
+  FROM order_line ol
+  JOIN garment g
+  ON ol.ol_style = g.style_no
+  GROUP BY g.description
+)
+
+SELECT description, num_orders
+FROM garment_CTE
+WHERE num_orders = (SELECT MAX(num_orders) FROM garment_CTE)
+ORDER BY description
