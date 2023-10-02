@@ -57,3 +57,20 @@ JOIN dress_order do
 ON o.order_ref = do.order_no
 WHERE m.fabric = 'Silk'
 AND do.completed = 'Y'
+
+--(Medium) 6. Assuming that any garment could be made in any of the available materials, list the garments (description, fabric, colour and pattern) which are expensive to make, that is, those for which the labour costs are 80% or more of the total cost.
+
+WITH garment_CTE AS (
+  SELECT DISTINCT description, labour_cost, quantity
+  FROM garment g
+  JOIN quantities q
+  ON g.style_no = q.style_q
+), material_CTE AS (
+  SELECT DISTINCT fabric, colour, pattern, cost
+  FROM material
+)
+
+SELECT g.description, m.fabric, m.colour, m.pattern
+FROM garment_CTE g
+CROSS JOIN material_CTE m
+WHERE g.labour_cost / (g.labour_cost + m.cost * g.quantity) >= .8
