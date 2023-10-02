@@ -104,3 +104,23 @@ SELECT description, num_orders
 FROM garment_CTE
 WHERE num_orders = (SELECT MAX(num_orders) FROM garment_CTE)
 ORDER BY description
+
+--(Medium) 9. List the descriptions, and costs of the more expensive size 8, Cotton garments which might be ordered, that is those costing more than the average (labour costs + material costs) to make.
+
+WITH CTE AS (
+  SELECT g.description, m.fabric, q.size_q AS size, g.labour_cost + m.cost * q.quantity AS cost
+  FROM garment g
+  JOIN quantities q
+  ON g.style_no = q.style_q
+  JOIN order_line ol
+  ON q.style_q = ol.ol_style
+  AND q.size_q = ol.ol_size
+  JOIN material m
+  ON ol.ol_material = m.material_no
+)
+
+SELECT description, cost
+FROM CTE
+WHERE fabric = 'Cotton'
+AND size = 8
+AND cost > (SELECT AVG(cost) FROM CTE)
