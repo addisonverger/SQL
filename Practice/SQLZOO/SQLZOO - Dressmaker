@@ -74,3 +74,18 @@ SELECT g.description, m.fabric, m.colour, m.pattern
 FROM garment_CTE g
 CROSS JOIN material_CTE m
 WHERE g.labour_cost / (g.labour_cost + m.cost * g.quantity) >= .8
+
+--(Medium) 7. List the descriptions and the number of orders of the less popular garments, that is those for which less than the average number of orders per garment have been placed. Also print out the average number of orders per garment. When calculating the average, ignore any garments for which no orders have been made.
+
+WITH garment_CTE AS (
+  SELECT g.description, COUNT(ol.order_ref) AS num_orders
+  FROM order_line ol
+  JOIN garment g
+  ON ol.ol_style = g.style_no
+  GROUP BY g.description
+)
+
+SELECT description, num_orders
+FROM garment_CTE
+WHERE num_orders < (SELECT AVG(num_orders) FROM garment_CTE)
+ORDER BY num_orders, description
