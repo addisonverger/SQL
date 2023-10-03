@@ -7,3 +7,9 @@ FROM vehicle v
 JOIN keeper k
 ON v.keeper = k.id
 WHERE v.id = 'SO 02 PSP'
+
+--(Easy) 2. Show the number of cameras that take images for incoming vehicles.
+
+SELECT COUNT(*)
+FROM camera
+WHERE perim = 'IN'
