@@ -13,3 +13,10 @@ WHERE v.id = 'SO 02 PSP'
 SELECT COUNT(*)
 FROM camera
 WHERE perim = 'IN'
+
+--(Easy) 3. List the image details taken by Camera 10 before 26 Feb 2007.
+
+SELECT *
+FROM image
+WHERE camera = 10
+AND DATE_FORMAT(whn, '%m-%d-%Y') < '02-26-2007'
