@@ -124,3 +124,24 @@ FROM CTE
 WHERE fabric = 'Cotton'
 AND size = 8
 AND cost > (SELECT AVG(cost) FROM CTE)
+
+--(Medium) 10. What is the most common size ordered for each garment type? List description, size and number of orders, assuming that there could be several equally popular sizes for each type.
+
+WITH order_num_CTE AS (
+  SELECT g.description, q.size_q AS size, COUNT(*) AS num_orders
+  FROM garment g
+  JOIN quantities q
+  ON g.style_no = q.style_q
+  JOIN order_line o
+  ON q.style_q = o.ol_style
+  AND q.size_q = o.ol_size
+  GROUP BY 1, 2
+), rank_CTE AS (
+  SELECT description, size, num_orders, DENSE_RANK() OVER (PARTITION BY description ORDER BY num_orders DESC) AS rnk
+  FROM order_num_CTE
+)
+
+SELECT description, size, num_orders
+FROM rank_CTE
+WHERE rnk = 1
+ORDER BY 1, 2
