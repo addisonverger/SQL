@@ -1,0 +1,9 @@
+--Database & questions provided by the SQLZOO Congestion Charging Assessment: https://sqlzoo.net/wiki/Congestion_Charging
+
+--(Easy) 1. Show the name and address of the keeper of vehicle SO 02 PSP.
+
+SELECT k.name, k.address
+FROM vehicle v
+JOIN keeper k
+ON v.keeper = k.id
+WHERE v.id = 'SO 02 PSP'
