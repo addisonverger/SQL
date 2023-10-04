@@ -20,3 +20,10 @@ SELECT *
 FROM image
 WHERE camera = 10
 AND DATE_FORMAT(whn, '%m-%d-%Y') < '02-26-2007'
+
+--(Easy) 4. List the number of images taken by each camera. Your answer should show how many images have been taken by camera 1, camera 2 etc. The list must NOT include the images taken by camera 15, 16, 17, 18 and 19.
+
+SELECT camera, COUNT(*) AS num_images
+FROM image
+WHERE camera NOT IN (15, 16, 17, 18, 19)
+GROUP BY camera
