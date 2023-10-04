@@ -38,3 +38,13 @@ JOIN permit p
 ON v.id = p.reg
 WHERE DATE_FORMAT(p.sDate, '%m-%d-%Y') = '01-30-2007'
 ORDER BY 1, 2
+
+--(Medium) 6. List the owners (name and address) of Vehicles caught by camera 1 or 18 without duplication.
+
+SELECT DISTINCT k.name, k.address
+FROM keeper k
+JOIN vehicle v
+ON k.id = v.keeper
+JOIN image i
+ON v.id = i.reg
+WHERE i.camera IN (1, 18)
