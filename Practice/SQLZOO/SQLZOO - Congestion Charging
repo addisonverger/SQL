@@ -48,3 +48,12 @@ ON k.id = v.keeper
 JOIN image i
 ON v.id = i.reg
 WHERE i.camera IN (1, 18)
+
+--(Medium) 7. Show keepers (name and address) who have more than 5 vehicles.
+
+SELECT k.name, k.address
+FROM keeper k
+JOIN vehicle v
+ON k.id = v.keeper
+GROUP BY 1, 2
+HAVING COUNT(DISTINCT v.id) > 5
