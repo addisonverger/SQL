@@ -27,3 +27,14 @@ SELECT camera, COUNT(*) AS num_images
 FROM image
 WHERE camera NOT IN (15, 16, 17, 18, 19)
 GROUP BY camera
+
+--(Easy) 5. A number of vehicles have permits that start on 30th Jan 2007. List the name and address for each keeper in alphabetical order without duplication.
+
+SELECT DISTINCT k.name, k.address
+FROM keeper k
+JOIN vehicle v
+ON k.id = v.keeper
+JOIN permit p
+ON v.id = p.reg
+WHERE DATE_FORMAT(p.sDate, '%m-%d-%Y') = '01-30-2007'
+ORDER BY 1, 2
