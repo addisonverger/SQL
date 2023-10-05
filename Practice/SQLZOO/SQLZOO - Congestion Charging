@@ -89,3 +89,21 @@ JOIN keeper k
 ON v.keeper = k.id
 WHERE i.camera = 10
 AND DATE_FORMAT(whn, '%Y-%m-%d') = '2007-02-25'
+
+--(Medium) 10. List the keepers who have more than 4 vehicles and one of them must have more than 2 permits. The list should include the names and the number of vehicles.
+
+SELECT k.name, COUNT(v.id) AS num_vehicles
+FROM keeper k
+JOIN vehicle v
+ON k.id = v.keeper
+JOIN permit p
+ON v.id = p.reg
+WHERE EXISTS (
+  SELECT reg 
+  FROM permit 
+  WHERE reg = p.reg 
+  GROUP BY reg 
+  HAVING COUNT(*) > 2
+)
+GROUP BY 1
+HAVING COUNT(v.id) > 4
