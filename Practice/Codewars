@@ -8,3 +8,8 @@ FROM numbers;
 --Hello SQL World!
 
 SELECT 'hello world!' AS "Greeting"
+
+--SQL: Right and Left
+
+SELECT LEFT(project, commits) AS project, RIGHT(address, contributors) AS address
+FROM repositories
