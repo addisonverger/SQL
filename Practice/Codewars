@@ -13,3 +13,8 @@ SELECT 'hello world!' AS "Greeting"
 
 SELECT LEFT(project, commits) AS project, RIGHT(address, contributors) AS address
 FROM repositories
+
+--SQL: Concatenating Columns
+
+SELECT CONCAT_WS(' ', prefix, first, last, suffix) AS title
+FROM names
