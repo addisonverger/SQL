@@ -28,3 +28,8 @@ FROM demographics
 
 SELECT CAST(FLOOR(bound / divisor) * divisor AS int) AS res
 FROM max_multiple
+
+--Disemvowel Trolls
+
+SELECT str, TRANSLATE(str, 'aeiouAEIOU', '') AS res 
+FROM disemvowel
