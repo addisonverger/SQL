@@ -23,3 +23,8 @@ FROM names
 
 SELECT BIT_LENGTH(name) + LENGTH(race) AS calculation
 FROM demographics
+
+--Maximum Multiple
+
+SELECT CAST(FLOOR(bound / divisor) * divisor AS int) AS res
+FROM max_multiple
