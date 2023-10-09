@@ -18,3 +18,8 @@ FROM repositories
 
 SELECT CONCAT_WS(' ', prefix, first, last, suffix) AS title
 FROM names
+
+--SQL Basics: Maths with String Manipulations
+
+SELECT BIT_LENGTH(name) + LENGTH(race) AS calculation
+FROM demographics
