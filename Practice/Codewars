@@ -58,3 +58,11 @@ SELECT
   END AS characteristic
 FROM monsters
 ORDER BY id
+
+--GROCERY STORE: Inventory
+
+SELECT id, name, stock
+FROM products
+WHERE producent = 'CompanyA'
+AND stock <= 2
+ORDER BY id
