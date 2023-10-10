@@ -66,3 +66,12 @@ FROM products
 WHERE producent = 'CompanyA'
 AND stock <= 2
 ORDER BY id
+
+--Countries Capitals for Trivia Night (SQL for Beginners #6)
+
+SELECT capital
+FROM countries
+WHERE continent IN ('Africa', 'Afrika')
+AND country LIKE 'E%'
+ORDER BY capital
+LIMIT 3
