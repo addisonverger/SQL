@@ -45,3 +45,16 @@ WITH special_sales AS (
 SELECT id, name
 FROM departments
 WHERE id IN (SELECT department_id FROM special_sales)
+
+--SQL Basics - Trimming the Field
+
+SELECT 
+  id, 
+  name, 
+  CASE
+    WHEN POSITION(',' IN characteristics) <> 0
+    THEN LEFT(characteristics, POSITION(',' IN characteristics) - 1) 
+    ELSE characteristics
+  END AS characteristic
+FROM monsters
+ORDER BY id
