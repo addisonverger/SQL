@@ -88,3 +88,14 @@ JOIN job j
 ON p.id = j.people_id
 GROUP BY j.job_title
 ORDER BY 2 DESC
+
+--SQL Basics: Simple EXISTS
+
+SELECT id, name
+FROM departments d
+WHERE EXISTS (
+  SELECT department_id
+  FROM sales s
+  WHERE price > 98.00
+  AND d.id = s.department_id
+)
