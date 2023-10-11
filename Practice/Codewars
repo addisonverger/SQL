@@ -124,3 +124,18 @@ AND v1.entry_time < v2.exit_time
 GROUP BY v1.id
 ORDER BY 2 DESC, 1
 LIMIT 1
+
+--SQL Basics: Simple PIVOTING data
+
+CREATE EXTENSION tablefunc;
+
+SELECT *
+FROM CROSSTAB(
+  'SELECT p.name, d.detail, COUNT(d.id)
+  FROM products p
+  JOIN details d
+  ON p.id = d.product_id
+  GROUP BY 1, 2
+  ORDER BY 1'
+)
+AS ct (name TEXT, bad BIGINT, good BIGINT, ok BIGINT)
