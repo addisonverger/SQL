@@ -113,3 +113,14 @@ LEFT JOIN LATERAL (
 ) p
 ON c.id = p.category_id
 ORDER BY c.category, p.views DESC, p.post_id
+
+--Counting overlapping events
+
+SELECT v1.entry_time AS when_happened, COUNT(*) AS visits_count
+FROM visits v1
+JOIN visits v2
+ON v1.entry_time >= v2.entry_time
+AND v1.entry_time < v2.exit_time
+GROUP BY v1.id
+ORDER BY 2 DESC, 1
+LIMIT 1
