@@ -139,3 +139,19 @@ FROM CROSSTAB(
   ORDER BY 1'
 )
 AS ct (name TEXT, bad BIGINT, good BIGINT, ok BIGINT)
+
+--Present JSON data the SQL way
+
+SELECT
+data->>'first_name' AS first_name,
+data->>'last_name' AS last_name,
+EXTRACT(YEAR FROM AGE(NOW(), (data->>'date_of_birth')::DATE))::INTEGER as age,
+CASE
+  WHEN data->>'private' = 'true'
+  THEN 'Hidden'
+  WHEN data->>'private' = 'false' AND data#>>'{email_addresses, 0}' IS NULL
+  THEN 'None'
+  ELSE data#>>'{email_addresses, 0}'
+END AS email_address
+FROM users
+ORDER BY 1, 2
