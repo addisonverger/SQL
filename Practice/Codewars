@@ -155,3 +155,8 @@ CASE
 END AS email_address
 FROM users
 ORDER BY 1, 2
+
+--Grasshopper - Terminal game move function
+
+SELECT position, roll, position + roll * 2 AS res
+FROM moves
