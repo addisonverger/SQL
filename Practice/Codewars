@@ -160,3 +160,8 @@ ORDER BY 1, 2
 
 SELECT position, roll, position + roll * 2 AS res
 FROM moves
+
+--Is n divisible by x and y?
+
+SELECT id, CASE WHEN n % x = 0 AND n % y = 0 THEN 1 ELSE 0 END as res
+FROM kata
