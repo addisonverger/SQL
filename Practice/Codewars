@@ -165,3 +165,11 @@ FROM moves
 
 SELECT id, CASE WHEN n % x = 0 AND n % y = 0 THEN 1 ELSE 0 END as res
 FROM kata
+
+--Parameterized SQL: Section Access Control
+
+prepare find_sections(int) as
+  SELECT id, section_name
+  FROM section_access
+  WHERE $1 = ANY(REGEXP_SPLIT_TO_ARRAY(user_access,',')::int[])
+  ORDER BY 1
