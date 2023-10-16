@@ -180,3 +180,12 @@ SELECT UNNEST(genres) AS genre, COUNT(*) AS count, ARRAY_AGG(title ORDER BY titl
 FROM books
 GROUP BY 1
 ORDER BY 2 DESC, 1 ASC
+
+--Hosts Missing Specific Software Title and Having Recent Installations
+
+SELECT host 
+FROM host_software 
+GROUP BY host
+HAVING EVERY(software_title <> 'Title2') 
+AND MAX(install_date) >= CURRENT_DATE - INTERVAL '1 year'
+ORDER BY host
