@@ -1,4 +1,4 @@
---Challenges provided by Codewars: https://www.codewars.com/kata/search/sql?q=&beta=false&order_by=sort_date%20desc
+F--Challenges provided by Codewars: https://www.codewars.com/kata/search/sql?q=&beta=false&order_by=sort_date%20desc
 
 --Even or Odd
 
@@ -205,3 +205,11 @@ FROM paperwork
 
 SELECT s, RIGHT(LEFT(s, LENGTH(s) - 1), LENGTH(s) - 2) AS res
 FROM removechar
+
+--Cats and shelves
+
+SELECT 
+  a, 
+  b,
+  CAST(FLOOR((b - a) / 3) + ((b - a) % 3) AS INTEGER) AS res
+FROM jumps
