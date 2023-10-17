@@ -200,3 +200,8 @@ SELECT
     ELSE n * m
   END AS res
 FROM paperwork
+
+--Remove First and Last Character
+
+SELECT s, RIGHT(LEFT(s, LENGTH(s) - 1), LENGTH(s) - 2) AS res
+FROM removechar
