@@ -213,3 +213,8 @@ SELECT
   b,
   CAST(FLOOR((b - a) / 3) + ((b - a) % 3) AS INTEGER) AS res
 FROM jumps
+
+--Vowel Count
+
+SELECT str, LENGTH(str) - LENGTH(TRANSLATE(str, 'aeiouAEIOU', '')) AS res
+FROM getcount
