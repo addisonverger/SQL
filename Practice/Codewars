@@ -230,3 +230,8 @@ SELECT
     ELSE 4
   END AS res
 FROM quarterof
+
+--Expressions Matter
+
+SELECT GREATEST(a + b * c, a * b + c, a * (b + c), (a + b) * c, a + b + c, a * b * c) AS res 
+FROM expression_matter
