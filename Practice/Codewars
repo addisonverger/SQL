@@ -235,3 +235,8 @@ FROM quarterof
 
 SELECT GREATEST(a + b * c, a * b + c, a * (b + c), (a + b) * c, a + b + c, a * b * c) AS res 
 FROM expression_matter
+
+--Century From Year
+
+SELECT yr, CEILING(yr::DECIMAL / 100)::INTEGER AS century
+FROM years
