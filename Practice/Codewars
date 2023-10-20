@@ -276,3 +276,8 @@ FROM demographics
 SELECT *
 FROM companies
 ORDER BY employees DESC
+
+--Count Odd Numbers below n
+
+SELECT n, FLOOR(n / 2.0)::BIGINT AS res
+FROM oddcount
