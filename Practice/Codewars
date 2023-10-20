@@ -245,3 +245,8 @@ FROM years
 
 SELECT a, b, 180-a-b AS res
 FROM otherangle
+
+--SQL Basics: Mod
+
+SELECT number1 % number2 AS mod
+FROM decimals
