@@ -270,3 +270,9 @@ FROM monsters
 
 SELECT id, name, birthday, LOWER(race) AS race
 FROM demographics
+
+--Easy SQL - Ordering
+
+SELECT *
+FROM companies
+ORDER BY employees DESC
