@@ -260,3 +260,8 @@ FROM decimals
 
 SELECT FLOOR(number1) AS number1, CEILING(number2) AS number2
 FROM decimals
+
+--Easy SQL: Convert to Hexadecimal
+
+SELECT TO_HEX(legs) AS legs, TO_HEX(arms) AS arms
+FROM monsters
