@@ -265,3 +265,8 @@ FROM decimals
 
 SELECT TO_HEX(legs) AS legs, TO_HEX(arms) AS arms
 FROM monsters
+
+--Easy SQL: LowerCase
+
+SELECT id, name, birthday, LOWER(race) AS race
+FROM demographics
