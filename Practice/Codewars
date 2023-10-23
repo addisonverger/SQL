@@ -298,3 +298,9 @@ WHERE age >= 18
 SELECT name, country
 FROM travelers
 WHERE country NOT IN ('Canada', 'Mexico', 'USA')
+
+--Register for the Party (SQL for Beginners #3)
+
+INSERT INTO participants VALUES ('Addison', 30, true);
+
+SELECT * FROM participants;
