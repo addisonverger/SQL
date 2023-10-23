@@ -304,3 +304,9 @@ WHERE country NOT IN ('Canada', 'Mexico', 'USA')
 INSERT INTO participants VALUES ('Addison', 30, true);
 
 SELECT * FROM participants;
+
+--Collect Tuition (SQL for Beginners #4)
+
+SELECT *
+FROM students
+WHERE tuition_received = false
