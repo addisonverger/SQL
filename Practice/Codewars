@@ -286,3 +286,9 @@ FROM oddcount
 
 SELECT n, n * 2 - 2 AS res
 FROM ntheven
+
+--Adults only (SQL for Beginners #1)
+
+SELECT name, age
+FROM users
+WHERE age >= 18
