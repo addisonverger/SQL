@@ -281,3 +281,8 @@ ORDER BY employees DESC
 
 SELECT n, FLOOR(n / 2.0)::BIGINT AS res
 FROM oddcount
+
+--Get Nth Even Number
+
+SELECT n, n * 2 - 2 AS res
+FROM ntheven
