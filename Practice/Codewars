@@ -332,3 +332,8 @@ SELECT
     ELSE number * 9 
   END AS res
 FROM multiplication
+
+--Keep Hydrated!
+
+SELECT id, hours, FLOOR(hours * 0.5) AS liters
+FROM cycling
