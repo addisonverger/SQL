@@ -342,3 +342,8 @@ FROM cycling
 
 SELECT custid, custname, custstate
 FROM customers
+
+--SQL Basics: Simple DISTINCT
+
+SELECT DISTINCT age
+FROM people
