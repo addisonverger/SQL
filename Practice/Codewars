@@ -352,3 +352,8 @@ FROM people
 
 SELECT MIN(age) AS age_min, MAX(age) AS age_max
 FROM people
+
+--SQL Basics: Simple SUM
+
+SELECT SUM(age) AS age_sum
+FROM people
