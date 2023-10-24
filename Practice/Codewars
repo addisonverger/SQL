@@ -357,3 +357,9 @@ FROM people
 
 SELECT SUM(age) AS age_sum
 FROM people
+
+--1. Find all active students
+
+SELECT *
+FROM students
+WHERE isActive = 1
