@@ -337,3 +337,8 @@ FROM multiplication
 
 SELECT id, hours, FLOOR(hours * 0.5) AS liters
 FROM cycling
+
+--SQL Grasshopper: Select Columns
+
+SELECT custid, custname, custstate
+FROM customers
