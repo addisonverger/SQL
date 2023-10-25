@@ -400,3 +400,8 @@ FROM repeatstr
 
 SELECT s, REPLACE(s, '!', '') AS res
 FROM removeexclamationmarks
+
+--MakeUpperCase
+
+SELECT s, UPPER(s) AS res
+FROM makeuppercase
