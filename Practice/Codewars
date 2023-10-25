@@ -395,3 +395,8 @@ FROM ispalindrome
 
 SELECT s, n, REPEAT(s, n) AS res
 FROM repeatstr
+
+--Remove exclamation marks
+
+SELECT s, REPLACE(s, '!', '') AS res
+FROM removeexclamationmarks
