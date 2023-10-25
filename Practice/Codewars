@@ -390,3 +390,8 @@ SELECT
     ELSE false
   END AS res
 FROM ispalindrome
+
+--String repeat
+
+SELECT s, n, REPEAT(s, n) AS res
+FROM repeatstr
