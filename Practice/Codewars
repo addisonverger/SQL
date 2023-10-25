@@ -380,3 +380,13 @@ FROM fakebin
 
 SELECT x, REPLACE(x, ' ', '') AS res
 FROM nospace
+
+--Is it a palindrome?
+
+SELECT 
+  str,
+  CASE
+    WHEN LOWER(str) = REVERSE(LOWER(str)) THEN true
+    ELSE false
+  END AS res
+FROM ispalindrome
