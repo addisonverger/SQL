@@ -415,3 +415,8 @@ FROM squares
 
 SELECT number * -1 AS res
 FROM opposite
+
+--Never visit a . . . !?
+
+SELECT 'apple' AS res 
+FROM sub_sum
