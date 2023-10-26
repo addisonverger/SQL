@@ -420,3 +420,8 @@ FROM opposite
 
 SELECT 'apple' AS res 
 FROM sub_sum
+
+--Beginner Series #2 Clock
+
+SELECT (h * 3600000) + (m * 60000) + (s * 1000) AS res 
+FROM past
