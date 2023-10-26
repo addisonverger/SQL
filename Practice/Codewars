@@ -440,3 +440,8 @@ FROM kata
 
 SELECT id, base % factor = 0 AS res
 FROM kata
+
+--Returning Strings
+
+SELECT 'Hello, ' || name || ' how are you doing today?' AS greeting
+FROM person
