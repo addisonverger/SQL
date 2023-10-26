@@ -435,3 +435,8 @@ FROM goals
 
 SELECT n, (n + 1) * n / 2 AS res
 FROM kata
+
+--Grasshopper - Check for factor
+
+SELECT id, base % factor = 0 AS res
+FROM kata
