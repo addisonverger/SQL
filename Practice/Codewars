@@ -433,5 +433,5 @@ FROM goals
 
 --Grasshopper - Summation
 
-SELECT n, CAST((n + 1) * (n::NUMERIC / 2) AS INT) AS res
+SELECT n, (n + 1) * n / 2 AS res
 FROM kata
