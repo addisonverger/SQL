@@ -430,3 +430,8 @@ FROM past
 
 SELECT la_liga_goals + copa_del_rey_goals + champions_league_goals AS res
 FROM goals
+
+--Grasshopper - Summation
+
+SELECT n, CAST((n + 1) * (n::NUMERIC / 2) AS INT) AS res
+FROM kata
