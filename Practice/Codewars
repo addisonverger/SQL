@@ -471,3 +471,8 @@ FROM booltoword
 
 SELECT n, POWER(n, 2)::INT AS res
 FROM square
+
+--Reversed Strings
+
+SELECT str, REVERSE(str) AS res
+FROM solution
