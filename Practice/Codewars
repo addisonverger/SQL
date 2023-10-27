@@ -466,3 +466,8 @@ SELECT
     ELSE 'No' 
   END AS res
 FROM booltoword
+
+--Function 2 - squaring an argument
+
+SELECT n, POWER(n, 2)::INT AS res
+FROM square
