@@ -476,3 +476,7 @@ FROM square
 
 SELECT str, REVERSE(str) AS res
 FROM solution
+
+--Multiply
+
+SELECT price * amount AS total FROM items
