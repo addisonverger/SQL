@@ -445,3 +445,14 @@ FROM kata
 
 SELECT 'Hello, ' || name || ' how are you doing today?' AS greeting
 FROM person
+
+--Opposites Attract
+
+SELECT 
+  flower1, 
+  flower2, 
+  CASE 
+    WHEN flower1 % 2 = flower2 % 2 THEN false
+    ELSE true
+  END AS res
+FROM love
