@@ -498,3 +498,24 @@ ON m.subject_id = mr.subject_id
 GROUP BY 1, 2
 HAVING EVERY(m.mark_rate = mr.max_mark)
 ORDER BY 1 DESC
+
+--Top-Scoring Students for Each Subject
+
+WITH max_marks_CTE AS (
+  SELECT s.student_id, s.student_name, m.subject_id, subject_name, mark_rate
+  FROM students s
+  JOIN marks m
+  ON s.student_id = m.student_id
+  JOIN subjects sub 
+  ON m.subject_id = sub.subject_id
+  WHERE (m.subject_id, m.mark_rate) IN (
+    SELECT subject_id, MAX(mark_rate) AS max_mark
+    FROM marks
+    GROUP BY 1
+  )
+)
+
+SELECT ARRAY_AGG(student_name ORDER BY student_id) AS student_names, subject_name, mark_rate
+FROM max_marks_CTE
+GROUP BY subject_id, 2, 3
+ORDER BY subject_id
