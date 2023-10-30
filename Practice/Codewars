@@ -480,3 +480,21 @@ FROM solution
 --Multiply
 
 SELECT price * amount AS total FROM items
+
+--Top-Scoring Students Across All Subjects
+
+WITH max_rate AS (
+  SELECT subject_id, MAX(mark_rate) AS max_mark
+  FROM marks 
+  GROUP BY subject_id
+)
+
+SELECT s.student_id, s.student_name
+FROM students s
+JOIN marks m
+ON s.student_id = m.student_id
+JOIN max_rate mr
+ON m.subject_id = mr.subject_id
+GROUP BY 1, 2
+HAVING EVERY(m.mark_rate = mr.max_mark)
+ORDER BY 1 DESC
