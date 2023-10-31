@@ -564,3 +564,12 @@ OR (quality1 = 'brave' AND quality2 <> 'evil')
 OR (quality1 = 'studious' OR quality2 = 'intelligent')
 OR (quality1 = 'hufflepuff' OR quality2 = 'hufflepuff')
 ORDER BY id ASC
+
+--SQL with Pokemon: Damage Multipliers
+
+SELECT pokemon_name, str * multiplier AS modifiedStrength, element
+FROM pokemon p
+JOIN multipliers m
+ON p.element_id = m.id
+WHERE str * multiplier >= 40
+ORDER BY 2 DESC
