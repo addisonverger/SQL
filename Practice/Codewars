@@ -543,3 +543,14 @@ SELECT INITCAP(firstname || ' ' || lastname) AS shortlist
 FROM elves
 WHERE firstname LIKE '%tegil%'
 OR lastname LIKE '%astar%'
+
+--SQL with Street Fighter: Total Wins
+
+SELECT name, SUM(won) AS won, SUM(lost) AS lost
+FROM fighters f
+JOIN winning_moves w
+ON f.move_id = w.id
+WHERE w.move NOT IN ('Hadoken', 'Shouoken', 'Kikoken')
+GROUP BY name
+ORDER BY 2 DESC
+LIMIT 6
