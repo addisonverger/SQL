@@ -539,7 +539,7 @@ FROM seven_wonders_science
 
 --SQL with LOTR: Elven Wildcards
 
-SELECT INITCAP(firstname) || ' ' || INITCAP(lastname) AS shortlist
+SELECT INITCAP(firstname || ' ' || lastname) AS shortlist
 FROM elves
 WHERE firstname LIKE '%tegil%'
 OR lastname LIKE '%astar%'
