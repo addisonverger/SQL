@@ -536,3 +536,10 @@ SELECT
   tablets,
   (LEAST(compasses, gears, tablets) * 7 + POWER(compasses, 2) + POWER(gears, 2) + POWER(tablets, 2))::INT AS res
 FROM seven_wonders_science
+
+--SQL with LOTR: Elven Wildcards
+
+SELECT INITCAP(firstname) || ' ' || INITCAP(lastname) AS shortlist
+FROM elves
+WHERE firstname LIKE '%tegil%'
+OR lastname LIKE '%astar%'
