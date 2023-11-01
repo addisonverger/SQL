@@ -614,3 +614,9 @@ WHERE first_name LIKE '______%'
 
 SELECT (n - 2) * 180 AS res 
 FROM angle
+
+--SQL: Disorder
+
+SELECT number
+FROM numbers
+ORDER BY RANDOM()
