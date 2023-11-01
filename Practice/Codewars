@@ -582,3 +582,9 @@ LEFT JOIN cats c
 ON ss.cat_id = c.id
 LEFT JOIN schools s
 ON ss.school_id = s.id
+
+--GROCERY STORE: Real Price!
+
+SELECT name, weight, price, ROUND((price * 1000 / weight)::NUMERIC, 2)::FLOAT AS price_per_kg
+FROM products
+ORDER BY 4 ASC, 1 ASC
