@@ -603,3 +603,9 @@ SELECT COUNT(*) AS count_products_types, producer
 FROM products
 GROUP BY producer
 ORDER BY 1 DESC, 2 ASC
+
+--BASICS: Length based SELECT with LIKE
+
+SELECT first_name, last_name
+FROM names
+WHERE first_name LIKE '______%'
