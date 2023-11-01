@@ -588,3 +588,11 @@ ON ss.school_id = s.id
 SELECT name, weight, price, ROUND((price * 1000 / weight)::NUMERIC, 2)::FLOAT AS price_per_kg
 FROM products
 ORDER BY 4 ASC, 1 ASC
+
+--GROCERY STORE: Support Local Products
+
+SELECT COUNT(*) AS products, country
+FROM products
+WHERE country IN ('United States of America', 'Canada')
+GROUP BY country
+ORDER BY 1 DESC
