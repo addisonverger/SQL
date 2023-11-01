@@ -573,3 +573,12 @@ JOIN multipliers m
 ON p.element_id = m.id
 WHERE str * multiplier >= 40
 ORDER BY 2 DESC
+
+--SQL with Sailor Moon: Thinking about JOINs...
+
+SELECT senshi_name AS sailor_senshi, real_name_jpn AS real_name, name AS cat, school
+FROM sailorsenshi ss
+LEFT JOIN cats c
+ON ss.cat_id = c.id
+LEFT JOIN schools s
+ON ss.school_id = s.id
