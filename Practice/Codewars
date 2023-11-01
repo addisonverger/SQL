@@ -609,3 +609,8 @@ ORDER BY 1 DESC, 2 ASC
 SELECT first_name, last_name
 FROM names
 WHERE first_name LIKE '______%'
+
+--Sum of angles
+
+SELECT (n - 2) * 180 AS res 
+FROM angle
