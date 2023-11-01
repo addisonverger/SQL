@@ -596,3 +596,10 @@ FROM products
 WHERE country IN ('United States of America', 'Canada')
 GROUP BY country
 ORDER BY 1 DESC
+
+--GROCERY STORE: Logistic Optimisation
+
+SELECT COUNT(*) AS count_products_types, producer
+FROM products
+GROUP BY producer
+ORDER BY 1 DESC, 2 ASC
