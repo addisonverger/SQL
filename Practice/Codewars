@@ -633,3 +633,8 @@ SELECT
     ELSE MAX(number2)
   END AS number2
 FROM numbers
+
+--SQL Basics: Truncating
+
+SELECT TRUNC(number1 + number2) AS towardzero
+FROM decimals
