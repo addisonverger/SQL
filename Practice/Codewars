@@ -663,3 +663,13 @@ SELECT
   LENGTH(characteristics::TEXT) AS arms,
   LENGTH(id::TEXT) AS characteristics
 FROM monsters
+
+--SQL: Bytes in String from Ints
+
+SELECT 
+  OCTET_LENGTH(number1::TEXT) AS octnum1,
+  OCTET_LENGTH(number2::TEXT) AS octnum2,
+  OCTET_LENGTH(number3::TEXT) AS octnum3,
+  OCTET_LENGTH(number4::TEXT) AS octnum4,
+  OCTET_LENGTH(number5::TEXT) AS octnum5
+FROM numbers
