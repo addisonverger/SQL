@@ -643,3 +643,8 @@ FROM decimals
 
 SELECT POWER(number1, number2) AS result
 FROM decimals
+
+--Easy SQL: Absolute Value and Log to Base
+
+SELECT ABS(number1) AS abs, LOG(64, number2) AS log
+FROM decimals
