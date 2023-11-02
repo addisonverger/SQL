@@ -648,3 +648,8 @@ FROM decimals
 
 SELECT ABS(number1) AS abs, LOG(64, number2) AS log
 FROM decimals
+
+--Easy SQL: Cube Root and Natural Log
+
+SELECT CBRT(number1) AS cuberoot, LN(number2) AS logarithm
+FROM decimals
