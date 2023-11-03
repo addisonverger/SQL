@@ -691,3 +691,10 @@ SELECT
   birthday,
   ASCII(race) AS race
 FROM demographics
+
+--Easy SQL: Counting and Grouping
+
+SELECT race, COUNT(*) AS count
+FROM demographics
+GROUP BY 1
+ORDER BY 2 DESC
