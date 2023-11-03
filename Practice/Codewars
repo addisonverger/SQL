@@ -682,3 +682,12 @@ SELECT
   birthday,
   BIT_LENGTH(race) AS race
 FROM demographics
+
+--Easy SQL: ASCII Converter
+
+SELECT
+  id,
+  ASCII(name) AS name,
+  birthday,
+  ASCII(race) AS race
+FROM demographics
