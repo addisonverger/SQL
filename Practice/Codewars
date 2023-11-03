@@ -673,3 +673,12 @@ SELECT
   OCTET_LENGTH(number4::TEXT) AS octnum4,
   OCTET_LENGTH(number5::TEXT) AS octnum5
 FROM numbers
+
+--Easy SQL: Bit Length
+
+SELECT 
+  id,
+  BIT_LENGTH(name) AS name,
+  birthday,
+  BIT_LENGTH(race) AS race
+FROM demographics
