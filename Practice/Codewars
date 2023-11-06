@@ -720,3 +720,9 @@ FROM repositories
 
 SELECT REPEAT(name, 3) AS name, REVERSE(characteristics) AS characteristics
 FROM monsters
+
+--SQL Basics - Position
+
+SELECT id, name, POSITION(',' IN characteristics) AS comma
+FROM monsters
+ORDER BY comma
