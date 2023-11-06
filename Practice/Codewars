@@ -715,3 +715,8 @@ SELECT
   contributors,
   REGEXP_REPLACE(address,'[[:digit:]]','!','g') AS address
 FROM repositories
+
+--SQL Basics: Repeat and Reverse
+
+SELECT REPEAT(name, 3) AS name, REVERSE(characteristics) AS characteristics
+FROM monsters
