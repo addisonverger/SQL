@@ -749,3 +749,15 @@ FROM growing_plant
 SELECT age, COUNT(id) AS people_count
 FROM people
 GROUP BY age
+
+--SQL Basics: Create a FUNCTION
+
+CREATE FUNCTION increment(i integer)
+  RETURNS integer 
+  LANGUAGE plpgsql
+AS 
+$$
+BEGIN
+  RETURN i + 1;
+END;  
+$$;
