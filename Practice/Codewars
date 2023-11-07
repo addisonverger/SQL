@@ -761,3 +761,11 @@ BEGIN
   RETURN i + 1;
 END;  
 $$;
+
+--SQL Basics: Simple JOIN with COUNT
+
+SELECT p.id, p.name, COUNT(t.id) AS toy_count
+FROM people p
+JOIN toys t
+ON p.id = t.people_id
+GROUP BY 1, 2
