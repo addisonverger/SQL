@@ -743,3 +743,9 @@ SELECT
     ELSE CEIL((desired_height - up_speed)::DEC / (up_speed - down_speed))::INT + 1 
   END AS num_days
 FROM growing_plant
+
+--SQL Basics: Simple GROUP BY
+
+SELECT age, COUNT(id) AS people_count
+FROM people
+GROUP BY age
