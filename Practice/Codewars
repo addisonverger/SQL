@@ -779,3 +779,10 @@ SELECT
     ELSE (n * (n + 1) * (n + 2)) / 6
   END AS res
 FROM sumtriangular
+
+--SQL Basics: Simple JOIN
+
+SELECT p.*, c.name AS company_name
+FROM products p
+JOIN companies c
+ON p.company_id = c.id
