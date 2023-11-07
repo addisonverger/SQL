@@ -769,3 +769,13 @@ FROM people p
 JOIN toys t
 ON p.id = t.people_id
 GROUP BY 1, 2
+
+--Sum of Triangular Numbers
+
+SELECT 
+  n, 
+  CASE
+    WHEN n < 0 THEN 0
+    ELSE (n * (n + 1) * (n + 2)) / 6
+  END AS res
+FROM sumtriangular
