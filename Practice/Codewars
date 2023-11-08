@@ -801,3 +801,16 @@ SELECT
     ELSE (n * (n + 1)) / 2 
   END AS res
 FROM triangular
+
+--Finding Duplicate Product Codes Across Different Groups
+
+SELECT product_id, group_id, product_code
+FROM (
+  SELECT DISTINCT p1.*, RANK() OVER (PARTITION BY p1.group_id, p1.product_code ORDER BY p1.product_id DESC) AS rnk
+  FROM products p1
+  JOIN products p2
+  ON p1.product_code = p2.product_code
+  AND p1.group_id <> p2.group_id
+) x
+WHERE rnk = 1
+ORDER BY product_code ASC, group_id DESC
