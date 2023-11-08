@@ -791,3 +791,13 @@ ON p.company_id = c.id
 
 SELECT dna, TRANSLATE(dna, 'ATGC', 'TACG') AS res
 FROM dnastrand
+
+--Triangular Treasure
+
+SELECT 
+  n, 
+  CASE
+    WHEN n <= 0 THEN 0
+    ELSE (n * (n + 1)) / 2 
+  END AS res
+FROM triangular
