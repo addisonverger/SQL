@@ -840,3 +840,20 @@ FROM customer_preferences c
 LEFT JOIN order_info o
 ON c.customer_id = o.customer_id
 ORDER BY 1, 4, 5
+
+--Customer Rebates Based on Total Orders for September 2023
+
+SELECT
+  o.customer_id,
+  o.total_orders,
+  MAX(r.rebate_percentage) AS rebate_percentage
+FROM (
+  SELECT customer_id, SUM(order_amount) AS total_orders
+  FROM orders
+  WHERE EXTRACT(YEAR FROM order_date) = 2023
+  AND EXTRACT(MONTH FROM order_date) = 09
+  GROUP BY 1) o
+JOIN rebates r
+ON o.total_orders >= r.min_purchase
+GROUP BY 1, 2
+ORDER BY 1 DESC
