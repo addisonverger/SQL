@@ -822,7 +822,7 @@ WITH CTE AS (
   FROM process_times
 )
 
-SELECT machine_id, EXTRACT(EPOCH FROM SUM(start_time - lag)) * interval '1 sec' AS total_down_time
+SELECT machine_id, EXTRACT(EPOCH FROM SUM(start_time - lag)) * INTERVAL '1 sec' AS total_down_time
 FROM CTE
 GROUP BY machine_id
 HAVING SUM(start_time - lag) IS NOT NULL
