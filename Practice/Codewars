@@ -827,3 +827,16 @@ FROM CTE
 GROUP BY machine_id
 HAVING SUM(start_time - lag) IS NOT NULL
 ORDER BY 1 DESC
+
+--Ranking based on Town and Property Type Combinations
+
+SELECT
+  DENSE_RANK() OVER (ORDER BY town ASC, property_type ASC) AS rank_order,
+  town,
+  property_type,
+  c.customer_id,
+  order_id
+FROM customer_preferences c
+LEFT JOIN order_info o
+ON c.customer_id = o.customer_id
+ORDER BY 1, 4, 5
