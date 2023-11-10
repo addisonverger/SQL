@@ -857,3 +857,18 @@ JOIN rebates r
 ON o.total_orders >= r.min_purchase
 GROUP BY 1, 2
 ORDER BY 1 DESC
+
+--Conditional Grouping of User Activities
+
+SELECT *
+FROM (
+  SELECT
+    CASE
+      WHEN username SIMILAR TO 'User[0-9]+' THEN 'GROUP_OTHERS'
+      ELSE username
+    END AS username,
+    SUM(activity_count) AS total_activity
+  FROM (SELECT * FROM user_activity WHERE activity_count BETWEEN 1 AND 2000) x
+  GROUP BY 1
+) y
+ORDER BY CASE WHEN username = 'GROUP_OTHERS' THEN 0 ELSE 1 END, username ASC
