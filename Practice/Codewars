@@ -878,9 +878,9 @@ ORDER BY CASE WHEN username = 'GROUP_OTHERS' THEN 0 ELSE 1 END, username ASC
 WITH CTE AS (
   SELECT
     ROW_NUMBER() OVER (PARTITION BY i.order_id, i.threshold_quantity ORDER BY p.quantity ASC) AS row_number,
-    i.order_id , 
+    i.order_id, 
     i.threshold_quantity, 
-    p.quantity as next_ge_quantity, 
+    p.quantity AS next_ge_quantity, 
     p.product_name 
   FROM inventory_thresholds i
   LEFT JOIN product_orders p
