@@ -872,3 +872,26 @@ FROM (
   GROUP BY 1
 ) y
 ORDER BY CASE WHEN username = 'GROUP_OTHERS' THEN 0 ELSE 1 END, username ASC
+
+--Next Greater Or Equal Ordered Quantities for Specified Thresholds
+
+SELECT y.order_id, y.threshold_quantity, y.next_ge_quantity, p3.product_name
+FROM (
+  SELECT DISTINCT
+    x.order_id, 
+    x.threshold_quantity, 
+    MIN(p2.quantity) OVER (PARTITION BY x.order_id, x.threshold_quantity) AS next_ge_quantity
+  FROM (
+    SELECT p.order_id, i.threshold_quantity
+    FROM product_orders p
+    JOIN inventory_thresholds i
+    ON p.order_id = i.order_id
+  ) x
+  LEFT JOIN product_orders p2
+  ON x.order_id = p2.order_id
+  AND p2.quantity >= x.threshold_quantity
+) y
+LEFT JOIN product_orders p3
+ON y.order_id = p3.order_id
+AND y.next_ge_quantity = p3.quantity
+ORDER BY 1 ASC, 2 ASC
