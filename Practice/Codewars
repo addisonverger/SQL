@@ -924,3 +924,26 @@ FROM CTE x
 LEFT JOIN enrollments e
 ON x.student_id = e.student_id
 AND x.course_id = e.course_id
+
+--Segmented Range Extraction from Boundary Markers
+
+WITH CTE AS (
+  SELECT category, range, ROW_NUMBER() OVER (ORDER BY range) AS rn
+  FROM categories
+)
+
+SELECT x.category, x.range AS start_range, MIN(y.range) AS end_range
+FROM (
+  SELECT category, range
+  FROM CTE
+  WHERE rn % 2 <> 0
+) x
+JOIN (
+  SELECT category, range
+  FROM CTE
+  WHERE rn % 2 = 0
+) y
+ON x.category = y.category
+AND x.range < y.range
+GROUP BY 1, 2
+ORDER BY 2
