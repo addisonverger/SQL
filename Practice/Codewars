@@ -947,3 +947,28 @@ ON x.category = y.category
 AND x.range < y.range
 GROUP BY 1, 2
 ORDER BY 2
+
+--Identify and Exclude Reversed Fuel Transactions
+
+WITH CTE AS (
+  SELECT MAX(id_1) AS id_1, id_2
+  FROM(
+    SELECT f1.transaction_id AS id_1, MIN(f2.transaction_id) AS id_2
+    FROM fuel_transactions f1
+    JOIN fuel_transactions f2
+    ON f1.fuel_type = f2.fuel_type
+    AND f1.quantity = - f2.quantity
+    AND f1.transaction_datetime < f2.transaction_datetime
+    AND f1.is_reversal = 'N'
+    GROUP BY 1
+  ) x
+  GROUP BY 2
+)
+
+SELECT *
+FROM fuel_transactions 
+WHERE transaction_id NOT IN (
+  SELECT id_1 FROM CTE 
+  UNION ALL 
+  SELECT id_2 FROM CTE
+)
