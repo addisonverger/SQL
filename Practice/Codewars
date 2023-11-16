@@ -991,3 +991,21 @@ GROUP BY 1, 2
 HAVING COUNT(*) FILTER (WHERE o.product_name = 'Product 1') > 0
 AND COUNT(*) FILTER (WHERE o.product_name = 'Product 2') > 0
 ORDER BY 1 DESC
+
+--Grouping and Numbering Shipments Based on Status Codes
+
+SELECT 
+  order_id,
+  product_name,
+  status_code,
+  CASE
+    WHEN reset = 0 THEN 0
+    ELSE COUNT(*) OVER (PARTITION BY reset ORDER BY order_id)
+  END AS shipment_batch_number
+FROM (
+  SELECT 
+    *, 
+    COUNT(status_code = 4 OR NULL) OVER (ORDER BY order_id) AS reset 
+  FROM order_status
+) x
+ORDER BY order_id
