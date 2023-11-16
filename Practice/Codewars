@@ -972,3 +972,22 @@ WHERE transaction_id NOT IN (
   UNION ALL 
   SELECT id_2 FROM CTE
 )
+
+--Customer Orders: Products 1 & 2, Excluding 3
+
+SELECT 
+  c.customer_id, 
+  c.name, 
+  'Product 1: ' || SUM(CASE WHEN o.product_name = 'Product 1' THEN 1 ELSE 0 END) || ' times || Product 2: ' || SUM(CASE WHEN o.product_name = 'Product 2' THEN 1 ELSE 0 END) || ' times' AS product_summary
+FROM customers c
+JOIN orders o
+ON c.customer_id = o.customer_id
+WHERE c.customer_id NOT IN (
+  SELECT customer_id
+  FROM orders
+  WHERE product_name = 'Product 3'
+)
+GROUP BY 1, 2
+HAVING SUM(CASE WHEN o.product_name = 'Product 1' THEN 1 ELSE 0 END) > 0
+AND SUM(CASE WHEN o.product_name = 'Product 2' THEN 1 ELSE 0 END) > 0
+ORDER BY 1 DESC
