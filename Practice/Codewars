@@ -978,7 +978,7 @@ WHERE transaction_id NOT IN (
 SELECT 
   c.customer_id, 
   c.name, 
-  'Product 1: ' || SUM(CASE WHEN o.product_name = 'Product 1' THEN 1 ELSE 0 END) || ' times || Product 2: ' || SUM(CASE WHEN o.product_name = 'Product 2' THEN 1 ELSE 0 END) || ' times' AS product_summary
+  'Product 1: ' || COUNT(*) FILTER (WHERE o.product_name = 'Product 1') || ' times || Product 2: ' || COUNT(*) FILTER (WHERE o.product_name = 'Product 2') || ' times' AS product_summary
 FROM customers c
 JOIN orders o
 ON c.customer_id = o.customer_id
@@ -988,6 +988,6 @@ WHERE c.customer_id NOT IN (
   WHERE product_name = 'Product 3'
 )
 GROUP BY 1, 2
-HAVING SUM(CASE WHEN o.product_name = 'Product 1' THEN 1 ELSE 0 END) > 0
-AND SUM(CASE WHEN o.product_name = 'Product 2' THEN 1 ELSE 0 END) > 0
+HAVING COUNT(*) FILTER (WHERE o.product_name = 'Product 1') > 0
+AND COUNT(*) FILTER (WHERE o.product_name = 'Product 2') > 0
 ORDER BY 1 DESC
