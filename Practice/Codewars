@@ -1043,3 +1043,16 @@ FROM (
   FROM transactions
 ) x
 ORDER BY 4, 1
+
+--Tracking Last Large Transactions
+
+SELECT 
+  a1.*,
+  MAX(a2.date) AS last_over_hundred
+FROM account_transactions a1
+LEFT JOIN account_transactions a2
+ON a2.account_id = a1.account_id
+AND a1.date >= a2.date
+AND a2.amount > 100
+GROUP BY 1, 2, 3
+ORDER BY a1.account_id DESC, a1.date ASC
