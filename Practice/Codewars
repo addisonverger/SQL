@@ -1023,3 +1023,23 @@ FROM (
   FROM user_tags
   GROUP BY 1
 ) x
+
+--Flexible Sum Based on Operations
+
+SELECT 
+  id, 
+  operation, 
+  amount, 
+  date, 
+  SUM(adjusted_amount) OVER (ORDER BY date, id) AS flexible_sum
+FROM (
+  SELECT
+    *,
+    CASE
+      WHEN operation = 'add' THEN amount
+      WHEN operation = 'remove' THEN -amount
+      ELSE 0
+    END AS adjusted_amount
+  FROM transactions
+) x
+ORDER BY 4, 1
