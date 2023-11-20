@@ -1103,3 +1103,16 @@ SELECT book_id, title, borrower_name AS last_borrower, loan_count
 FROM CTE
 WHERE loan_count = (SELECT MAX(loan_count) FROM CTE)
 AND return_order = 1
+
+--Rolling Window Analysis of Customer Visits
+
+SELECT
+  date,
+  customer_id,
+  name,
+  (SELECT COUNT(DISTINCT c2.name) 
+    FROM customers c2 
+    WHERE c1.customer_id = c2.customer_id 
+    AND c2.date BETWEEN c1.date - 2 AND c1.date) AS count
+FROM customers c1
+ORDER BY 1, 2 DESC, 3
