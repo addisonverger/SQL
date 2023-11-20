@@ -1083,3 +1083,23 @@ FROM CTE
 GROUP BY 1, 2, 3, 4, 5, borrow_diff
 HAVING borrow_diff = (SELECT MAX(borrow_diff) FROM CTE)
 ORDER BY 4 ASC
+
+--Most Borrowed Books and Their Last Borrowers
+
+WITH CTE AS (
+  SELECT 
+    b.book_id, 
+    b.title, 
+    l.borrower_name, 
+    l.return_date, 
+    COUNT(l.loan_id) OVER (PARTITION BY b.book_id) AS loan_count,
+    ROW_NUMBER() OVER (PARTITION BY b.book_id ORDER BY return_date DESC) AS return_order
+  FROM books b
+  JOIN loans l
+  ON b.book_id = l.book_id
+)
+
+SELECT book_id, title, borrower_name AS last_borrower, loan_count
+FROM CTE
+WHERE loan_count = (SELECT MAX(loan_count) FROM CTE)
+AND return_order = 1
