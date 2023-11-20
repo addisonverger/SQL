@@ -1056,3 +1056,30 @@ AND a1.date >= a2.date
 AND a2.amount > 100
 GROUP BY 1, 2, 3
 ORDER BY a1.account_id DESC, a1.date ASC
+
+--Books That Have Been Out for the Longest Duration
+
+WITH CTE AS (
+  SELECT
+    b.book_id,
+    b.title,
+    b.author,
+    l.loan_id,
+    l.borrower_name,
+    COALESCE(l.return_date, CURRENT_DATE) - LAG(COALESCE(l.return_date, CURRENT_DATE)) OVER (PARTITION BY b.book_id ORDER BY COALESCE(l.return_date, CURRENT_DATE)) AS borrow_diff
+  FROM books b
+  JOIN loans l
+  ON b.book_id = l.book_id
+)
+
+SELECT
+  book_id,
+  title,
+  author,
+  loan_id,
+  borrower_name,
+  borrow_diff || ' Days' AS longest_borrow_interval
+FROM CTE
+GROUP BY 1, 2, 3, 4, 5, borrow_diff
+HAVING borrow_diff = (SELECT MAX(borrow_diff) FROM CTE)
+ORDER BY 4 ASC
