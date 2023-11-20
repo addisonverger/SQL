@@ -176,7 +176,10 @@ prepare find_sections(int) as
 
 --Genre Analysis with PostgreSQL Arrays
 
-SELECT UNNEST(genres) AS genre, COUNT(*) AS count, ARRAY_AGG(title ORDER BY title) AS books
+SELECT 
+  UNNEST(genres) AS genre, 
+  COUNT(*) AS count, 
+  ARRAY_AGG(title ORDER BY title) AS books
 FROM books
 GROUP BY 1
 ORDER BY 2 DESC, 1 ASC
