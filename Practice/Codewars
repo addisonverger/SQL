@@ -1119,3 +1119,16 @@ SELECT
     AND c2.date BETWEEN c1.date - 2 AND c1.date) AS count
 FROM customers c1
 ORDER BY 1, 2 DESC, 3
+
+--Forward Filling of Missing Data
+
+SELECT
+  day,
+  FIRST_VALUE(sales) OVER (PARTITION BY sales_partition ORDER BY day) AS filled_sales
+FROM (
+  SELECT
+    day,
+    sales,
+    SUM(CASE WHEN sales IS NULL THEN 0 ELSE 1 END) OVER (ORDER BY day) AS sales_partition
+  FROM sales_data
+) x
