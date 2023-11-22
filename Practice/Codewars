@@ -1135,36 +1135,23 @@ FROM (
 
 --Days to Reach a Cumulative Transaction Threshold
 
-WITH cumm_CTE AS (
-  SELECT
-    id,
-    date,
-    amount,
-    SUM(amount) OVER (ORDER BY date) AS cumm_amount
-  FROM transactions
-), threshold_CTE AS (
-  SELECT
-    id,
-    date,
-    amount
-  FROM cumm_CTE
-  WHERE cumm_amount <= 15
-  OR cumm_amount IN (SELECT MIN(cumm_amount) FROM cumm_CTE WHERE cumm_amount > 15)
-), day_diff_CTE AS (
-  SELECT
-    id,
-    date,
-    amount,
-    date - (SELECT MIN(date) FROM threshold_CTE) AS day_diff
-  FROM threshold_CTE
-)
-
 SELECT
   id,
   date,
   amount,
   CASE
-    WHEN day_diff < (SELECT MAX(day_diff) FROM day_diff_CTE) THEN NULL
-    ELSE day_diff
+    WHEN running_sum < 15
+    THEN NULL
+    ELSE date - min_date
   END AS days_to_reach_threshold
-FROM day_diff_CTE
+FROM (
+  SELECT
+    id,
+    date,
+    amount,
+    SUM(amount) OVER (ORDER BY date) AS running_sum,
+    MIN(date) OVER () AS min_date
+  FROM transactions
+) x
+WHERE running_sum - amount < 15
+ORDER BY date ASC
