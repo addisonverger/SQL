@@ -1158,35 +1158,10 @@ ORDER BY date ASC
 
 --Backend Team's Tradition: An Age-Alternating Introduction
 
-WITH backend_CTE AS (
-  SELECT *
-  FROM employees
-  WHERE team = 'backend'
-),
-youngest_oldest_CTE AS (
-  SELECT
-    *,
-    CASE 
-      WHEN (ROW_NUMBER() OVER (ORDER BY birth_date DESC)) <= (SELECT COUNT(*) / 2 FROM backend_CTE)
-      THEN ROW_NUMBER() OVER (ORDER BY birth_date DESC) * 2 - 1
-      ELSE NULL 
-    END AS youngest_rnk,
-    CASE 
-      WHEN (ROW_NUMBER() OVER (ORDER BY birth_date DESC)) > (SELECT COUNT(*) / 2 FROM backend_CTE)
-      THEN (ROW_NUMBER() OVER (ORDER BY birth_date ASC)) * 2
-      ELSE NULL 
-    END AS oldest_rnk
-  FROM backend_CTE x
-), union_CTE AS (
-  SELECT employee_id, full_name, team, birth_date, youngest_rnk AS rnk
-  FROM youngest_oldest_CTE
-  WHERE youngest_rnk IS NOT NULL
-  UNION
-  SELECT employee_id, full_name, team, birth_date, oldest_rnk AS rnk
-  FROM youngest_oldest_CTE
-  WHERE oldest_rnk IS NOT NULL
+SELECT *
+FROM employees 
+WHERE team = 'backend' 
+ORDER BY LEAST(
+  2 * ROW_NUMBER() OVER (ORDER BY birth_date DESC) - 1,
+  2 * ROW_NUMBER() OVER (ORDER BY birth_date ASC)
 )
-
-SELECT employee_id, full_name, team, birth_date
-FROM union_CTE
-ORDER BY rnk ASC
