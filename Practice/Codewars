@@ -1192,21 +1192,11 @@ ORDER BY id ASC;
 
 --User Classification With a Twist
 
-WITH b_CTE AS (
-  SELECT DISTINCT user_id, class
+SELECT class, COUNT(*) AS count
+FROM (
+  SELECT MAX(class) AS class
   FROM users
-  WHERE class = 'b'
-), a_CTE AS (
-  SELECT DISTINCT user_id, class
-  FROM (
-    SELECT *
-    FROM users
-    WHERE class = 'a'
-  ) a
-  WHERE user_id 
-  NOT IN (SELECT user_id FROM b_CTE)
-)
-
-SELECT class, COUNT(*) FROM a_CTE GROUP BY 1
-UNION ALL
-SELECT class, COUNT(*) FROM b_CTE GROUP BY 1
+  GROUP BY user_id
+) x
+GROUP BY 1
+ORDER BY 1
