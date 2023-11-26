@@ -1165,3 +1165,27 @@ ORDER BY LEAST(
   2 * ROW_NUMBER() OVER (ORDER BY birth_date DESC) - 1,
   2 * ROW_NUMBER() OVER (ORDER BY birth_date ASC)
 )
+
+--Generation Categorization
+
+CREATE TEMPORARY TABLE generational_categories (
+  id SERIAL PRIMARY KEY, 
+  generation_name VARCHAR,
+  from_date INT,
+  to_date INT
+);
+
+INSERT INTO generational_categories(generation_name, from_date, to_date)
+VALUES ('Generation Z', 1997, 2012),
+('Millennials', 1981, 1996),
+('Generation X', 1965, 1980),
+('Baby Boomers', 1946, 1964),
+('Silent Generation', 1928, 1945),
+('Greatest Generation', 0, 1927);
+
+SELECT *, 
+  (SELECT generation_name 
+   FROM generational_categories 
+   WHERE EXTRACT(YEAR FROM users.birthdate) BETWEEN from_date AND to_date) AS generation
+FROM users
+ORDER BY id ASC;
