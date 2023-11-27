@@ -1200,3 +1200,19 @@ FROM (
 ) x
 GROUP BY 1
 ORDER BY 1
+
+--The Most Popular Product
+
+WITH CTE AS (
+  SELECT o.product_id, p.product_name, COUNT(*) AS count_orders
+  FROM orders o
+  JOIN products p
+  ON o.product_id = p.id
+  GROUP BY 1, 2
+  ORDER BY 3 DESC
+)
+
+SELECT *
+FROM CTE
+WHERE count_orders = (SELECT MAX(count_orders) FROM CTE)
+ORDER BY product_id DESC
