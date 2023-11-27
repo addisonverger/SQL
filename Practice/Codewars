@@ -1232,18 +1232,16 @@ GROUP BY 2, 3
 
 --Students who excel in Science over Math
 
-WITH CTE AS (
-  SELECT 
-    c.student_id, 
-    s.name,
-    SUM(CASE WHEN c.course_name = 'Science' THEN score ELSE 0 END) - SUM(CASE WHEN c.course_name = 'Math' THEN score ELSE 0 END) AS score_difference
-  FROM courses c
-  JOIN students s
-  ON c.student_id = s.id
-  GROUP BY 1, 2
-)
-
-SELECT *
-FROM CTE 
-WHERE score_difference > 0
-ORDER BY score_difference DESC, student_id ASC
+SELECT
+  s.id AS student_id,
+  s.name,
+  cs.score - cm.score AS score_difference
+FROM students s
+JOIN courses cs
+ON s.id = cs.student_id
+AND cs.course_name = 'Science'
+JOIN courses cm
+ON s.id = cm.student_id
+AND cm.course_name = 'Math'
+WHERE cs.score > cm.score
+ORDER BY 3 DESC, 1 ASC
