@@ -1227,6 +1227,5 @@ SELECT
 FROM courses c
 JOIN students s
 ON c.student_id = s.id
-WHERE c.course_name = 'Math'
-OR c.course_name = 'Science'
+WHERE c.course_name IN ('Math', 'Science')
 GROUP BY 2, 3
