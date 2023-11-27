@@ -1216,3 +1216,17 @@ SELECT *
 FROM CTE
 WHERE count_orders = (SELECT MAX(count_orders) FROM CTE)
 ORDER BY product_id DESC
+
+--Ranking students by performance in Math and Science
+
+SELECT 
+  DENSE_RANK() OVER (ORDER BY SUM(c.score) DESC, c.student_id ASC) AS rank,
+  c.student_id, 
+  s.name, 
+  SUM(c.score) AS total_score
+FROM courses c
+JOIN students s
+ON c.student_id = s.id
+WHERE c.course_name = 'Math'
+OR c.course_name = 'Science'
+GROUP BY 2, 3
