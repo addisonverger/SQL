@@ -1248,12 +1248,6 @@ ORDER BY 3 DESC, 1 ASC
 
 --Youngest Team Members
 
-SELECT employee_id, full_name, team, birth_date
-FROM (
-  SELECT 
-    *, 
-    RANK() OVER (PARTITION BY team ORDER BY birth_date DESC) AS rnk
-  FROM employees
-) x
-WHERE rnk = 1
-ORDER BY 3 ASC
+SELECT DISTINCT ON(team) *
+FROM employees
+ORDER BY team ASC, birth_date DESC
