@@ -1251,3 +1251,23 @@ ORDER BY 3 DESC, 1 ASC
 SELECT DISTINCT ON(team) *
 FROM employees
 ORDER BY team ASC, birth_date DESC
+
+--Users' pets and JSON data: Part 1
+
+WITH CTE AS(
+  SELECT
+    id,
+    info->>'name' AS user_name,
+    pet.name AS pet_name 
+  FROM users,
+  jsonb_to_recordset(info->'pets') AS pet(name text, type text)
+  WHERE LEFT(pet.name, 1) = 'M'
+)
+
+SELECT
+  id,
+  user_name,
+  STRING_AGG(pet_name, ', ') AS pet_names
+FROM CTE
+GROUP BY 1, 2
+ORDER BY 1
