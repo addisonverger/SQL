@@ -1245,3 +1245,15 @@ ON s.id = cm.student_id
 AND cm.course_name = 'Math'
 WHERE cs.score > cm.score
 ORDER BY 3 DESC, 1 ASC
+
+--Youngest Team Members
+
+SELECT employee_id, full_name, team, birth_date
+FROM (
+  SELECT 
+    *, 
+    RANK() OVER (PARTITION BY team ORDER BY birth_date DESC) AS rnk
+  FROM employees
+) x
+WHERE rnk = 1
+ORDER BY 3 ASC
