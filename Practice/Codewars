@@ -1271,3 +1271,25 @@ SELECT
 FROM CTE
 GROUP BY 1, 2
 ORDER BY 1
+
+--Population Increase
+
+WITH CTE AS (
+  SELECT
+    DISTINCT w.country,
+    (w2020.population - w2000.population) AS population_increase
+  FROM world_population w
+  JOIN world_population w2000
+  ON w.country = w2000.country
+  AND w2000.year = 2000
+  JOIN world_population w2020
+  ON w.country = w2020.country
+  AND w2020.year = 2020
+  ORDER BY 2 DESC
+  LIMIT 5
+)
+
+SELECT 
+  country,
+  ROUND((population_increase / 1000000::float)::numeric, 2) || ' M' AS population_increase
+FROM CTE
