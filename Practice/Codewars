@@ -1309,3 +1309,50 @@ OR length < (
   WHERE rating = 'R'
 )
 ORDER BY 3, 2, 1
+
+--Analyzing Customer Rental Trends: Identifying Popular Movie Genres Across Multiple Months
+
+WITH may_CTE AS (
+  SELECT c.customer_id
+  FROM customer c
+  JOIN rental r USING (customer_id)
+  WHERE EXTRACT(YEAR FROM r.rental_date) = 2005
+  AND EXTRACT(MONTH FROM r.rental_date) = 5
+), june_CTE AS (
+  SELECT c.customer_id
+  FROM customer c
+  JOIN rental r USING (customer_id)
+  WHERE EXTRACT(YEAR FROM r.rental_date) = 2005
+  AND EXTRACT(MONTH FROM r.rental_date) = 6
+), july_CTE AS (
+  SELECT c.customer_id
+  FROM customer c
+  JOIN rental r USING (customer_id)
+  WHERE EXTRACT(YEAR FROM r.rental_date) = 2005
+  AND EXTRACT(MONTH FROM r.rental_date) = 7
+), customer_CTE AS (
+  SELECT customer_id
+  FROM customer
+  WHERE customer_id IN (
+    SELECT customer_id
+    FROM may_CTE
+  )
+  AND customer_id IN (
+    SELECT customer_id
+    FROM june_CTE
+  )
+  AND customer_id IN (
+    SELECT customer_id
+    FROM july_CTE
+  )
+)
+  
+SELECT c.name AS genre, COUNT(*) AS total_rentals
+FROM customer_CTE
+JOIN rental USING (customer_id)
+JOIN inventory USING (inventory_id)
+JOIN film_category USING (film_id)
+JOIN category c USING (category_id)
+GROUP BY 1
+ORDER BY 2 DESC
+LIMIT 5
