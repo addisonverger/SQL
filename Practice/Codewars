@@ -1330,3 +1330,19 @@ JOIN category c USING (category_id)
 GROUP BY 1
 ORDER BY 2 DESC
 LIMIT 5
+
+--Rentals by Date Range
+
+SELECT CAST(CAST(d.dates as date) AS VARCHAR) AS date, COUNT(r.rental_id) As rentals
+FROM (
+  SELECT *
+  FROM GENERATE_SERIES('2005-05-24', '2005-06-02', INTERVAL '1 day') AS dates
+) d
+LEFT JOIN (
+  SELECT CAST(rental_date AS date) AS date, rental_id
+  FROM rental 
+  WHERE CAST(rental_date AS date) BETWEEN '2005-05-24' AND '2005-06-02'
+) r
+ON CAST(d.dates as date) = r.date
+GROUP BY 1
+ORDER BY 1 ASC
