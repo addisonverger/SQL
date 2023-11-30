@@ -1333,15 +1333,14 @@ LIMIT 5
 
 --Rentals by Date Range
 
-SELECT CAST(CAST(d.dates as date) AS VARCHAR) AS date, COUNT(r.rental_id) As rentals
+SELECT d.dates::DATE::VARCHAR AS date, COUNT(r.rental_id) AS rentals
 FROM (
   SELECT *
   FROM GENERATE_SERIES('2005-05-24', '2005-06-02', INTERVAL '1 day') AS dates
 ) d
 LEFT JOIN (
   SELECT CAST(rental_date AS date) AS date, rental_id
-  FROM rental 
-  WHERE CAST(rental_date AS date) BETWEEN '2005-05-24' AND '2005-06-02'
+  FROM rental
 ) r
 ON CAST(d.dates as date) = r.date
 GROUP BY 1
