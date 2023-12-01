@@ -1361,3 +1361,31 @@ SELECT c.actor_id, c.full_name, f.title AS film_title
 FROM CTE c
 JOIN film f USING (film_id)
 ORDER BY 1 ASC
+
+--Unlocking the Popularity Secrets of Children's Films: Analyzing Rentals
+
+WITH CTE AS (
+  SELECT f.film_id, f.title, COUNT(DISTINCT r.customer_id) AS rental_count
+  FROM film f
+  JOIN film_category USING (film_id)
+  JOIN category c USING (category_id)
+  JOIN inventory USING (film_id)
+  JOIN rental r USING (inventory_id)
+  WHERE c.name = 'Children'
+  GROUP BY 1, 2
+)
+
+SELECT 
+  film_id, 
+  CASE
+    WHEN rental_count <= 5
+    THEN title || ' is not popular'
+    WHEN rental_count <= 15 AND rental_count > 5
+    THEN title || ' is slightly popular'
+    WHEN rental_count <= 30 AND rental_count > 15
+    THEN title || ' is moderately popular'
+    ELSE title || ' is very popular'
+  END AS popularity,
+  rental_count
+FROM CTE
+ORDER BY 3 DESC, title ASC
