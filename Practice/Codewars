@@ -1389,3 +1389,23 @@ SELECT
   rental_count
 FROM CTE
 ORDER BY 3 DESC, title ASC
+
+--Film Category Ratings Breakdown
+
+WITH CTE AS (
+  SELECT 
+    DISTINCT c.name AS category_name,
+    f.rating AS film_rating,
+    COUNT(f.film_id) OVER (PARTITION BY c.name, f.rating) AS rating_count,
+    COUNT(f.film_id) OVER (PARTITION BY c.name) AS category_count
+  FROM category c
+  JOIN film_category USING (category_id)
+  JOIN film f USING (film_id)
+)
+
+SELECT
+  category_name,
+  film_rating,
+  ROUND(rating_count::DECIMAL / category_count::DECIMAL * 100, 3)::NUMERIC AS percentage
+FROM CTE
+ORDER BY 1, 3 DESC, 2
