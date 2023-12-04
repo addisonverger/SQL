@@ -1416,3 +1416,13 @@ SELECT age, COUNT(*) AS total_people
 FROM people
 GROUP BY 1
 HAVING COUNT(*) >= 10
+
+--SQL Basics: Simple IN
+
+SELECT id, name
+FROM departments
+WHERE id IN (
+  SELECT department_id
+  FROM sales
+  WHERE price > 98
+)
