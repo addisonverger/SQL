@@ -1465,3 +1465,18 @@ GROUP BY 1, 2
 HAVING COUNT(r.rental_id) >= 10
 AND MAX(r.rental_date)::DATE < CURRENT_DATE - INTERVAL '1 month'
 ORDER BY 3 DESC, 4 DESC, 2
+
+--Exclude 'Adults only' films watchers
+
+SELECT
+  c.customer_id,
+  c.first_name || ' ' || c.last_name AS full_name,
+  COUNT(r.rental_id) AS total_rentals
+FROM customer c
+JOIN rental r USING (customer_id)
+JOIN inventory i USING (inventory_id)
+JOIN film f USING (film_id)
+GROUP BY 1, 2
+HAVING NOT BOOL_OR(f.rating = 'NC-17')
+ORDER BY 3 DESC, c.last_name ASC
+LIMIT 5
