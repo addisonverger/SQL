@@ -1497,3 +1497,14 @@ SELECT
 FROM top_half t
 JOIN bottom_half USING (id)
 ORDER BY species
+
+--SQL Bug Fixing: Fix the QUERY - Totaling
+
+SELECT 
+  s.transaction_date::DATE AS day,
+  d.name AS department,
+  COUNT(s.id) AS sale_count
+FROM department d
+JOIN sale s on d.id = s.department_id
+GROUP BY day, department
+ORDER BY day
