@@ -1522,3 +1522,16 @@ SELECT
 FROM payment
 GROUP BY 1
 ORDER BY 1
+
+--SQL Basics: Top 10 customers by total payments amount
+
+SELECT
+  c.customer_id,
+  c.email,
+  COUNT(p.payment_id) AS payments_count,
+  SUM(p.amount)::FLOAT AS total_amount
+FROM customer c
+JOIN payment p USING (customer_id)
+GROUP BY 1, 2
+ORDER BY 4 DESC
+LIMIT 10
