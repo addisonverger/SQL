@@ -1557,3 +1557,31 @@ FROM people p
 LEFT JOIN sales s
 ON p.id = s.people_id
 GROUP BY 1, 2
+
+--Ranking Regional Sales Performance and Sales Positions Within Region
+
+WITH min_sales_date_CTE AS (
+  SELECT 
+    region_id,
+    MIN(sale_date) AS min_sale_date
+  FROM (
+    SELECT
+      region_id,
+      sale_date,
+      sales_amount,
+      MAX(sales_amount) OVER (PARTITION BY region_id) AS max_sales_amount
+    FROM daily_sales
+  ) x
+  WHERE sales_amount = max_sales_amount
+  GROUP BY 1
+)
+
+SELECT
+  region_id,
+  sale_date,
+  sales_amount,
+  DENSE_RANK() OVER (PARTITION BY region_id ORDER BY sales_amount DESC, sale_date DESC) AS sales_rank_within_region,
+  DENSE_RANK() OVER (ORDER BY min_sale_date, region_id DESC) AS earliest_top_sale_rank
+FROM daily_sales
+JOIN min_sales_date_CTE USING (region_id)
+ORDER BY 5, 4
