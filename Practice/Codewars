@@ -1601,4 +1601,4 @@ FROM (
   FROM backup_events
 ) x
 GROUP BY aws_cluster_id, backup_id
-ORDER BY start_time, aws_cluster_id
+ORDER BY 1, 3
