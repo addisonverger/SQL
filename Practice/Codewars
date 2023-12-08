@@ -1585,3 +1585,20 @@ SELECT
 FROM daily_sales
 JOIN min_sales_date_CTE USING (region_id)
 ORDER BY 5, 4
+
+--Analyzing Backup Intervals and Restarts in AWS Clusters
+
+SELECT
+  MIN(event_datetime)::TEXT AS start_time, 
+  MAX(event_datetime)::TEXT AS end_time, 
+  aws_cluster_id, 
+  MAX(event_datetime) - MIN(event_datetime) AS total_backup_duration,
+  COUNT(*) - 2 AS number_of_restarts
+FROM (
+  SELECT
+    *, 
+    SUM((backup_status = 'End')::INT) OVER (PARTITION BY aws_cluster_id ORDER BY event_datetime) - (backup_status = 'End')::INT AS backup_id
+  FROM backup_events
+) x
+GROUP BY aws_cluster_id, backup_id
+ORDER BY start_time, aws_cluster_id
