@@ -1658,7 +1658,7 @@ WITH CTE AS (
 SELECT
   student_id,
   name,
-  'Michaelmas (' || ROUND(avg_michaelmas, 2) || '), Lent (' || ROUND(avg_lent, 2) || '), Summer (' || ROUND(avg_summer, 2)|| ')' AS trimesters_avg_scores,
+  'Michaelmas (' || ROUND(avg_michaelmas, 2) || '), Lent (' || ROUND(avg_lent, 2) || '), Summer (' || ROUND(avg_summer, 2) || ')' AS trimesters_avg_scores,
   (avg_summer > avg_lent AND avg_lent > avg_michaelmas) AS consistent_improvement
 FROM CTE
 ORDER BY 1 DESC
