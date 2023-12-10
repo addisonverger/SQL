@@ -1636,3 +1636,29 @@ ON x.student_id = y.student_id
 AND y.rn = 1
 ORDER BY 3 DESC, y.score DESC, 1 ASC
 LIMIT 20
+
+--Students Who Consistently Improve: A Trimester Analysis in UK University
+
+WITH CTE AS (
+  SELECT 
+    s.id AS student_id,
+    s.name,
+    AVG(c.score) FILTER (WHERE EXTRACT(MONTH FROM c.course_date) IN (10, 11, 12)
+                        AND EXTRACT(YEAR FROM c.course_date) = 2022) AS avg_michaelmas,
+    AVG(c.score) FILTER (WHERE EXTRACT(MONTH FROM c.course_date) IN (1, 2, 3)
+                        AND EXTRACT(YEAR FROM c.course_date) = 2023) AS avg_lent,
+    AVG(c.score) FILTER (WHERE EXTRACT(MONTH FROM c.course_date) IN (4, 5, 6)
+                        AND EXTRACT(YEAR FROM c.course_date) = 2023) AS avg_summer
+  FROM students s
+  JOIN courses c
+  ON s.id = c.student_id
+  GROUP BY 1, 2
+)
+
+SELECT
+  student_id,
+  name,
+  'Michaelmas (' || ROUND(avg_michaelmas, 2) || '), Lent (' || ROUND(avg_lent, 2) || '), Summer (' || ROUND(avg_summer, 2)|| ')' AS trimesters_avg_scores,
+  (avg_summer > avg_lent AND avg_lent > avg_michaelmas) AS consistent_improvement
+FROM CTE
+ORDER BY 1 DESC
