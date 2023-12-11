@@ -1662,3 +1662,34 @@ SELECT
   (avg_summer > avg_lent AND avg_lent > avg_michaelmas) AS consistent_improvement
 FROM CTE
 ORDER BY 1 DESC
+
+--Top Performing Students
+
+WITH avg_CTE AS (
+  SELECT
+   course_name,
+   AVG(score) AS avg_score
+  FROM courses
+  GROUP BY 1
+), outperformance_CTE AS (
+  SELECT
+    s.id AS student_id,
+    s.name,
+    c.course_name,
+    ROUND((c.score - a.avg_score) / a.avg_score * 100, 2)::DECIMAL AS outperformance_perc
+  FROM students s
+  JOIN courses c 
+  ON s.id = c.student_id
+  JOIN avg_CTE a
+  ON a.course_name = c.course_name
+  WHERE ROUND((c.score - a.avg_score) / a.avg_score * 100, 2)::DECIMAL > 0
+)
+
+SELECT
+  student_id,
+  name,
+  STRING_AGG(course_name || ' (' || outperformance_perc || '%)', ', ' ORDER BY course_name ASC) AS outperformance
+FROM outperformance_CTE
+GROUP BY 1, 2
+HAVING COUNT(course_name) >= 3
+ORDER BY 1 ASC
