@@ -1712,16 +1712,12 @@ WITH CTE AS (
 SELECT
   student_id,
   name,
-  'failed in ' || STRING_AGG(course_name || '(' || score || ')', ', ' ORDER BY course_name ASC) AS reason
+  CASE
+    WHEN COUNT(course_name) = 0
+    THEN 'quit studying'
+    ELSE 'failed in ' || STRING_AGG(course_name || '(' || score || ')', ', ' ORDER BY course_name ASC) 
+  END AS reason
 FROM CTE
-WHERE score IS NOT NULL
 GROUP BY 1, 2
-HAVING COUNT(course_name) >= 3
-UNION ALL
-SELECT 
-  student_id,
-  name,
-  'quit studying' AS reason
-FROM CTE
-WHERE score IS NULL
+HAVING COUNT(course_name) = 0 OR COUNT(course_name) >= 3
 ORDER BY 1 ASC
