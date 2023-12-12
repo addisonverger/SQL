@@ -1721,3 +1721,19 @@ FROM CTE
 GROUP BY 1, 2
 HAVING COUNT(course_name) = 0 OR COUNT(course_name) >= 3
 ORDER BY 1 ASC
+
+--The Most Dedicated Customers - 2000s Nostalgia
+
+SELECT 
+  c.customer_id, 
+  c.first_name || ' ' || c.last_name AS customer_name, 
+  COUNT(r.rental_id) FILTER (WHERE r.rental_date >= '2005-04-01' AND r.rental_date < '2005-08-01') AS num_rentals,
+  STRING_AGG(f.title || ': ' || r.rental_date::DATE, ' || ' ORDER BY r.rental_date::DATE DESC, f.title ASC) FILTER (WHERE r.rental_date >= '2005-04-01' AND r.rental_date < '2005-08-01') AS films_rented
+FROM customer c
+JOIN rental r USING (customer_id)
+JOIN inventory USING (inventory_id)
+JOIN film f USING (film_id)
+GROUP BY 1, 2
+HAVING EVERY(r.return_date IS NOT NULL OR r.rental_date::DATE + f.rental_duration >= '2005-08-01')
+AND COUNT(r.rental_id) FILTER (WHERE r.rental_date >= '2005-04-01' AND r.rental_date < '2005-08-01') >= 10 
+ORDER BY 3 DESC, c.last_name ASC
