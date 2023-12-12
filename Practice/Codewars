@@ -1737,3 +1737,21 @@ GROUP BY 1, 2
 HAVING EVERY(r.return_date IS NOT NULL OR r.rental_date::DATE + f.rental_duration >= '2005-08-01')
 AND COUNT(r.rental_id) FILTER (WHERE r.rental_date >= '2005-04-01' AND r.rental_date < '2005-08-01') >= 10 
 ORDER BY 3 DESC, c.last_name ASC
+
+--Exploring the Pareto Principle
+
+WITH CTE AS (
+  SELECT
+    customer_id,
+    COUNT(rental_id) AS rental_count,
+    PERCENT_RANK() OVER (ORDER BY COUNT(rental_id) DESC, customer_id) AS perc
+  FROM customer
+  JOIN rental USING (customer_id)
+  GROUP BY 1
+)
+
+SELECT 
+  SUM(rental_count) FILTER (WHERE perc <= .2)::INTEGER AS "top_20%_rentals_count",
+  SUM(rental_count)::INTEGER AS total_rentals_count,
+  ROUND(SUM(rental_count) FILTER (WHERE perc <= .2) * 100 / SUM(rental_count), 2)::NUMERIC AS "percentage_of_top_20%"
+FROM CTE
