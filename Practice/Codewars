@@ -1767,7 +1767,7 @@ WITH CTE AS (
 
 SELECT
   id,
-  string_agg(octet, '.') AS cleaned_ip
+  STRING_AGG(octet, '.') AS cleaned_ip
 FROM (
   SELECT
     id,
