@@ -1807,10 +1807,10 @@ ORDER BY 1 ASC
 --First Missing Number in a Sequence
 
 WITH CTE AS (
-SELECT
-  num,
-  num - LAG(num) OVER (ORDER BY num ASC) AS diff
-FROM data
+  SELECT
+    num,
+    num - LAG(num) OVER (ORDER BY num ASC) AS diff
+  FROM data
 )
 
 SELECT
