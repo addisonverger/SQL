@@ -1776,3 +1776,11 @@ FROM (
 ) x
 GROUP BY 1
 ORDER BY 1 DESC
+
+--Products per Supplier without GROUP BY
+
+SELECT
+  DISTINCT supplier_id,
+  COUNT(id) OVER (PARTITION BY supplier_id) AS total_products
+FROM products
+ORDER BY 1 DESC
