@@ -1803,3 +1803,17 @@ FROM CTE
 WHERE prev_purchase IS NULL
 GROUP BY 1
 ORDER BY 1 ASC
+
+--First Missing Number in a Sequence
+
+WITH CTE AS (
+SELECT
+  num,
+  num - LAG(num) OVER (ORDER BY num ASC) AS diff
+FROM data
+)
+
+SELECT
+  MIN(num - 1) AS missing_number
+FROM CTE
+WHERE diff <> 1
