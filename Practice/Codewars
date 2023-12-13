@@ -1784,3 +1784,22 @@ SELECT
   COUNT(id) OVER (PARTITION BY supplier_id) AS total_products
 FROM products
 ORDER BY 1 DESC
+
+--Number of New Customers per Date
+
+WITH CTE AS (
+  SELECT
+   customer_id,
+   date,
+   product,
+   LAG(date) OVER (PARTITION BY customer_id ORDER BY date ASC) AS prev_purchase
+  FROM customer_purchases
+)
+
+SELECT
+  date,
+  COUNT(*) AS num_new_customers
+FROM CTE
+WHERE prev_purchase IS NULL
+GROUP BY 1
+ORDER BY 1 ASC
