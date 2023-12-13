@@ -1755,3 +1755,24 @@ SELECT
   SUM(rental_count)::INTEGER AS total_rentals_count,
   ROUND(SUM(rental_count) FILTER (WHERE perc <= .2) * 100 / SUM(rental_count), 2)::NUMERIC AS "percentage_of_top_20%"
 FROM CTE
+
+--Cleaning IP Addresses: Removal of Leading Zeros
+
+WITH CTE AS (
+  SELECT 
+    id,
+    REPLACE(LTRIM(REPLACE(UNNEST(STRING_TO_ARRAY(ip, '.')), '0', ' ')), ' ', '0') AS octet
+  FROM ip_addresses
+)
+
+SELECT
+  id,
+  string_agg(octet, '.') AS cleaned_ip
+FROM (
+  SELECT
+    id,
+    COALESCE(NULLIF(octet,''), '0') AS octet
+  FROM CTE
+) x
+GROUP BY 1
+ORDER BY 1 DESC
