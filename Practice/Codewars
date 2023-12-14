@@ -1860,3 +1860,14 @@ OR city_name LIKE 'I%'
 OR city_name LIKE 'O%'
 OR city_name LIKE 'U%'
 ORDER BY city_name ASC
+
+--Books That Are Always Being Returned
+
+SELECT
+ b.book_id,
+ b.title
+FROM books b
+JOIN loans l USING (book_id)
+GROUP BY 1, 2
+HAVING EVERY(l.return_date IS NOT NULL)
+ORDER BY 1 DESC
