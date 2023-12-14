@@ -1876,15 +1876,10 @@ ORDER BY 1 DESC
 
 SELECT
   username,
-  role = 'internal' AS internal,
-  role = 'admin' AS admin
-FROM (
-  SELECT 
-    username, 
-    role,
-    COUNT(role) OVER (PARTITION BY username) AS cnt
-  FROM user_roles
-  WHERE role = 'internal'
-  OR role = 'admin'
-) x
-WHERE cnt = 1
+  BOOL_OR(role = 'internal') AS internal,
+  BOOL_OR(role = 'admin') AS admin
+FROM user_roles
+WHERE role IN ('internal', 'admin')
+GROUP BY 1
+HAVING COUNT(role) = 1
+ORDER BY 1
