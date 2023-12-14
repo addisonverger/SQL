@@ -1848,3 +1848,15 @@ FROM orders
 GROUP BY 1
 HAVING EVERY(delivery_date IS NULL)
 ORDER BY 1 DESC
+
+--Refactoring SQL Queries: part 1 (removing UNION)
+
+SELECT 
+  DISTINCT city_name 
+FROM stations 
+WHERE city_name LIKE 'A%'
+OR city_name LIKE 'E%'
+OR city_name LIKE 'I%'
+OR city_name LIKE 'O%'
+OR city_name LIKE 'U%'
+ORDER BY city_name ASC
