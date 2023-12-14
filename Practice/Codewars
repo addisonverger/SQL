@@ -1839,3 +1839,12 @@ FROM (
 ) y
 WHERE cnt > 2
 ORDER BY 1 ASC, 2 ASC
+
+--Customers with All Orders Undelivered
+
+SELECT
+  DISTINCT customer_id
+FROM orders
+GROUP BY 1
+HAVING EVERY(delivery_date IS NULL)
+ORDER BY 1 DESC
