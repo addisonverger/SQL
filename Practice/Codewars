@@ -1871,3 +1871,20 @@ JOIN loans l USING (book_id)
 GROUP BY 1, 2
 HAVING EVERY(l.return_date IS NOT NULL)
 ORDER BY 1 DESC
+
+--Role Analysis with XOR Logic
+
+SELECT
+  username,
+  role = 'internal' AS internal,
+  role = 'admin' AS admin
+FROM (
+  SELECT 
+    username, 
+    role,
+    COUNT(role) OVER (PARTITION BY username) AS cnt
+  FROM user_roles
+  WHERE role = 'internal'
+  OR role = 'admin'
+) x
+WHERE cnt = 1
