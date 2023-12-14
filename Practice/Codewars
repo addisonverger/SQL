@@ -1817,3 +1817,25 @@ SELECT
   MIN(num - 1) AS missing_number
 FROM CTE
 WHERE diff <> 1
+
+--Users with More Than 2 Videos Watched
+
+SELECT
+  user_id,
+  video_id
+FROM (
+  SELECT
+    user_id,
+    video_id,
+    COUNT(video_id) OVER (PARTITION BY user_id) AS cnt
+  FROM (
+    SELECT 
+      user_id, 
+      video_id, 
+      ROW_NUMBER() OVER (PARTITION BY user_id, video_id) AS rn
+    FROM user_playlist
+  ) x
+  WHERE rn = 1
+) y
+WHERE cnt > 2
+ORDER BY 1 ASC, 2 ASC
