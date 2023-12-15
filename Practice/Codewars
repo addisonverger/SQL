@@ -1914,7 +1914,7 @@ ORDER BY 1 ASC
 SELECT
   product_id,
   COUNT(*) AS count,
-  ROUND(COUNT(*)::NUMERIC * 100 / (SELECT COUNT(*) FROM orders)::NUMERIC, 2) AS ratio
+  ROUND(COUNT(*) * 100 / (SELECT COUNT(*) FROM orders)::NUMERIC, 2) AS ratio
 FROM orders
 GROUP BY 1
 ORDER BY 1 ASC
