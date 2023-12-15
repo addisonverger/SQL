@@ -1893,3 +1893,18 @@ SELECT
 FROM products p
 CROSS JOIN generate_series(1, p.quantity_in_stock)
 ORDER BY 1 DESC
+
+--Classifying Transactions by Number of Suppliers
+
+SELECT 
+  t.transaction_id,
+  t.date,
+  CASE
+    WHEN COUNT(DISTINCT c.supplier) = 1
+    THEN MIN(c.supplier)
+    ELSE 'Several'
+  END AS supplier
+FROM transaction t
+JOIN transaction_content c USING (transaction_id)
+GROUP BY 1, 2
+ORDER BY 1 ASC
