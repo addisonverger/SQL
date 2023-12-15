@@ -1883,3 +1883,13 @@ WHERE role IN ('internal', 'admin')
 GROUP BY 1
 HAVING COUNT(role) = 1
 ORDER BY 1
+
+--Inventory Expansion Query
+
+SELECT
+  product_id,
+  product_name,
+  quantity_in_stock
+FROM products p
+CROSS JOIN generate_series(1, p.quantity_in_stock)
+ORDER BY 1 DESC
