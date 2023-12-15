@@ -1918,3 +1918,12 @@ SELECT
 FROM orders
 GROUP BY 1
 ORDER BY 1 ASC
+
+--Grouping Session Lengths in PostgreSQL
+
+SELECT
+  FLOOR(length_seconds / 5) * 5 || '-' || FLOOR(length_seconds / 5) * 5 + 4 AS bucket,
+  COUNT(*) AS count
+FROM sessions
+GROUP BY 1, FLOOR(length_seconds / 5) * 5
+ORDER BY FLOOR(length_seconds / 5) * 5 ASC
