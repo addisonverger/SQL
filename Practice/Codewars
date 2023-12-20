@@ -1927,3 +1927,15 @@ SELECT
 FROM sessions
 GROUP BY (length_seconds / 5) * 5
 ORDER BY (length_seconds / 5) * 5 ASC
+
+--Pairing States by Streaming Volume
+
+SELECT
+  a.state AS state_a,
+  b.state AS state_b,
+  ABS(a.total_streams - b.total_streams) AS difference
+FROM state_streams a
+JOIN state_streams b
+ON ABS(a.total_streams - b.total_streams) < 1000
+WHERE a.state < b.state
+ORDER BY 1, 2
