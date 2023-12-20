@@ -1964,3 +1964,17 @@ FROM (
   WHERE perceived_skill_level > actual_skill_level
 ) x
 ORDER BY 3 DESC, 1 DESC
+
+--All-Inclusive Shoppers
+
+SELECT
+  u.id AS user_id,
+  u.name
+FROM users u
+JOIN orders o
+ON u.id = o.user_id
+GROUP BY 1, 2
+HAVING COUNT(DISTINCT o.product_id) = (
+  SELECT COUNT(*) FROM products
+)
+ORDER BY 1 DESC
