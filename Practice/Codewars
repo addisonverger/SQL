@@ -2004,3 +2004,22 @@ SELECT
   (SELECT COUNT(id) FROM visits WHERE content_id = topics.id) AS total_visits
 FROM topics
 ORDER BY id DESC
+
+--Drug Dosages with Dual Unit Measurements
+
+SELECT 
+  r.record_id,
+  d.drug_name,
+  r.drug_amount,
+  CASE
+    WHEN u2.unit_name IS NULL
+    THEN u.unit_name
+    ELSE u.unit_name || '/' || u2.unit_name
+  END AS dose_units
+FROM dose_records r
+JOIN drugs d USING (drug_id)
+JOIN units u 
+ON r.drug_unit_id = u.unit_id
+LEFT JOIN units u2
+ON r.check_unit_id = u2.unit_id
+ORDER BY 2, 1
