@@ -1978,3 +1978,20 @@ HAVING COUNT(DISTINCT o.product_id) = (
   SELECT COUNT(*) FROM products
 )
 ORDER BY 1 DESC
+
+--Third Oldest Backend Developer
+
+WITH CTE AS (
+  SELECT *
+  FROM employees
+  WHERE team = 'backend'
+  ORDER BY birth_date ASC
+  OFFSET 2
+)
+
+SELECT *
+FROM employees
+WHERE birth_date IN (
+  SELECT MIN(birth_date)
+  FROM CTE
+)
