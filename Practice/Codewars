@@ -2026,19 +2026,12 @@ ORDER BY 2, 1
 
 --Sibling Count based on Common Parent
 
-WITH CTE AS (
-  SELECT DISTINCT
-    c1.client_id AS client_id,
-    c2.client_id AS sibling_id
-  FROM client_parents c1
-  LEFT JOIN client_parents c2
-  ON c1.parent_id = c2.parent_id
-  AND c1.client_id <> c2.client_id
-)
-
 SELECT 
-  client_id,
-  SUM(CASE WHEN sibling_id IS NOT NULL THEN 1 ELSE 0 END) AS num_siblings
-FROM CTE
+  c1.client_id AS client_id, 
+  COUNT(DISTINCT c2.client_id) AS num_siblings
+FROM client_parents c1
+LEFT JOIN client_parents c2
+ON c1.parent_id = c2.parent_id 
+AND c1.client_id <> c2.client_id
 GROUP BY 1
 ORDER BY 1
