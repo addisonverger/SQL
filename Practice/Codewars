@@ -2035,3 +2035,16 @@ ON c1.parent_id = c2.parent_id
 AND c1.client_id <> c2.client_id
 GROUP BY 1
 ORDER BY 1
+
+--Consolidating Sales and Returns Data
+
+SELECT
+  COALESCE(s.product_id, r.product_id) AS product_id,
+  s.quantity AS sale_qty,
+  r.quantity AS return_qty,
+  COALESCE(s.date, r.date) AS date
+FROM table_sales s
+FULL JOIN table_returns r 
+ON s.product_id = r.product_id
+AND s.date = r.date
+ORDER BY 1, 4
