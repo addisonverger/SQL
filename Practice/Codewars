@@ -2044,7 +2044,5 @@ SELECT
   r.quantity AS return_qty,
   COALESCE(s.date, r.date) AS date
 FROM table_sales s
-FULL JOIN table_returns r 
-ON s.product_id = r.product_id
-AND s.date = r.date
+FULL JOIN table_returns r USING (product_id, date)
 ORDER BY 1, 4
