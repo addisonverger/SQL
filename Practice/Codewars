@@ -2046,3 +2046,19 @@ SELECT
 FROM table_sales s
 FULL JOIN table_returns r USING (product_id, date)
 ORDER BY 1, 4
+
+--Deal Activity Analysis
+
+SELECT
+  d.deal_id,
+  d.deal_name,
+  l.occurred_at >= CURRENT_TIMESTAMP - INTERVAL '90' DAY AS is_active,
+  EXTRACT(DAY FROM (CURRENT_TIMESTAMP - l.occurred_at)) || ' days and ' ||
+  EXTRACT(HOUR FROM (CURRENT_TIMESTAMP - l.occurred_at)) || ' hours ago' AS last_login
+FROM deals d
+JOIN (
+  SELECT deal_id, account_id, MAX(occurred_at) AS occurred_at
+  FROM deal_login_fact 
+  GROUP BY 1, 2
+) l USING (deal_id)
+ORDER BY 1 DESC
