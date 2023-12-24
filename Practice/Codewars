@@ -2062,3 +2062,24 @@ JOIN (
   GROUP BY 1, 2
 ) l USING (deal_id)
 ORDER BY 1 DESC
+
+--Loan Eligibility: part 1
+
+SELECT
+  c.id AS customer_id,
+  CASE
+    WHEN c.age BETWEEN 18 AND 65
+    AND EVERY(l.loan_status = 'paid'
+    OR l.loan_status IS NULL)
+    THEN 'loan can be given'
+    ELSE 'loan cannot be given'
+  END AS loan_eligibility
+FROM (
+  SELECT *
+  FROM customers
+  WHERE id BETWEEN 1 AND 10
+) c
+LEFT JOIN loans l 
+ON c.id = l.customer_id
+GROUP BY 1, c.age
+ORDER BY 1 DESC
