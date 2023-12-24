@@ -2094,3 +2094,13 @@ JOIN employees e
 ON m.id = e.manager_id
 GROUP BY 1
 ORDER BY 1 ASC
+
+--Filtering Films by Special Features in PostgreSQL: Part 1
+
+SELECT 
+  film_id,
+  title,
+  special_features
+FROM film
+WHERE special_features @> '{"Trailers", "Deleted Scenes"}'
+ORDER BY 2, 1
