@@ -2104,3 +2104,14 @@ SELECT
 FROM film
 WHERE special_features @> '{"Trailers", "Deleted Scenes"}'
 ORDER BY 2, 1
+
+--Filtering Films by Special Features in PostgreSQL: Part 2
+
+SELECT 
+  film_id,
+  title,
+  special_features
+FROM film
+WHERE special_features @> ARRAY['Trailers', 'Deleted Scenes']
+AND ARRAY_LENGTH(special_features, 1) = 2
+ORDER BY 2, 1
