@@ -2115,3 +2115,16 @@ FROM film
 WHERE special_features @> ARRAY['Trailers', 'Deleted Scenes']
 AND ARRAY_LENGTH(special_features, 1) = 2
 ORDER BY 2, 1
+
+--Filtering Films by Special Features in PostgreSQL: Part 3
+
+SELECT 
+  film_id,
+  title,
+  special_features
+FROM (SELECT * FROM film WHERE NOT(special_features @> ARRAY['Commentaries'])) x
+WHERE (special_features @> ARRAY['Deleted Scenes']
+       AND NOT(special_features @> ARRAY['Behind the Scenes']))
+OR (special_features @> ARRAY['Behind the Scenes']
+    AND NOT(special_features @> ARRAY['Deleted Scenes']))
+ORDER BY 2, 1
