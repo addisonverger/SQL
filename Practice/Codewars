@@ -2140,3 +2140,18 @@ SELECT
   END AS last_part
 FROM split_titles
 ORDER BY id DESC
+
+--Calculating Next Fiscal Year-End Dates for UK Companies
+
+SELECT
+  filing_date,
+  fiscal_year_end,
+  CASE
+    WHEN LEFT(fiscal_year_end, 2)::INT < EXTRACT(MONTH FROM filing_date)
+    OR (LEFT(fiscal_year_end, 2)::INT = EXTRACT(MONTH FROM filing_date)
+       AND RIGHT(fiscal_year_end, 2)::INT <= EXTRACT(DAY FROM filing_date))
+    THEN (EXTRACT(YEAR FROM filing_date) + 1 || '-' || LEFT(fiscal_year_end, 2) || '-' || RIGHT(fiscal_year_end, 2))::DATE
+    ELSE (EXTRACT(YEAR FROM filing_date) || '-' || LEFT(fiscal_year_end, 2) || '-' || RIGHT(fiscal_year_end, 2))::DATE
+  END AS next_fiscal_year_end
+FROM uk_company_filings
+ORDER BY 1, id DESC
