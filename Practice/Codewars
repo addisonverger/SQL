@@ -2128,3 +2128,15 @@ WHERE (special_features @> ARRAY['Deleted Scenes']
 OR (special_features @> ARRAY['Behind the Scenes']
     AND NOT(special_features @> ARRAY['Deleted Scenes']))
 ORDER BY 2, 1
+
+--Extracting the Last Element from Concatenated Strings
+
+SELECT
+  title,
+  CASE 
+    WHEN LENGTH(title) - LENGTH(REPLACE(title, '+', '')) = 0
+    THEN NULL
+    ELSE SPLIT_PART(title, '+', LENGTH(title) - LENGTH(REPLACE(title, '+', '')) + 1) 
+  END AS last_part
+FROM split_titles
+ORDER BY id DESC
