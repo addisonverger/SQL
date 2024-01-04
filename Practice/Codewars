@@ -2155,3 +2155,16 @@ SELECT
     END) || '-' || LEFT(fiscal_year_end, 2) || '-' || RIGHT(fiscal_year_end, 2))::DATE AS next_fiscal_year_end
 FROM uk_company_filings
 ORDER BY 1, id DESC
+
+--Bakery Delight: Querying Custom Cakes with Perfect Decorations
+
+SELECT
+  c.cake
+FROM cakes c
+JOIN icings i USING (icing)
+JOIN reserved_sprinkles r USING (cake)
+JOIN sprinkles s USING (sprinkle)
+GROUP BY 1
+HAVING COUNT(s.sprinkle) = 3
+AND EVERY(i.consumed = FALSE)
+AND EVERY(s.consumed = FALSE)
