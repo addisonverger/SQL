@@ -2169,3 +2169,15 @@ HAVING COUNT(s.sprinkle) = 3
 AND EVERY(i.consumed = FALSE)
 AND EVERY(s.consumed = FALSE)
 ORDER BY SUBSTRING(c.cake, '^[A-Za-z]+'), CAST(SUBSTRING(c.cake, '[0-9]+$') AS INTEGER)
+
+--101 Dalmatians - squash the bugs, not the dogs!
+
+select n,
+case
+  when n <= 10 then 'Hardly any'
+  when n <= 50 then 'More than a handful!'
+  when n = 101 then '101 DALMATIANS!!!' 
+  else 'Woah that''s a lot of dogs!' 
+end as res
+from dalmatians
+order by 1 asc;
