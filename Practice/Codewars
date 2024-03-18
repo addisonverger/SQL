@@ -2181,3 +2181,15 @@ case
 end as res
 from dalmatians
 order by 1 asc;
+
+--Opinions Galore: SQL's Take on Who Thinks What
+
+SELECT 
+  p1.name AS opinion_giver, p2.name AS opinion_receiver, po.current_opinion, po.previous_opinion
+FROM people_opinions po
+LEFT JOIN people p1
+ON p1.person_id = po.opinion_giver_id
+LEFT JOIN people p2
+ON p2.person_id = po.person_id
+WHERE COALESCE(po.current_opinion, '') != COALESCE(po.previous_opinion, '')
+ORDER BY 1, 2
